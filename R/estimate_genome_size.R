@@ -1,15 +1,44 @@
 
+
 .onLoad = function(libname, pkgname) {
   temp_dir = tempdir()
   taxonomy_dir = paste(temp_dir, 'taxdump', sep = '/')
   genome_size_db = paste(temp_dir, 'genome_size_db.csv', sep = '/')
+  genome_size_db_for_hierarchical = paste(temp_dir, 'genome_size_db_for_hierarchical.csv', sep = '/')
   taxonomy_archive = system.file("extdata", 'taxdump.tar.gz', package = "genomesizeR")
   genome_size_db_archive = system.file("extdata", 'genome_size_db.tar.gz', package = "genomesizeR")
+  genome_size_db_for_hierarchical_archive = system.file("extdata", 'genome_size_db_for_hierarchical.tar.gz', package = "genomesizeR")
   assign('taxonomy_archive', taxonomy_archive, envir = topenv())
   assign('genome_size_db_archive', genome_size_db_archive, envir = topenv())
+  assign('genome_size_db_for_hierarchical_archive', genome_size_db_for_hierarchical_archive, envir = topenv())
   assign('taxonomy_dir', taxonomy_dir, envir = topenv())
   assign('genome_size_db', genome_size_db, envir = topenv())
+  assign('genome_size_db_for_hierarchical', genome_size_db_for_hierarchical, envir = topenv())
   assign('temp_dir', temp_dir, envir = topenv())
+}
+
+
+build_model <- function(size_db, effects) {
+
+  f <- as.formula(
+    paste("log(genome.size) ~ (1|",
+    paste(effects, collapse = " / "),
+    ")"))
+
+  model <- tryCatch(
+    {
+      lmer(f, data = size_db)
+    },
+    error=function(cond) {
+      message("Error building hierarchical model:")
+      message(cond)
+      return(NA)
+    },
+    warning=function(cond) {
+      return(NA)
+    }
+  )
+  return(model)
 }
 
 
@@ -47,12 +76,30 @@ get_genome_size_db <- function(genome_size_db_path) {
 }
 
 
+#' Read genome size database for hierarchical model
+#'
+#' @param genome_size_db_path Path to genome size database file or NA
+#' @importFrom utils untar
+get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
+  if (is.na(genome_size_db_path)) {
+    if ( ! dir.exists(genome_size_db_for_hierarchical)) {
+      cat("Untarring genome size reference database", fill=T)
+      cat(genome_size_db_for_hierarchical_archive, fill=T)
+      untar(genome_size_db_for_hierarchical_archive, exdir=temp_dir)
+    }
+    genome_size_db_path = genome_size_db_for_hierarchical
+  }
+  cat("Using genome size reference database:", genome_size_db_path, fill=T)
+  return(genome_size_db_path)
+}
+
+
 #' Infer genome sizes
 #'
 #' This function loads a query file and predicts genome sizes.
 #'
 #' @param queries Queries: path to file or table object
-#' @param format Query format if in a file ('csv' (default) or 'dada2' (taxonomy table file))
+#' @param format Query format if in a file ('csv' (default), 'dada2' or 'biom' (taxonomy table files))
 #' @param sep If 'csv' format, column separator
 #' @param match_column If 'csv' format, the column containing match information (with one or several matches)
 #' @param match_sep If 'csv' format and several matches in match column, separator between matches
@@ -61,51 +108,127 @@ get_genome_size_db <- function(genome_size_db_path) {
 #' @param output_format Format in which the output should be.
 #'                      Default: "input" a data frame with the same columns as the input,
 #'                      with the added columns: "estimated_genome_size" and "estimated_genome_size_confidence_interval".
-#'                      Other formats available: "data.frame", a data frame with the same number of rows as the input, and 2 columns:
-#'                      "estimated_genome_size" and "estimated_genome_size_confidence_interval".
+#'                      Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns:
+#'                      "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".
+#' @param method Method to use for genome size estimation, 'weighted_mean' or 'hierarchical'
+#' @param ci_threshold Threshold for the confidence interval as a proportion of the guessed size
+#'                     (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of
+#'                     the guessed size will be discarded)
+#' @param n_cores Number of CPU cores to use (default is 'max': all available minus 1)
 #' @importFrom utils read.csv
 #' @importFrom pbapply pbapply
 #' @importFrom seqinr s2c
+#' @importFrom lme4 lmer
+#' @importFrom dplyr bind_rows
+#' @importFrom merTools predictInterval
+#' @importFrom parallel detectCores
+#' @importFrom biomformat read_biom observation_metadata
+#' @importFrom stats as.formula na.omit predict median
 #' @export
-estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=',',
-                                 size_db=NA, taxonomy=NA, output_format='input') {
+estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=';',
+                                 size_db=NA, taxonomy=NA, output_format='input', method='weighted_mean',
+                                 ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='max') {
+
+#  options(warn=1)
+
+  if (n_cores == 'max') {
+    n_cores = parallel::detectCores() - 1
+  }
+  cat("Using ", n_cores, " cores", fill=T)
 
   cat("Reading queries", fill=T)
-  if (typeof(queries) == "character") {
+  if (format == 'biom') {
+    biom_table = read_biom(queries)
+    biom_table = observation_metadata(biom_table)
+    query_table = biom_table
+    for(i in 1:ncol(query_table)) {
+      s = query_table[,i]
+      query_table[,i] = substr(s, 4, nchar(s))
+    }
+    queries = as.data.frame(query_table, stringsAsFactors = F)
+  }
+  else if (typeof(queries) == "character") {
     query_table = read.csv(queries, stringsAsFactors = FALSE, sep=sep)
+    queries = as.data.frame(query_table, stringsAsFactors = F)
   }
-  else if (typeof(queries) == "data.frame") {
+  else {
     query_table = queries
+    queries = as.data.frame(query_table, stringsAsFactors = F)
   }
-
-  queries = as.data.frame(queries, stringsAsFactors = F)
 
   cat("Reading genome size reference database", fill=T)
-  # Check memory usage (map if too big)
-  size_db = get_genome_size_db(size_db)
-  size_db = read.csv(size_db, sep='\t', quote="", stringsAsFactors = FALSE)
+
+  na_models = NA
+  genusfamily_model = NA
+  genusorder_model = NA
+  familyorder_model = NA
+  if (method == 'hierarchical') {
+    size_db = get_genome_size_db_for_hierarchical(size_db)
+    size_db = read.table(size_db, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
+    size_db$order = as.factor(size_db$order)
+    size_db$family = as.factor(size_db$family)
+    size_db$genus = as.factor(size_db$genus)
+    size_db$species = as.factor(size_db$species)
+    size_db$genome.size = as.integer(as.character(size_db$genome_size))
+    genusfamily_size_db = na.omit(size_db[, c("genome.size", "family", "genus")])
+    genusorder_size_db = na.omit(size_db[, c("genome.size", "genus", "order")])
+    familyorder_size_db = na.omit(size_db[, c("genome.size", "family", "order")])
+    genusfamily_model = build_model(genusfamily_size_db, c('genus', 'family'))
+    genusorder_model = build_model(genusorder_size_db, c('genus', 'order'))
+    familyorder_model = build_model(familyorder_size_db, c('family', 'order'))
+    na_models = c(0,0,0)
+    if (typeof(genusfamily_model) == 'logical' && is.na(genusfamily_model)) {
+      na_models[1] = 1
+    }
+    if (typeof(genusorder_model) == 'logical' && is.na(genusorder_model)) {
+      na_models[2] = 1
+    }
+    if (typeof(familyorder_model) == 'logical' && is.na(familyorder_model)) {
+      na_models[3] = 1
+    }
+  }
+  else {
+    size_db = get_genome_size_db(size_db)
+    size_db = read.csv(size_db, sep='\t', quote="", stringsAsFactors = FALSE)
+  }
 
   taxonomy = get_taxonomy(taxonomy)
   cat("Reading taxonomy names", fill=T)
   names = getnames(taxonomy)
   cat("Reading taxonomy nodes", fill=T)
   nodes = getnodes(taxonomy)
+  alltax = parseNCBITaxonomy(taxonomy)
 
   cat("Computing genome sizes", fill=T)
-  method = weighted_mean
-  output_table = pbapply(query_table, 1, method, size_db=size_db, taxonomy=taxonomy, names=names, nodes=nodes, format=format, match_column=match_column, match_sep=match_sep)
+  #options(warn=2)
+  output_table = pbapply(queries, 1, method, model=c(genusfamily_model,genusorder_model,familyorder_model), na_models=na_models, size_db=size_db, taxonomy=taxonomy,
+                         names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
+                         match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores)
 
   cat('Done', fill=T)
 
   # Handle R formatting issues
-  output_table = as.data.frame(t(as.data.frame(output_table, stringsAsFactors = F)), stringsAsFactors = F)
+  if (method == 'hierarchical') {
+    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+    confidence_interval = exp(compute_confidence_interval(output_table, genusfamily_model, n_cores))
+    output_table$confidence_interval_lower = as.numeric(confidence_interval$lwr)
+    output_table$confidence_interval_upper = as.numeric(confidence_interval$upr)
+    new_queries = output_table
+    output_table = pbapply(new_queries, 1, ci_post_treat, ci_threshold=ci_threshold)
+    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+  }
+  else {
+    output_table = as.data.frame(t(as.data.frame(output_table, stringsAsFactors = F)), stringsAsFactors = F)
+    output_table$estimated_genome_size_confidence_interval = as.numeric(output_table$estimated_genome_size_confidence_interval)
+    output_table$genome_size_estimation_distance = as.numeric(output_table$genome_size_estimation_distance)
+  }
+
   output_table$estimated_genome_size = as.numeric(output_table$estimated_genome_size)
-  output_table$estimated_genome_size = as.numeric(output_table$estimated_genome_size)
-  output_table$estimated_genome_size_confidence_interval = as.numeric(output_table$estimated_genome_size_confidence_interval)
-  output_table$estimated_genome_size_confidence_interval = as.numeric(output_table$estimated_genome_size_confidence_interval)
+  #output_table$data_density = as.numeric(output_table$data_density)
 
   summary(output_table$estimated_genome_size)
-  successful_estimations = nrow(output_table[! is.na(output_table$estimated_genome_size), ])*100 / nrow(output_table)
+
+  successful_estimations = nrow(output_table[output_table$genome_size_estimation_status=='OK', ])*100 / nrow(output_table)
 
   cat("\n#############################################################################", fill=T)
   cat("# Genome size estimation summary:", fill=T)
@@ -113,11 +236,22 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   cat('# ', successful_estimations, "% successful estimations", fill=T)
   cat('#\n')
   print(summary(output_table$estimated_genome_size))
-  cat("#############################################################################", fill=T)
+  cat('\n# Estimation status:')
+  print(table(output_table$genome_size_estimation_status))
+
+  if (method == 'weighted_mean') {
+    cat('\n# Estimation at taxonomic rank:')
+    print(table(output_table$genome_size_estimation_rank))
+    cat('\n# Estimation distance:', fill=T)
+    cat('#\n')
+    print(summary(output_table$genome_size_estimation_distance))
+    cat("#############################################################################", fill=T)
+  }
 
   # Reformat if needed
   if (output_format == "data.frame") {
-    output_table = output_table[c('estimated_genome_size', 'estimated_genome_size_confidence_interval')]
+    output_table = output_table[c('LCA', 'estimated_genome_size', 'estimated_genome_size_confidence_interval', 'genome_size_estimation_status')]
+    names(output_table)[names(output_table) == 'LCA'] = 'TAXID'
   }
 
   return(output_table)

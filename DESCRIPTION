@@ -1,6 +1,6 @@
 Package: genomesizeR
 Title: Genome size estimation
-Version: 0.0.0.9000
+Version: 1.0.0.0000
 Authors@R: 
     person("Celine", "Mercier", , "celine.mercier@scionresearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4782-1530"))
@@ -8,5 +8,5 @@ Description: Genome size estimation from taxonomic data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
-Imports: pbapply, ggplot2, seqinr
+RoxygenNote: 7.2.3
+Imports: pbapply, ggplot2, seqinr, biomformat, dplyr, ggtree, lme4, merTools, ncbitax

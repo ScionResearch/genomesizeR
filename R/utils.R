@@ -6,7 +6,7 @@ compute_LCA <- function(taxids, nodes) {
     LCA = Reduce(intersect, parents)[1]
   }
   else {
-    LCA = NA
+    LCA = taxids
   }
   return(LCA)
 }
@@ -14,7 +14,23 @@ compute_LCA <- function(taxids, nodes) {
 
 read_match <- function(query, format, match_column, match_sep) {
   match = NA
-  if (format == 'dada2') {
+  #cat ("in read match")
+  #print(query)
+  #cat(query)
+  #cat('\n')
+  if (format == 'biom') {
+    for(i in length(query):1) {
+      #print(i)
+      #print(query[i])
+      #cat('length:', nchar(query[i]))
+      #print('\n')
+      if (nchar(query[i]) > 0) {
+        match = query[i]
+        break
+      }
+    }
+  }
+  else if (format == 'dada2') {
     if ( ! is.na(query['Species'])) {
       if (grepl("__", query['Species'])) {
         species = strsplit(query['Species'], '__', fixed = T)[[1]][2]
@@ -39,14 +55,26 @@ read_match <- function(query, format, match_column, match_sep) {
     }
   }
   else if (is.na(match_column)) {
+    #print('42')
     match = query
   }
   else {
+    #print('46')
     match = query[match_column]
   }
 
+  #print(query[match_column])
+
+  if ((format != 'dada2') && ((format != 'biom')) && (length(query[match_column]) != 1)) {
+    stop("Can't read matches, check if column name is correct")
+  }
+
   # Remove special characters found in some formats
+  #print('1, match:')
+  #print(match)
+  #print(length(query[match_column]))
   if (! is.na(match)) {
+    #print('2')
     n = names(match)
     #print(("47")
     #print((match)
@@ -70,6 +98,7 @@ read_match <- function(query, format, match_column, match_sep) {
     #print(("64")
     #print((match)
   }
+  #print('3')
 
   return(match)
 }

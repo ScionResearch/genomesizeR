@@ -1,0 +1,141 @@
+
+compute_confidence_interval <- function(query, model, n_cores) {
+
+  my.cluster <- parallel::makeCluster(
+    n_cores,
+    type = "PSOCK"
+  )
+  doParallel::registerDoParallel(cl = my.cluster)
+  ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean", .parallel=T)
+  parallel::stopCluster(cl = my.cluster)
+
+  return(ci)
+}
+
+
+ci_post_treat <- function(query, ci_threshold) {
+  confidence_interval_lwr = as.numeric(query['confidence_interval_lower'])
+  confidence_interval_upr = as.numeric(query['confidence_interval_upper'])
+  estimated_genome_size = as.numeric(query['estimated_genome_size'])
+  if (is.na(estimated_genome_size)) {
+    query['estimated_genome_size_confidence_interval'] = NA
+    query = as.data.frame(t(as.data.frame(query)))
+    return(query)
+  }
+  if (is.na(confidence_interval_lwr) || is.na(confidence_interval_upr)) {
+    query['estimated_genome_size_confidence_interval'] = NA
+    query['genome_size_estimation_status'] = 'Could not compute confidence interval'
+    query = as.data.frame(t(as.data.frame(query)))
+    return(query)
+  }
+  else {
+    query['estimated_genome_size_confidence_interval'] = paste(as.character(confidence_interval_lwr), as.character(confidence_interval_upr), sep=';')
+  }
+  if (confidence_interval_upr - estimated_genome_size > ci_threshold*estimated_genome_size || estimated_genome_size - confidence_interval_lwr > ci_threshold*estimated_genome_size) {
+    query['genome_size_estimation_status'] = 'Confidence interval to estimated size ratio > ci_threshold'
+    query = as.data.frame(t(as.data.frame(query)))
+    return(query)
+  }
+  query['genome_size_estimation_status'] = 'OK'
+
+  query = as.data.frame(t(as.data.frame(query)))
+  return(query)
+}
+
+
+hierarchical <- function(query, model, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
+
+  genusfamily_model = model[[1]]
+  genusorder_model = model[[2]]
+  familyorder_model = model[[3]]
+
+  out = query
+  out['estimated_genome_size'] = NA
+  out['estimated_genome_size_confidence_interval'] = NA
+  out['genome_size_estimation_status'] = NA
+  out['model_used'] = NA
+  out['LCA'] = NA
+  if (format == 'dada2' || format == 'biom') {
+    out['TAXID'] = NA
+    #out['SCIENTIFIC_NAME'] = NA
+  }
+
+  match = read_match(query, format, match_column, match_sep)
+
+  if ((length(match) == 1) && (is.na(match))) {
+    out['genome_size_estimation_status'] = 'Match is NA'
+    return(out)
+  }
+
+  match_taxid = get_match_taxid(match, names)
+  if (any(is.na(match_taxid))) {
+    cat("\nNCBI taxid not found for:", fill=T)
+    cat(query, fill=T)
+    out['genome_size_estimation_status'] = 'NCBI taxid not found'
+    return(out)
+  }
+
+  # Compute LCA
+  LCA = compute_LCA(match_taxid, nodes)
+
+  if (format == 'dada2' || format == 'biom') {
+    if (is.na(LCA)) {
+      out['TAXID'] = as.character(match_taxid)
+    }
+    else {
+      out['TAXID'] = as.character(LCA)
+    }
+    #out['SCIENTIFIC_NAME'] = sciname(match_taxid, names=names)
+  }
+  out['LCA'] = as.character(LCA)
+
+    out['species'] = NA
+  out['genus'] = NA
+  out['family'] = NA
+  out['order'] = NA
+  parents = allparents(LCA, taxdir=NA, nodes=nodes)
+  #parents = ncbitax::get.parents(LCA, alltax)
+  if (is.null(parents)) {
+    cat("\nParent taxids not found for:", fill=T)
+    cat(match, fill=T)
+    out['genome_size_estimation_status'] = 'Parent taxids not found'
+    return(out)
+  }
+  ranks = getrank(parents, taxdir=NA, nodes=nodes)
+  #ranks = ncbitax::getRank(parents, alltax)
+  if (is.null(ranks)) {
+    cat("\nParent taxid ranks not found for:", fill=T)
+    cat(match, fill=T)
+    cat(parents, fill=T)
+    out['genome_size_estimation_status'] = 'Parent taxid ranks not found'
+    return(out)
+  }
+  for (i in 1:length(parents)) {
+    out[ranks[[i]]] = parents[[i]]
+  }
+
+  out = as.data.frame(t(as.data.frame(out)))
+
+  if (! na_models[1] && ! is.na(out$genus) && ! is.na(out$family)) {
+    estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
+    out['model_used'] = 'hierarchical_1|genus/family'
+  }
+  else if (! na_models[2] && ! is.na(out$genus) && ! is.na(out$order)) {
+    estimated_size = exp(predict(genusorder_model, out, type="response", allow.new.levels=TRUE))
+    out['model_used'] = 'hierarchical_1|genus/order'
+  }
+  else if (! na_models[3] && ! is.na(out$family) && ! is.na(out$order)) {
+    estimated_size = exp(predict(familyorder_model, out, type="response", allow.new.levels=TRUE))
+    out['model_used'] = 'hierarchical_1|family/order'
+  }
+  else {
+    out['genome_size_estimation_status'] = 'Query too high in taxonomic tree to fit in model'
+    return(out)
+  }
+
+  out['estimated_genome_size'] = estimated_size
+
+  out = unlist(as.vector(out[1,]))
+
+  return(out)
+}

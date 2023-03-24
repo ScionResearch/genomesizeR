@@ -1,6 +1,4 @@
 
-
-
 transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F) {
 
   if (! is.na(sample_data)) {
@@ -65,7 +63,7 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
   estimated_genome_size = 'estimated_genome_size'
   count = 'count'
   sample = 'sample'
-  density = '..density..'
+  density = 'after_stat(density)'
 
   to_plot = transform_for_plot(output_table, sample_data=sample_data, only_sample=only_sample, PA=PA)
 
@@ -129,16 +127,62 @@ plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=N
 }
 
 
-# Plot genome sizes
-#
-# This function loads a result table from estimate_genome_size and plots the results.
-#
-# @param output_table Result table from estimate_genome_size
-# @param sample_column The column containing sample information
-# @param sample The sample to plot the genome size density for (default: all samples)
-# @export
-#plot_genome_size_results <- function(output_table, sample_column=NA, sample=NA) {
-#  plot_genome_size_density(output_table, sample_column=sample_column)
-#  plot_genome_size_boxplot(output_table, sample_column=sample_column)
-#}
+#' Plot genome size tree
+#'
+#' This function loads a result table from estimate_genome_size and plots the taxonomic tree with colour-coded estimated genome sizes.
+#'
+#' @param output_table Result table from estimate_genome_size
+#' @import ggplot2
+#' @import ncbitax
+#' @import dplyr
+#' @import ggtree
+#' @export
+plot_genome_size_tree <- function(output_table, taxonomy=NA) {
 
+  taxid_column="LCA"
+  if (is.na(taxonomy)) {
+    taxonomy = get_taxonomy(taxonomy)
+  }
+  tax = parseNCBITaxonomy(taxonomy)
+  to_plot = output_table[!is.na(as.numeric(output_table[,taxid_column])) & !is.na(output_table$estimated_genome_size), ]
+  to_plot$label = to_plot[,taxid_column]
+  to_plot$label = as.character(to_plot$label)
+  to_plot = to_plot[,c('label', 'estimated_genome_size')]
+  to_plot = unique(to_plot)
+  taxids = to_plot$label
+
+  # Look for parent nodes stuck with their children:
+  # List of lists of parents and recombine with the ones needed at each iteration
+  parents = list()
+  i = 1
+  for (taxid in taxids) {
+    taxid_parents = as.vector(ncbitax::get.parents(taxid, tax))
+    parents[[i]] = taxid_parents
+    #cat('i:', i, 'taxid:', taxid, '\n')
+    i = i+1
+  }
+
+  keep_taxid_idx = 1:length(taxids)
+  for (i in 1:length(taxids)) {
+    taxid = taxids[i]
+    taxids_to_use_idx = keep_taxid_idx[keep_taxid_idx != i]
+    parents_to_use = parents[taxids_to_use_idx]
+    parents_to_use = unlist(parents_to_use)
+    parents_to_use = unique(parents_to_use)
+    if (taxid %in% parents_to_use) {
+      keep_taxid_idx = keep_taxid_idx[keep_taxid_idx != i]
+    }
+  }
+
+  to_plot = to_plot[keep_taxid_idx,]
+  to_plot$sci_name_for_tree = ncbitax::getName(c(to_plot$label), tax)
+  tn = tax2newick(taxids, tax)
+  tree = full_join(tn$tree, to_plot, by='label')
+
+  plot(ggtree(tree, branch.length="none", layout='circular', aes(color=estimated_genome_size)) +
+    scale_color_gradient2(low = "red", midpoint = median(to_plot$estimated_genome_size), mid = "blue", high = "green", space="Lab") +
+    geom_tiplab(aes(label=sci_name_for_tree)) +
+    geom_nodelab(aes(label=sci_name_for_tree), geom='label'))
+
+  return(to_plot)
+}

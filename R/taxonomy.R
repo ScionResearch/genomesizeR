@@ -55,6 +55,9 @@ allparents <- function(id,taxdir,nodes=NULL) {
   thisid <- id
   while(thisid[1] != 1) {
     thisid <- parent(thisid,taxdir=taxdir,nodes=nodes)
+    if (length(thisid)==0) {
+      return(NULL)
+    }
     id <- c(id,thisid)
   }
   return(id)
