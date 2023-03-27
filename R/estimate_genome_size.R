@@ -124,6 +124,8 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #' @importFrom parallel detectCores
 #' @importFrom biomformat read_biom observation_metadata
 #' @importFrom stats as.formula na.omit predict median
+#' @importFrom data.table fread
+#' @import doParallel
 #' @export
 estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=';',
                                  size_db=NA, taxonomy=NA, output_format='input', method='weighted_mean',
@@ -163,16 +165,16 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   genusorder_model = NA
   familyorder_model = NA
   if (method == 'hierarchical') {
-    size_db = get_genome_size_db_for_hierarchical(size_db)
-    size_db = read.table(size_db, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
-    size_db$order = as.factor(size_db$order)
-    size_db$family = as.factor(size_db$family)
-    size_db$genus = as.factor(size_db$genus)
-    size_db$species = as.factor(size_db$species)
-    size_db$genome.size = as.integer(as.character(size_db$genome_size))
-    genusfamily_size_db = na.omit(size_db[, c("genome.size", "family", "genus")])
-    genusorder_size_db = na.omit(size_db[, c("genome.size", "genus", "order")])
-    familyorder_size_db = na.omit(size_db[, c("genome.size", "family", "order")])
+    size_db_h = get_genome_size_db_for_hierarchical(size_db)
+    size_db_h = read.table(size_db_h, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
+    size_db_h$order = as.factor(size_db_h$order)
+    size_db_h$family = as.factor(size_db_h$family)
+    size_db_h$genus = as.factor(size_db_h$genus)
+    size_db_h$species = as.factor(size_db_h$species)
+    size_db_h$genome.size = as.integer(as.character(size_db_h$genome_size))
+    genusfamily_size_db = na.omit(size_db_h[, c("genome.size", "family", "genus")])
+    genusorder_size_db = na.omit(size_db_h[, c("genome.size", "genus", "order")])
+    familyorder_size_db = na.omit(size_db_h[, c("genome.size", "family", "order")])
     genusfamily_model = build_model(genusfamily_size_db, c('genus', 'family'))
     genusorder_model = build_model(genusorder_size_db, c('genus', 'order'))
     familyorder_model = build_model(familyorder_size_db, c('family', 'order'))
@@ -187,10 +189,8 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
       na_models[3] = 1
     }
   }
-  else {
-    size_db = get_genome_size_db(size_db)
-    size_db = read.csv(size_db, sep='\t', quote="", stringsAsFactors = FALSE)
-  }
+  full_size_db = get_genome_size_db(size_db)
+  full_size_db = read.csv(full_size_db, sep='\t', quote="", stringsAsFactors = FALSE)
 
   taxonomy = get_taxonomy(taxonomy)
   cat("Reading taxonomy names", fill=T)
@@ -201,7 +201,7 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
 
   cat("Computing genome sizes", fill=T)
   #options(warn=2)
-  output_table = pbapply(queries, 1, method, model=c(genusfamily_model,genusorder_model,familyorder_model), na_models=na_models, size_db=size_db, taxonomy=taxonomy,
+  output_table = pbapply(queries, 1, method, model=c(genusfamily_model,genusorder_model,familyorder_model), na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
                          names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
                          match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores)
 

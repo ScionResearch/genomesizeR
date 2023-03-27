@@ -14,6 +14,11 @@ compute_confidence_interval <- function(query, model, n_cores) {
 
 
 ci_post_treat <- function(query, ci_threshold) {
+  if (!is.na(query['model_used']) && query['model_used'] == 'reference_mean') {
+    query['genome_size_estimation_status'] = 'OK'
+    query = as.data.frame(t(as.data.frame(query)))
+    return(query)
+  }
   confidence_interval_lwr = as.numeric(query['confidence_interval_lower'])
   confidence_interval_upr = as.numeric(query['confidence_interval_upper'])
   estimated_genome_size = as.numeric(query['estimated_genome_size'])
@@ -89,7 +94,9 @@ hierarchical <- function(query, model, na_models, size_db, taxonomy, names, node
   }
   out['LCA'] = as.character(LCA)
 
-    out['species'] = NA
+  ref_data = size_db[LCA + 1, ]
+
+  out['species'] = NA
   out['genus'] = NA
   out['family'] = NA
   out['order'] = NA
@@ -116,7 +123,25 @@ hierarchical <- function(query, model, na_models, size_db, taxonomy, names, node
 
   out = as.data.frame(t(as.data.frame(out)))
 
-  if (! na_models[1] && ! is.na(out$genus) && ! is.na(out$family)) {
+  if ((ref_data['INFO_NODE'] == 'True')) { #&& (! is.na(ref_data['MEAN_GENOME_SIZE']))) {
+    estimated_size = ref_data['MEAN_GENOME_SIZE']
+    out['model_used'] = 'reference_mean'
+    # Compute confidence interval
+    standard_error = sqrt(ref_data['STANDARD_ERROR_GENOME_SIZE'])
+    Z = 1.96     # 95% CI
+    confidence_interval = Z * as.numeric(standard_error)
+    out['estimated_genome_size_confidence_interval'] = confidence_interval
+    if ((!is.na(confidence_interval)) && (confidence_interval > ci_threshold*estimated_size)) {
+      out['genome_size_estimation_status'] = 'Confidence interval to estimated size ratio > ci_threshold'
+    }
+    else if (is.na(confidence_interval)) {
+      out['genome_size_estimation_status'] = 'OK but no confidence interval'
+    }
+    else {
+      out['genome_size_estimation_status'] = 'OK'
+    }
+  }
+  else if (! na_models[1] && ! is.na(out$genus) && ! is.na(out$family)) {
     estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
     out['model_used'] = 'hierarchical_1|genus/family'
   }
@@ -129,7 +154,7 @@ hierarchical <- function(query, model, na_models, size_db, taxonomy, names, node
     out['model_used'] = 'hierarchical_1|family/order'
   }
   else {
-    out['genome_size_estimation_status'] = 'Query too high in taxonomic tree to fit in model'
+    out['genome_size_estimation_status'] = 'No reference and query too high in taxonomic tree to fit in model'
     return(out)
   }
 
