@@ -1,5 +1,5 @@
 
-compute_confidence_interval <- function(query, model, n_cores) {
+compute_confidence_interval_hierarchical <- function(query, model, n_cores) {
 
   my.cluster <- parallel::makeCluster(
     n_cores,
@@ -13,46 +13,11 @@ compute_confidence_interval <- function(query, model, n_cores) {
 }
 
 
-ci_post_treat <- function(query, ci_threshold) {
-  if (!is.na(query['model_used']) && query['model_used'] == 'reference_mean') {
-    query['genome_size_estimation_status'] = 'OK'
-    query = as.data.frame(t(as.data.frame(query)))
-    return(query)
-  }
-  confidence_interval_lwr = as.numeric(query['confidence_interval_lower'])
-  confidence_interval_upr = as.numeric(query['confidence_interval_upper'])
-  estimated_genome_size = as.numeric(query['estimated_genome_size'])
-  if (is.na(estimated_genome_size)) {
-    query['estimated_genome_size_confidence_interval'] = NA
-    query = as.data.frame(t(as.data.frame(query)))
-    return(query)
-  }
-  if (is.na(confidence_interval_lwr) || is.na(confidence_interval_upr)) {
-    query['estimated_genome_size_confidence_interval'] = NA
-    query['genome_size_estimation_status'] = 'Could not compute confidence interval'
-    query = as.data.frame(t(as.data.frame(query)))
-    return(query)
-  }
-  else {
-    query['estimated_genome_size_confidence_interval'] = paste(as.character(confidence_interval_lwr), as.character(confidence_interval_upr), sep=';')
-  }
-  if (confidence_interval_upr - estimated_genome_size > ci_threshold*estimated_genome_size || estimated_genome_size - confidence_interval_lwr > ci_threshold*estimated_genome_size) {
-    query['genome_size_estimation_status'] = 'Confidence interval to estimated size ratio > ci_threshold'
-    query = as.data.frame(t(as.data.frame(query)))
-    return(query)
-  }
-  query['genome_size_estimation_status'] = 'OK'
+hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
 
-  query = as.data.frame(t(as.data.frame(query)))
-  return(query)
-}
-
-
-hierarchical <- function(query, model, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
-
-  genusfamily_model = model[[1]]
-  genusorder_model = model[[2]]
-  familyorder_model = model[[3]]
+  genusfamily_model = models$genusfamily_model
+  genusorder_model = models$genusorder_model
+  familyorder_model = models$familyorder_model
 
   out = query
   out['estimated_genome_size'] = NA

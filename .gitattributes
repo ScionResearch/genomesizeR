@@ -1,3 +1,12 @@
+/DESCRIPTION filter=lfs diff=lfs merge=lfs -text
+*.md filter=lfs diff=lfs merge=lfs -text
+/NAMESPACE filter=lfs diff=lfs merge=lfs -text
+*.R filter=lfs diff=lfs merge=lfs -text
+*.Rproj filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
+*.rds filter=lfs diff=lfs merge=lfs -text
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.Rd filter=lfs diff=lfs merge=lfs -text
 DESCRIPTION !text !filter !merge !diff
 *.R !text !filter !merge !diff
 NAMESPACE !text !filter !merge !diff

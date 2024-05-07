@@ -8,6 +8,8 @@
   taxonomy_archive = system.file("extdata", 'taxdump.tar.gz', package = "genomesizeR")
   genome_size_db_archive = system.file("extdata", 'genome_size_db.tar.gz', package = "genomesizeR")
   genome_size_db_for_hierarchical_archive = system.file("extdata", 'genome_size_db_for_hierarchical.tar.gz', package = "genomesizeR")
+  bayesian_model_bact = system.file("extdata/fits", 'm_superkingdom2.rds', package = "genomesizeR")
+  assign('bayesian_model_bact', bayesian_model_bact, envir = topenv())
   assign('taxonomy_archive', taxonomy_archive, envir = topenv())
   assign('genome_size_db_archive', genome_size_db_archive, envir = topenv())
   assign('genome_size_db_for_hierarchical_archive', genome_size_db_for_hierarchical_archive, envir = topenv())
@@ -39,6 +41,20 @@ build_model <- function(size_db, effects) {
     }
   )
   return(model)
+}
+
+
+#' Read bayesian model from rds
+#'
+#' @param superkingdom Target superkingdom, taxid or name (TODO)
+get_bayes_model <- function(superkingdom) {
+  if (superkingdom == "Bacteria" | superkingdom == 2) {
+    bmodel = readRDS(bayesian_model_bact)
+  }
+  else {
+    stop("A valid superkingdom must be specified (TODO)")
+  }
+  return(bmodel)
 }
 
 
@@ -110,7 +126,7 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #'                      with the added columns: "estimated_genome_size" and "estimated_genome_size_confidence_interval".
 #'                      Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns:
 #'                      "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".
-#' @param method Method to use for genome size estimation, 'weighted_mean' or 'hierarchical'
+#' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'hierarchical'
 #' @param ci_threshold Threshold for the confidence interval as a proportion of the guessed size
 #'                     (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of
 #'                     the guessed size will be discarded)
@@ -124,11 +140,12 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #' @importFrom parallel detectCores
 #' @importFrom biomformat read_biom observation_metadata
 #' @importFrom stats as.formula na.omit predict median
+#' @importFrom brms posterior_predict
 #' @importFrom data.table fread
 #' @import doParallel
 #' @export
 estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=';',
-                                 size_db=NA, taxonomy=NA, output_format='input', method='weighted_mean',
+                                 size_db=NA, taxonomy=NA, output_format='input', method='bayesian',
                                  ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='max') {
 
 #  options(warn=1)
@@ -164,6 +181,12 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   genusfamily_model = NA
   genusorder_model = NA
   familyorder_model = NA
+  bayes_model = NA
+
+  if (method == 'bayesian') {
+    bayes_model = get_bayes_model('Bacteria')
+  }
+
   if (method == 'hierarchical') {
     size_db_h = get_genome_size_db_for_hierarchical(size_db)
     size_db_h = read.table(size_db_h, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
@@ -200,8 +223,11 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   alltax = parseNCBITaxonomy(taxonomy)
 
   cat("Computing genome sizes", fill=T)
-  #options(warn=2)
-  output_table = pbapply(queries, 1, method, model=c(genusfamily_model,genusorder_model,familyorder_model), na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
+  options(warn=2)
+  output_table = pbapply(queries, 1, method,
+                         models=list('genusfamily_model'=genusfamily_model, 'genusorder_model'=genusorder_model,
+                                     'familyorder_model'=familyorder_model, 'bayes_model'=bayes_model),
+                         na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
                          names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
                          match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores)
 
@@ -210,9 +236,15 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   # Handle R formatting issues
   if (method == 'hierarchical') {
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
-    confidence_interval = exp(compute_confidence_interval(output_table, genusfamily_model, n_cores))
+    confidence_interval = exp(compute_confidence_interval_hierarchical(output_table, genusfamily_model, n_cores))
     output_table$confidence_interval_lower = as.numeric(confidence_interval$lwr)
     output_table$confidence_interval_upper = as.numeric(confidence_interval$upr)
+    new_queries = output_table
+    output_table = pbapply(new_queries, 1, ci_post_treat, ci_threshold=ci_threshold)
+    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+  }
+  else if (method == 'bayesian') {
+    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
     new_queries = output_table
     output_table = pbapply(new_queries, 1, ci_post_treat, ci_threshold=ci_threshold)
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)

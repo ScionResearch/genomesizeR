@@ -1,5 +1,5 @@
 
-weighted_mean <- function(query, model, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
+weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
 
   out = query
   # if one match:

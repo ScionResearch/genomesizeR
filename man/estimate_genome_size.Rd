@@ -13,7 +13,7 @@ estimate_genome_size(
   size_db = NA,
   taxonomy = NA,
   output_format = "input",
-  method = "weighted_mean",
+  method = "bayesian",
   ci_threshold = 0.2,
   prediction_variables = c("family", "genus"),
   n_cores = "max"
@@ -40,7 +40,7 @@ with the added columns: "estimated_genome_size" and "estimated_genome_size_confi
 Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns:
 "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".}
 
-\item{method}{Method to use for genome size estimation, 'weighted_mean' or 'hierarchical'}
+\item{method}{Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'hierarchical'}
 
 \item{ci_threshold}{Threshold for the confidence interval as a proportion of the guessed size
 (e.g. 0.2 means that estimations with a confidence interval that represents more than 20\% of
