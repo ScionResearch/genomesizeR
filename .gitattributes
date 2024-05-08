@@ -1,3 +1,4 @@
+inst/extdata/fits/*.rds filter=lfs diff=lfs merge=lfs -text
 /DESCRIPTION filter=lfs diff=lfs merge=lfs -text
 *.md filter=lfs diff=lfs merge=lfs -text
 /NAMESPACE filter=lfs diff=lfs merge=lfs -text
