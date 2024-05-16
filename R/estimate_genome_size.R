@@ -9,7 +9,11 @@
   genome_size_db_archive = system.file("extdata", 'genome_size_db.tar.gz', package = "genomesizeR")
   genome_size_db_for_hierarchical_archive = system.file("extdata", 'genome_size_db_for_hierarchical.tar.gz', package = "genomesizeR")
   bayesian_model_bact = system.file("extdata/fits", 'm_superkingdom2.rds', package = "genomesizeR")
+  bayesian_model_euka = system.file("extdata/fits", 'm_superkingdom2759.rds', package = "genomesizeR")
+  bayesian_model_arch = system.file("extdata/fits", 'm_superkingdom2157.rds', package = "genomesizeR")
   assign('bayesian_model_bact', bayesian_model_bact, envir = topenv())
+  assign('bayesian_model_euka', bayesian_model_euka, envir = topenv())
+  assign('bayesian_model_arch', bayesian_model_arch, envir = topenv())
   assign('taxonomy_archive', taxonomy_archive, envir = topenv())
   assign('genome_size_db_archive', genome_size_db_archive, envir = topenv())
   assign('genome_size_db_for_hierarchical_archive', genome_size_db_for_hierarchical_archive, envir = topenv())
@@ -46,13 +50,19 @@ build_model <- function(size_db, effects) {
 
 #' Read bayesian model from rds
 #'
-#' @param superkingdom Target superkingdom, taxid or name (TODO)
+#' @param superkingdom Target superkingdom, taxid or name
 get_bayes_model <- function(superkingdom) {
   if (superkingdom == "Bacteria" | superkingdom == 2) {
     bmodel = readRDS(bayesian_model_bact)
   }
+  else if (superkingdom == "Archaea" | superkingdom == 2157) {
+    bmodel = readRDS(bayesian_model_arch)
+  }
+  else if (superkingdom == "Eukaryota" | superkingdom == 2759) {
+    bmodel = readRDS(bayesian_model_euka)
+  }
   else {
-    stop("A valid superkingdom must be specified (TODO)")
+    stop("A valid superkingdom must be specified")
   }
   return(bmodel)
 }
@@ -115,7 +125,7 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #' This function loads a query file and predicts genome sizes.
 #'
 #' @param queries Queries: path to file or table object
-#' @param format Query format if in a file ('csv' (default), 'dada2' or 'biom' (taxonomy table files))
+#' @param format Query format if in a file ('csv' (default), 'tax_table' or 'biom' (taxonomy table files))
 #' @param sep If 'csv' format, column separator
 #' @param match_column If 'csv' format, the column containing match information (with one or several matches)
 #' @param match_sep If 'csv' format and several matches in match column, separator between matches
@@ -148,7 +158,7 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
                                  size_db=NA, taxonomy=NA, output_format='input', method='bayesian',
                                  ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='max') {
 
-#  options(warn=1)
+  options(warn=1)
 
   if (n_cores == 'max') {
     n_cores = parallel::detectCores() - 1
@@ -181,10 +191,14 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   genusfamily_model = NA
   genusorder_model = NA
   familyorder_model = NA
-  bayes_model = NA
+  bayes_model_bact = NA
+  bayes_model_euka = NA
+  bayes_model_arch = NA
 
   if (method == 'bayesian') {
-    bayes_model = get_bayes_model('Bacteria')
+    bayes_model_bact = get_bayes_model('Bacteria')
+    bayes_model_euka = get_bayes_model('Eukaryota')
+    bayes_model_arch = get_bayes_model('Archaea')
   }
 
   if (method == 'hierarchical') {
@@ -223,10 +237,12 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   alltax = parseNCBITaxonomy(taxonomy)
 
   cat("Computing genome sizes", fill=T)
-  options(warn=2)
+  #options(warn=2)
   output_table = pbapply(queries, 1, method,
                          models=list('genusfamily_model'=genusfamily_model, 'genusorder_model'=genusorder_model,
-                                     'familyorder_model'=familyorder_model, 'bayes_model'=bayes_model),
+                                     'familyorder_model'=familyorder_model,
+                                     'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
+                                     'bayes_model_arch'=bayes_model_arch),
                          na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
                          names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
                          match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores)
