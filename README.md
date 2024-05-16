@@ -23,7 +23,7 @@ devtools::install_local('genomesizeR.zip')
 library(genomesizeR)
 ```
 
-### Read example dada2 input file from the package
+### Read example tax_table input file from the package
 
 ```
 example_input_file = system.file("extdata", "example_Taxonomy_cleaned.csv", package = "genomesizeR")
@@ -54,7 +54,7 @@ estimate_genome_size(
 Queries: path to file or table object
 
 `format`
-Query format if in a file ('csv' (default), 'dada2' or 'biom' (taxonomy table files))
+Query format if in a file ('csv' (default), 'tax_table' or 'biom' (taxonomy table files))
 
 `sep`	
 If 'csv' format, column separator
@@ -87,10 +87,10 @@ Number of CPU cores to use (default is 'max': all available minus 1)
 ### Run the main function to get estimated genome sizes
 
 ```
-results = estimate_genome_size(example_input_file, format='dada2')
+results = estimate_genome_size(example_input_file, format='tax_table')
 ```
 
-### Read example dada2 sample file that will be read by the plotting functions
+### Read example tax_table sample file that will be read by the plotting functions
 
 ```
 example_sample_file = system.file("extdata", "example_ASV_counts_cleaned.csv", package = "genomesizeR")

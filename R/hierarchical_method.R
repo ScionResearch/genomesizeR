@@ -25,7 +25,7 @@ hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nod
   out['genome_size_estimation_status'] = NA
   out['model_used'] = NA
   out['LCA'] = NA
-  if (format == 'dada2' || format == 'biom') {
+  if (format == 'tax_table' || format == 'biom') {
     out['TAXID'] = NA
     #out['SCIENTIFIC_NAME'] = NA
   }
@@ -48,7 +48,7 @@ hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nod
   # Compute LCA
   LCA = compute_LCA(match_taxid, nodes)
 
-  if (format == 'dada2' || format == 'biom') {
+  if (format == 'tax_table' || format == 'biom') {
     if (is.na(LCA)) {
       out['TAXID'] = as.character(match_taxid)
     }

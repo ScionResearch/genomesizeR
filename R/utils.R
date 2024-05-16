@@ -1,4 +1,4 @@
-# TODO discuss with Joane
+
 ci_post_treat <- function(query, ci_threshold) {
   if (!is.na(query['model_used']) && query['model_used'] == 'reference_mean') {
     query['genome_size_estimation_status'] = 'OK'
@@ -48,31 +48,21 @@ compute_LCA <- function(taxids, nodes) {
 
 read_match <- function(query, format, match_column, match_sep) {
   match = NA
-  #cat ("in read match")
-  #print(query)
-  #cat(query)
-  #cat('\n')
   if (format == 'biom') {
     for(i in length(query):1) {
-      #print(i)
-      #print(query[i])
-      #cat('length:', nchar(query[i]))
-      #print('\n')
       if (nchar(query[i]) > 0) {
         match = query[i]
         break
       }
     }
   }
-  else if (format == 'dada2') {
+  else if (format == 'tax_table') {
     if ( ! is.na(query['Species'])) {
       if (grepl("__", query['Species'])) {
         species = strsplit(query['Species'], '__', fixed = T)[[1]][2]
         genus = strsplit(query['Genus'], '__', fixed = T)[[1]][2]
         match = paste(genus, species)
         names(match) = 'Species'
-        #print(('24')
-        #print((match)
       }
       else {
         match = query['Species']
@@ -97,21 +87,13 @@ read_match <- function(query, format, match_column, match_sep) {
     match = query[match_column]
   }
 
-  #print(query[match_column])
-
-  if ((format != 'dada2') && ((format != 'biom')) && (length(query[match_column]) != 1)) {
+  if ((format != 'tax_table') && ((format != 'biom')) && (length(query[match_column]) != 1)) {
     stop("Can't read matches, check if column name is correct")
   }
 
   # Remove special characters found in some formats
-  #print('1, match:')
-  #print(match)
-  #print(length(query[match_column]))
   if (! is.na(match)) {
-    #print('2')
     n = names(match)
-    #print(("47")
-    #print((match)
     if (grepl("__", match)) {
       match = strsplit(match, '__', fixed = T)[[1]][2]
       names(match) = n
@@ -129,10 +111,7 @@ read_match <- function(query, format, match_column, match_sep) {
     match = gsub("\\[|\\]", '', match)
     match = strsplit(match, match_sep, fixed=T)
     match = unlist(match)
-    #print(("64")
-    #print((match)
   }
-  #print('3')
 
   return(match)
 }
@@ -142,8 +121,7 @@ get_match_taxid <- function(match, taxo_names) {
   match_taxid = c()
   for (m_idx in 1:length(match)) {
     m = match[m_idx]
-    #print('m')
-    #print(m)
+
     # Convert names to taxids if needed
     if (typeof(m) == "character") {
       # Check that they are not actually numeric
@@ -152,15 +130,9 @@ get_match_taxid <- function(match, taxo_names) {
       }
       # Real taxon name to convert
       else {
-        ##print(('65')
-        ##print((m)
-        #print('79')
-        #print(m)
         # Find taxid in list of names and add it to vector
         if (length(taxo_names[taxo_names$name==m,]$id) > 0) {
           taxid = taxo_names[taxo_names$name==m,]$id[1]
-          #print('OUI, 84')
-          #print(taxid)
         }
         else {
           taxid = NA
@@ -172,6 +144,5 @@ get_match_taxid <- function(match, taxo_names) {
       match_taxid = c(match_taxid, m)
     }
   }
-  ##print((match_taxid)
   return(match_taxid)
 }

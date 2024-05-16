@@ -20,7 +20,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
   out['genome_size_estimation_rank'] = NA
   out['genome_size_estimation_distance'] = NA
   out['LCA'] = NA
-  if (format == 'dada2' || format == 'biom') {
+  if (format == 'tax_table' || format == 'biom') {
     out['TAXID'] = NA
     #out['SCIENTIFIC_NAME'] = NA
   }
@@ -43,7 +43,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
   # Compute LCA
   LCA = compute_LCA(match_taxid, nodes)
 
-  if (format == 'dada2' || format == 'biom') {
+  if (format == 'tax_table' || format == 'biom') {
     if (is.na(LCA)) {
       out['TAXID'] = as.character(match_taxid)
     }
