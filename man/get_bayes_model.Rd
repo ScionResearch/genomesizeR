@@ -7,7 +7,7 @@
 get_bayes_model(superkingdom)
 }
 \arguments{
-\item{superkingdom}{Target superkingdom, taxid or name (TODO)}
+\item{superkingdom}{Target superkingdom, taxid or name}
 }
 \description{
 Read bayesian model from rds

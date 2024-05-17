@@ -10,3 +10,5 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: pbapply, ggplot2, seqinr, biomformat, dplyr, ggtree, lme4, merTools, ncbitax
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr

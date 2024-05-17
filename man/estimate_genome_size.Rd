@@ -22,7 +22,7 @@ estimate_genome_size(
 \arguments{
 \item{queries}{Queries: path to file or table object}
 
-\item{format}{Query format if in a file ('csv' (default), 'dada2' or 'biom' (taxonomy table files))}
+\item{format}{Query format if in a file ('csv' (default), 'tax_table' or 'biom' (taxonomy table files))}
 
 \item{sep}{If 'csv' format, column separator}
 

@@ -1,0 +1,46 @@
+---
+title: "genomesizeR: Genome size prediction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{genomesizeR}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## Introduction
+
+The purpose of this R package is to implement tools that allow the inference of genome size based on taxonomic information and available genome data from the NCBI.
+
+This R package offers three different methods for genome size prediction.
+
+The methods use: 
+
+  - A list of queries; a query being a taxon or a list of several taxa. 
+  - A reference database containing all the known genome sizes, built from the NCBI databases, with associated taxa. The database is variably dense depending on the taxon groups. 
+  - A taxonomic tree structure as built by the NCBI, imperfectly reflecting the evolutionary distances between taxa, depending on the taxa/subtree. 
+
+`genomesizeR` estimates the genome size of each query, with a confidence interval on the estimation. 
+
+## Methods
+
+### Bayesian method
+
+### Hierarchical method
+
+A hierarchical linear mixed-effects model using the lmer function from the lme4 package, based on the known genome sizes at the genus and family levels as follows:  
+
+lmer(log(genome_size) ~ (1|family/genus), data) 
+
+Most of the variation in the hierarchical model is explained by the random effects, which is an issue. A prediction interval is computed using the predictInterval function from the merTools package. 
+
+### Weighted mean method
+
+The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean.
+
+## Implementation
+
+The main steps of both methods are multithreaded. 
+
+The R package accepts the dada2 format, as well as the BIOM format, used by mothur and phyloseq, and any file or dataframe with a colum containing either NCBI taxids or taxon names as input formats. The output format is a data frame with the same columns as the input, with some added columns providing information about the estimation and the quality of the estimation. The user can also choose a simple output format only containing the estimation information. 
+
+## Examples

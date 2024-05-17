@@ -1,13 +1,13 @@
 
 compute_confidence_interval_hierarchical <- function(query, model, n_cores) {
 
-  my.cluster <- parallel::makeCluster(
+  cluster <- parallel::makeCluster(
     n_cores,
     type = "PSOCK"
   )
-  doParallel::registerDoParallel(cl = my.cluster)
+  doParallel::registerDoParallel(cl = cluster)
   ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean", .parallel=T)
-  parallel::stopCluster(cl = my.cluster)
+  parallel::stopCluster(cl = cluster)
 
   return(ci)
 }

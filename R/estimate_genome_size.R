@@ -153,17 +153,13 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #' @importFrom brms posterior_predict
 #' @importFrom data.table fread
 #' @import doParallel
+# @import parabar
 #' @export
 estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=';',
                                  size_db=NA, taxonomy=NA, output_format='input', method='bayesian',
                                  ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='max') {
 
-  options(warn=1)
-
-  if (n_cores == 'max') {
-    n_cores = parallel::detectCores() - 1
-  }
-  cat("Using ", n_cores, " cores", fill=T)
+  options(warn=2)
 
   cat("Reading queries", fill=T)
   if (format == 'biom') {
@@ -238,16 +234,42 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
 
   cat("Computing genome sizes", fill=T)
   #options(warn=2)
-  output_table = pbapply(queries, 1, method,
+
+  if (n_cores == 'max') {
+    n_cores = parallel::detectCores() - 1
+  }
+  cat("Using ", n_cores, " cores", fill=T)
+  #cluster = parallel::makeCluster(n_cores)
+  #parallel::clusterExport(cluster, c("alltax", "nodes", "names"), envir=environment())
+
+  output_table = try(pbapply(queries, 1, method,
                          models=list('genusfamily_model'=genusfamily_model, 'genusorder_model'=genusorder_model,
                                      'familyorder_model'=familyorder_model,
                                      'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
                                      'bayes_model_arch'=bayes_model_arch),
                          na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
                          names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
-                         match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores)
+                         match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores))
+
+
+  # parabar::set_option("progress_track", TRUE)
+  # backend <- parabar::start_backend(cores = 4, cluster_type = "psock", backend_type = "async")
+  # parabar::export(backend, c("method"), environment())
+  # parabar::export(backend, c("bayesian"), .GlobalEnv)
+  # print(parabar::peek(backend))
+  # output_table = try(parabar::par_apply(backend, queries, 1, method,
+  #                            models=list('genusfamily_model'=genusfamily_model, 'genusorder_model'=genusorder_model,
+  #                                        'familyorder_model'=familyorder_model,
+  #                                        'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
+  #                                        'bayes_model_arch'=bayes_model_arch),
+  #                            na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
+  #                            names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
+  #                            match_sep=match_sep, ci_threshold=ci_threshold))
 
   cat('Done', fill=T)
+
+  #parabar::stop_backend(backend)
+  #parallel::stopCluster(cl = cluster)
 
   # Handle R formatting issues
   if (method == 'hierarchical') {
