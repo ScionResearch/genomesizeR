@@ -139,10 +139,10 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
       as.data.frame() %>%
       rename(mean_Mbp = V1)
 
-    out['estimated_genome_size'] = pred_mean
+    out['estimated_genome_size'] = pred_mean *10e6
 
-    out['confidence_interval_lower'] = pred_quant$Q0.025
-    out['confidence_interval_upper'] = pred_quant$Q0.975
+    out['confidence_interval_lower'] = pred_quant$Q0.025 *10e6
+    out['confidence_interval_upper'] = pred_quant$Q0.975 *10e6
 
   }
 
