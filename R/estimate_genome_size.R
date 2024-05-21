@@ -140,7 +140,7 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #' @param ci_threshold Threshold for the confidence interval as a proportion of the guessed size
 #'                     (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of
 #'                     the guessed size will be discarded)
-#' @param n_cores Number of CPU cores to use (default is 'max': all available minus 1)
+#' @param n_cores Number of CPU cores to use (default is 'half': half of all available cores)
 #' @importFrom utils read.csv
 #' @importFrom pbapply pbapply
 #' @importFrom seqinr s2c
@@ -157,9 +157,9 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #' @export
 estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=';',
                                  size_db=NA, taxonomy=NA, output_format='input', method='bayesian',
-                                 ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='max') {
+                                 ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='half') {
 
-  options(warn=2)
+  options(warn=1)
 
   cat("Reading queries", fill=T)
   if (format == 'biom') {
@@ -235,8 +235,8 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   cat("Computing genome sizes", fill=T)
   #options(warn=2)
 
-  if (n_cores == 'max') {
-    n_cores = parallel::detectCores() - 1
+  if (n_cores == 'half') {
+    n_cores = parallel::detectCores() / 2
   }
   cat("Using ", n_cores, " cores", fill=T)
   #cluster = parallel::makeCluster(n_cores)
