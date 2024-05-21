@@ -25,6 +25,24 @@ The methods use:
 
 ### Bayesian method
 
+A Bayesian linar hierarchical model using the brm function from the brms package is used for each superkingdom (Bacteria, Archeae, Eukaryotes), following the model below:
+
+\begin{equation}
+log(G) \sim \mathcal{N}(\mu, \sigma^2) \\
+\mu = \mu_0 + \alpha_{genus} \\
+\alpha_{genus} \sim \mathcal{N}(\alpha_{family}, \sigma_{genus}^2) \\
+\alpha_{family} \sim \mathcal{N}(\alpha_{order}, \sigma_{family}^2) \\
+\alpha_{order} \sim \mathcal{N}(\alpha_{class}, \sigma_{order}^2) \\
+\alpha_{class} \sim \mathcal{N}(\alpha_{phylum}, \sigma_{class}^2) \\
+\alpha_{phylum} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
+\mu_0 \sim \mathcal{N}(0,5) \\
+(\sigma,\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum}) \sim \mathcal{N}^+(0,1) \\
+\end{equation}
+
+where $G$ is the genome size in the units of 10 Mbp and $\mathcal{N}^+$ is the normal distribution truncated to positive values.
+
+The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. Credible intervals are obtained using quantiles from the posterior distribution.
+
 ### Hierarchical method
 
 A hierarchical linear mixed-effects model using the lmer function from the lme4 package, based on the known genome sizes at the genus and family levels as follows:  
