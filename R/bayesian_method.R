@@ -114,6 +114,14 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
       model = models$bayes_model_bact
       out['model_used'] = 'bayesian Bacteria'
     }
+    else if (2759 %in% parents) {
+      model = models$bayes_model_euka
+      out['model_used'] = 'bayesian Eukaryota'
+    }
+    else if (2157 %in% parents) {
+      model = models$bayes_model_arch
+      out['model_used'] = 'bayesian Archeae'
+    }
     else {
       cat("\nBayesian model not found for:", fill=T)
       cat(match, fill=T)
