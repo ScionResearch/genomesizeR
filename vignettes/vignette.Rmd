@@ -49,7 +49,7 @@ A hierarchical linear mixed-effects model using the lmer function from the lme4 
 
 lmer(log(genome_size) ~ (1|family/genus), data) 
 
-Most of the variation in the hierarchical model is explained by the random effects, which is an issue. A prediction interval is computed using the predictInterval function from the merTools package. 
+A prediction interval is computed using the predictInterval function from the merTools package. 
 
 ### Weighted mean method
 
