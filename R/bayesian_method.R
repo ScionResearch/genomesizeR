@@ -144,8 +144,7 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
     pred_mean <- pred %>%
       summarise_all(~mean(.)) %>%
       t() %>%
-      as.data.frame() %>%
-      rename(mean_Mbp = V1)
+      as.data.frame()
 
     out['estimated_genome_size'] = pred_mean *10e6
 
