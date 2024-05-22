@@ -2,8 +2,11 @@ Package: genomesizeR
 Title: Genome size estimation
 Version: 1.0.0.0001
 Authors@R: 
-    person("Celine", "Mercier", , "celine.mercier@scionresearch.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-4782-1530"))
+    c(person("Celine", "Mercier", , "celine.mercier@scionresearch.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4782-1530")),
+    person("Joane", "Ellouet", , "joane.ellouet@scionresearch.com", role = c("aut"),
+           comment = c(ORCID = "0000-0002-9597-3360"))
+           )
 Description: Genome size estimation from taxonomic data.
 License: GPL (>= 3)
 Encoding: UTF-8
