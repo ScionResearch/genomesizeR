@@ -9,8 +9,7 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
       samples = sample_data
     }
     else {
-      print("Error: can not read sample data")
-      return(1) # TODO error handling
+      stop("Error: can not read sample data")
     }
     ASVs = c()
     sample = c()
@@ -20,12 +19,12 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
       if (colnames(samples)[i] != 'X' && colnames(samples)[i] != 'ASVs') {
         samp = colnames(samples)[i]
         for (j in 1:length(rownames(samples))) {
-          #if (PA) {
-          #  c = 1
-          #}
-          #else {
-          c = samples[j,i]
-          #}
+          if (PA) {
+            c = 1
+          }
+          else {
+            c = samples[j,i]
+          }
           gs = input_table[input_table$ASVs == samples$ASVs[j], ]$estimated_genome_size
           if (c>0 && !is.na(gs) && (is.na(only_sample) || (!is.na(only_sample) && only_sample==samp))) {
             ASVs = c(ASVs, samples$ASVs[j])
@@ -40,6 +39,15 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
   }
   else {
     df = input_table
+    if ('SAMPLE' %in% colnames(output_table)) {
+      sample = 'SAMPLE'
+    }
+    else {
+      sample = 'sample'
+    }
+    if (!is.na(only_sample)) {
+      df = df[df[,sample] == only_sample,]
+    }
   }
 
   return(df)
@@ -61,29 +69,37 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
 plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample=NA, bins=50, PA=F) {
 
   estimated_genome_size = 'estimated_genome_size'
-  count = 'count'
-  sample = 'sample'
+  if ('COUNT' %in% colnames(output_table)) {
+    count = 'COUNT'
+  }
+  else {
+   count = 'count'
+  }
+  if ('SAMPLE' %in% colnames(output_table)) {
+    sample = 'SAMPLE'
+  }
+  else {
+    sample = 'sample'
+  }
   density = 'after_stat(density)'
 
   to_plot = transform_for_plot(output_table, sample_data=sample_data, only_sample=only_sample, PA=PA)
-
-  if (is.na(sample_data)) {
-    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density)) +
-         geom_histogram( color="#e9ecef", position = 'identity', bins=bins) +
+  if ((! PA) && (sample %in% colnames(output_table)) && (count %in% colnames(output_table))) {
+    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, weight=count, fill=sample)) +
+         geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
          labs(fill=""))
   }
-  else {
-    if (! PA) {
-      plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, weight=count, fill=sample)) +
+  else if (sample %in% colnames(output_table)) {
+    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, fill=sample)) +
            geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
            labs(fill=""))
-    }
-    else {
-      plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, fill=sample)) +
-             geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
-             labs(fill=""))
-    }
   }
+  else {
+    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density)) +
+           geom_histogram( color="#e9ecef", position = 'identity', bins=bins) +
+           labs(fill=""))
+  }
+
   return(to_plot)
 }
 
@@ -102,26 +118,33 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
 plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=NA, PA=F) {
 
   estimated_genome_size = 'estimated_genome_size'
-  count = 'count'
-  sample = 'sample'
-
-  to_plot = transform_for_plot(output_table, sample_data=sample_data, only_sample=only_sample, PA=PA)
-
-  if (is.na(sample_data)) {
-    plot(ggplot(to_plot, aes_string(y=estimated_genome_size)) + geom_boxplot() +
-      ggtitle("Boxplot of the distribution of estimated genome sizes"))
+  if ('COUNT' %in% colnames(output_table)) {
+    count = 'COUNT'
   }
   else {
-    if (! PA) {
-      plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, weight=count, fill=sample)) +
-             geom_boxplot() +
-             ggtitle("Boxplot of the distribution of estimated genome sizes per sample"))
-    }
-    else {
-      plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, fill=sample)) +
-             geom_boxplot() +
-             ggtitle("Boxplot of the distribution of estimated genome sizes per sample"))
-    }
+    count = 'count'
+  }
+  if ('SAMPLE' %in% colnames(output_table)) {
+    sample = 'SAMPLE'
+  }
+  else {
+    sample = 'sample'
+  }
+
+  to_plot = transform_for_plot(output_table, sample_data=sample_data, only_sample=only_sample, PA=PA)
+  if ((! PA) && (sample %in% colnames(output_table)) && (count %in% colnames(output_table))) {
+    plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, weight=count, fill=sample)) +
+           geom_boxplot() +
+           ggtitle("Boxplot of the distribution of estimated genome sizes per sample"))
+  }
+  else if (sample %in% colnames(output_table)) {
+    plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, fill=sample)) +
+           geom_boxplot() +
+           ggtitle("Boxplot of the distribution of estimated genome sizes per sample"))
+  }
+  else {
+    plot(ggplot(to_plot, aes_string(y=estimated_genome_size)) + geom_boxplot() +
+           ggtitle("Boxplot of the distribution of estimated genome sizes"))
   }
   return(to_plot)
 }
