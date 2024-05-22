@@ -1,6 +1,6 @@
 # Genome size prediction tool
 
-### Install prerequisites
+### Install prerequisites (TODO)
 
 ```
 install.packages('devtools')
@@ -20,13 +20,19 @@ library(devtools)
 devtools::install_local('genomesizeR.zip')
 ```
 
+### Install from GitHub
+
+```
+remotes::install_github("ScionResearch/genome_size_prediction")
+```
+
 ### Load package
 
 ```
 library(genomesizeR)
 ```
 
-### Read example tax_table input file from the package
+### Read example input file from the package
 
 ```
 example_input_file = system.file("extdata", "example_input.csv", package = "genomesizeR")
@@ -47,7 +53,7 @@ estimate_genome_size(
   method = "weighted_mean",
   ci_threshold = 0.2,
   prediction_variables = c("family", "genus"),
-  n_cores = "max"
+  n_cores = "half"
 )
 ```
 
@@ -84,40 +90,42 @@ Method to use for genome size estimation, 'weighted_mean' or 'hierarchical'
 Threshold for the confidence interval as a proportion of the guessed size (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of the guessed size will be discarded)
 
 `n_cores`	
-Number of CPU cores to use (default is 'max': all available minus 1)
+Number of CPU cores to use (default is 'half': all available divided by two)
 
 
-### Run the main function to get estimated genome sizes
+### Example
+
+Run the main function to get estimated genome sizes:
 
 ```
 results = estimate_genome_size(example_input_file, format='csv', sep='\t', match_column='TAXID', output_format='input')
 ```
 
-### Plot genome size histogram per sample
+Plot genome size histogram per sample:
 
 ```
 plotted_df = plot_genome_size_histogram(results)
 ```
 
-### Plot genome size histogram for one sample
+Plot genome size histogram for one sample:
 
 ```
 plotted_df = plot_genome_size_histogram(results, only_sample='16S_1')
 ```
 
-### Plot genome size boxplot per sample
+Plot genome size boxplot per sample:
 
 ```
 plotted_df = plot_genome_size_boxplot(results)
 ```
 
-### Plot genome size boxplot for one sample
+Plot genome size boxplot for one sample:
 
 ```
 plotted_df = plot_genome_size_boxplot(results, only_sample='ITS_1')
 ```
 
-### Plot simplified taxonomic tree with colour-coded estimated genome sizes
+Plot simplified taxonomic tree with colour-coded estimated genome sizes:
 
 ```
 plotted_df = plot_genome_size_tree(results)

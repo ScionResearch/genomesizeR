@@ -55,10 +55,20 @@ A prediction interval is computed using the predictInterval function from the me
 
 The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean.
 
+The confidence interval is calculated as:
+
+```
+  standard_error = sqrt(computed_weighted_mean)
+  Z = 1.96
+  confidence_interval = Z * standard_error
+```
+
 ## Implementation
 
-The main steps of both methods are multithreaded. 
+The main steps of both methods are multithreaded on POSIX systems (not Windows). 
 
 The R package accepts the dada2 format, as well as the BIOM format, used by mothur and phyloseq, and any file or dataframe with a colum containing either NCBI taxids or taxon names as input formats. The output format is a data frame with the same columns as the input, with some added columns providing information about the estimation and the quality of the estimation. The user can also choose a simple output format only containing the estimation information. 
 
 ## Examples
+
+![Result histogram](hist.png)

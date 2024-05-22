@@ -16,7 +16,7 @@ estimate_genome_size(
   method = "bayesian",
   ci_threshold = 0.2,
   prediction_variables = c("family", "genus"),
-  n_cores = "max"
+  n_cores = "half"
 )
 }
 \arguments{
@@ -46,7 +46,7 @@ Other formats available: "data.frame", a data frame with the same number of rows
 (e.g. 0.2 means that estimations with a confidence interval that represents more than 20\% of
 the guessed size will be discarded)}
 
-\item{n_cores}{Number of CPU cores to use (default is 'max': all available minus 1)}
+\item{n_cores}{Number of CPU cores to use (default is 'half': half of all available cores)}
 }
 \description{
 This function loads a query file and predicts genome sizes.
