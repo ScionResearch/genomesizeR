@@ -305,7 +305,7 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   cat("\n#############################################################################", fill=T)
   cat("# Genome size estimation summary:", fill=T)
   cat('#\n')
-  cat('# ', successful_estimations, "% successful estimations", fill=T)
+  cat('# ', successful_estimations, "% estimations achieving required precision", fill=T)
   cat('#\n')
   print(summary(output_table$estimated_genome_size))
   cat('\n# Estimation status:')
