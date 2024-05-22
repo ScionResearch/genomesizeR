@@ -29,10 +29,7 @@ library(genomesizeR)
 ### Read example tax_table input file from the package
 
 ```
-example_input_file = system.file("extdata", "example_Taxonomy_cleaned.csv", package = "genomesizeR")
-
 example_input_file = system.file("extdata", "example_input.csv", package = "genomesizeR")
-
 ```
 
 ### Usage
