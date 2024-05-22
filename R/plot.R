@@ -71,6 +71,7 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
   estimated_genome_size = 'estimated_genome_size'
   if ('COUNT' %in% colnames(output_table)) {
     count = 'COUNT'
+    output_table$COUNT = as.numeric(output_table$COUNT)
   }
   else {
    count = 'count'
@@ -120,6 +121,7 @@ plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=N
   estimated_genome_size = 'estimated_genome_size'
   if ('COUNT' %in% colnames(output_table)) {
     count = 'COUNT'
+    output_table$COUNT = as.numeric(output_table$COUNT)
   }
   else {
     count = 'count'
