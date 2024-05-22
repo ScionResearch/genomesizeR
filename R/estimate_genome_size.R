@@ -286,6 +286,8 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
     new_queries = output_table
     output_table = pbapply(new_queries, 1, ci_post_treat, ci_threshold=ci_threshold)
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+    output_table$confidence_interval_lower = as.numeric(output_table$confidence_interval_lower)
+    output_table$confidence_interval_upper = as.numeric(output_table$confidence_interval_upper)
   }
   else {
     output_table = as.data.frame(t(as.data.frame(output_table, stringsAsFactors = F)), stringsAsFactors = F)
