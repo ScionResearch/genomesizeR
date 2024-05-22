@@ -30,6 +30,9 @@ library(genomesizeR)
 
 ```
 example_input_file = system.file("extdata", "example_Taxonomy_cleaned.csv", package = "genomesizeR")
+
+example_input_file = system.file("extdata", "example_input.csv", package = "genomesizeR")
+
 ```
 
 ### Usage
@@ -91,6 +94,9 @@ Number of CPU cores to use (default is 'max': all available minus 1)
 
 ```
 results = estimate_genome_size(example_input_file, format='tax_table')
+
+results = estimate_genome_size(example_input_file, format='csv', sep='\t', match_column='TAXID', output_format='input')
+
 ```
 
 ### Read example tax_table sample file that will be read by the plotting functions
