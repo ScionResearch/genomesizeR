@@ -39,7 +39,7 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
   }
   else {
     df = input_table
-    if ('SAMPLE' %in% colnames(output_table)) {
+    if ('SAMPLE' %in% colnames(input_table)) {
       sample = 'SAMPLE'
     }
     else {
