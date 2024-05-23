@@ -1,0 +1,6 @@
+
+- Make output similar across methods:
+    -concordant columns
+    - fixed query column for weighted_mean output
+
+- change Bayesian method to incorporate uncertainty at the species level
