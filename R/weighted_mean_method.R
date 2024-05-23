@@ -77,7 +77,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
       parent_data = size_db[parent_taxid + 1, ]
       # stop if getting higher than order
       if (! 'order' %in% ranks[i:length(ranks)]) {
-        out['genome_size_estimation_status'] = 'No genome size reference for close taxa'
+        out['genome_size_estimation_status'] = 'Not enough genome size references for close taxa'
         return(out)
       }
 
