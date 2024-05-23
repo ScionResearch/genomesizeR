@@ -185,8 +185,6 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
 
   na_models = NA
   genusfamily_model = NA
-  genusorder_model = NA
-  familyorder_model = NA
   bayes_model_bact = NA
   bayes_model_euka = NA
   bayes_model_arch = NA
@@ -206,21 +204,21 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
     size_db_h$species = as.factor(size_db_h$species)
     size_db_h$genome.size = as.integer(as.character(size_db_h$genome_size))
     genusfamily_size_db = na.omit(size_db_h[, c("genome.size", "family", "genus")])
-    genusorder_size_db = na.omit(size_db_h[, c("genome.size", "genus", "order")])
-    familyorder_size_db = na.omit(size_db_h[, c("genome.size", "family", "order")])
+#    genusorder_size_db = na.omit(size_db_h[, c("genome.size", "genus", "order")])
+#    familyorder_size_db = na.omit(size_db_h[, c("genome.size", "family", "order")])
     genusfamily_model = build_model(genusfamily_size_db, c('genus', 'family'))
-    genusorder_model = build_model(genusorder_size_db, c('genus', 'order'))
-    familyorder_model = build_model(familyorder_size_db, c('family', 'order'))
-    na_models = c(0,0,0)
+#    genusorder_model = build_model(genusorder_size_db, c('genus', 'order'))
+#    familyorder_model = build_model(familyorder_size_db, c('family', 'order'))
+    na_models = c(0)
     if (typeof(genusfamily_model) == 'logical' && is.na(genusfamily_model)) {
       na_models[1] = 1
     }
-    if (typeof(genusorder_model) == 'logical' && is.na(genusorder_model)) {
-      na_models[2] = 1
-    }
-    if (typeof(familyorder_model) == 'logical' && is.na(familyorder_model)) {
-      na_models[3] = 1
-    }
+#    if (typeof(genusorder_model) == 'logical' && is.na(genusorder_model)) {
+#      na_models[2] = 1
+#    }
+#    if (typeof(familyorder_model) == 'logical' && is.na(familyorder_model)) {
+#      na_models[3] = 1
+#    }
   }
   full_size_db = get_genome_size_db(size_db)
   full_size_db = read.csv(full_size_db, sep='\t', quote="", stringsAsFactors = FALSE)
@@ -243,8 +241,7 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   #parallel::clusterExport(cluster, c("alltax", "nodes", "names"), envir=environment())
 
   output_table = try(pbapply(queries, 1, method,
-                         models=list('genusfamily_model'=genusfamily_model, 'genusorder_model'=genusorder_model,
-                                     'familyorder_model'=familyorder_model,
+                         models=list('genusfamily_model'=genusfamily_model,
                                      'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
                                      'bayes_model_arch'=bayes_model_arch),
                          na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,

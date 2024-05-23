@@ -16,8 +16,6 @@ compute_confidence_interval_hierarchical <- function(query, model, n_cores) {
 hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
 
   genusfamily_model = models$genusfamily_model
-  genusorder_model = models$genusorder_model
-  familyorder_model = models$familyorder_model
 
   out = query
   out['estimated_genome_size'] = NA
@@ -106,17 +104,9 @@ hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nod
       out['genome_size_estimation_status'] = 'OK'
     }
   }
-  else if (! na_models[1] && ! is.na(out$genus) && ! is.na(out$family)) {
+  else if (! na_models[1] && ! is.na(out$family)) {
     estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
-    out['model_used'] = 'hierarchical_1|genus/family'
-  }
-  else if (! na_models[2] && ! is.na(out$genus) && ! is.na(out$order)) {
-    estimated_size = exp(predict(genusorder_model, out, type="response", allow.new.levels=TRUE))
-    out['model_used'] = 'hierarchical_1|genus/order'
-  }
-  else if (! na_models[3] && ! is.na(out$family) && ! is.na(out$order)) {
-    estimated_size = exp(predict(familyorder_model, out, type="response", allow.new.levels=TRUE))
-    out['model_used'] = 'hierarchical_1|family/order'
+    out['model_used'] = 'hierarchical|genus/family'
   }
   else {
     out['genome_size_estimation_status'] = 'No reference and query too high in taxonomic tree to fit in model'
