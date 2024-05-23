@@ -53,6 +53,7 @@ res <- res %>%
 # 1. Comparing estimation success
 
 ## 1.a. Estimates
+
 ```{r, message=FALSE, warning=FALSE}
 res %>%
   filter(is.na(estimated_genome_size)) %>%
@@ -74,6 +75,7 @@ res %>%
   group_by(method,genome_size_estimation_rank) %>%
   summarise(count=n())
 ```
+
 These cases correspond to queries where the NCBI database has genome size information at the species level or below. The Bayesian model was run on the database where genome size values were averaged across all ranks at and below species level, only giving one value per species. The estimation process therefore returns that averaged value, with no uncertainty bounds.   
 
 
@@ -108,6 +110,7 @@ ggplot(aes(x=hierarchical,y=bayesian)) +
 # 3. Uncertainty estimates across all queries
 
 Below are the estimated confidence intervals for all queries with estimates
+
 ```{r,fig.width=6.5,fig.height=3}
 res %>%
   filter(!is.na(estimated_genome_size)) %>%
@@ -115,6 +118,7 @@ ggplot(aes(x=estimated_genome_size, y=CI_width, colour = method)) +
   geom_point() +
   facet_wrap(~ sample_type, scale="free")
 ```
+
 The figure below shows confidence intervals as a proportion of the estimated size
 
 ```{r,fig.width=6.5,fig.height=3}
