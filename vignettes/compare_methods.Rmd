@@ -84,7 +84,7 @@ These cases correspond to queries where the NCBI database has genome size inform
 
 The estimates (based on means) are summarised below for the 3 methods across the two sample types.
 
-```{r, fig.width=6.5,fig.height=3}
+```{r, fig.width=8,fig.height=5,out.width="100%"}
 ggplot(res, aes(x=method, y=estimated_genome_size)) +
   geom_boxplot() +
   facet_wrap(~sample_type, scale="free")
@@ -92,7 +92,7 @@ ggplot(res, aes(x=method, y=estimated_genome_size)) +
 
 Below is a 1-to-1 comparison of the Bayesian and the frequentist modelling method:
 
-```{r,fig.width=6.5,fig.height=4}
+```{r,fig.width=8,fig.height=5,out.width="100%"}
 
 res_wide <- res %>%
   select(X, sample_type,method,estimated_genome_size) %>%
@@ -111,7 +111,7 @@ ggplot(aes(x=hierarchical,y=bayesian)) +
 
 Below are the estimated confidence intervals for all queries with estimates
 
-```{r,fig.width=6.5,fig.height=3}
+```{r,fig.width=8,fig.height=5,out.width="100%"}
 res %>%
   filter(!is.na(estimated_genome_size)) %>%
 ggplot(aes(x=estimated_genome_size, y=CI_width, colour = method)) +
@@ -121,7 +121,7 @@ ggplot(aes(x=estimated_genome_size, y=CI_width, colour = method)) +
 
 The figure below shows confidence intervals as a proportion of the estimated size
 
-```{r,fig.width=6.5,fig.height=3}
+```{r,fig.width=8,fig.height=5,out.width="100%"}
 res %>%
   filter(!is.na(estimated_genome_size)) %>%
 ggplot(aes(x=estimated_genome_size, y=CI_width_rel, colour = method)) +
@@ -145,7 +145,7 @@ res_complete <- res %>% filter(X %in% res_tax_complete$X)
 
 Below is a similar figure as the previous one but with the selected queries
 
-```{r,fig.width=6.5,fig.height=3}
+```{r,fig.width=8,fig.height=5,out.width="100%"}
 ggplot(res_complete, aes(x=estimated_genome_size, y=CI_width_rel, colour = method)) +
   geom_point() +
   facet_wrap(~ sample_type, scale="free")
