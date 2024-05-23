@@ -71,4 +71,9 @@ The R package accepts the dada2 format, as well as the BIOM format, used by moth
 
 ## Examples
 
-![Result histogram](hist.png)
+```{r, echo = TRUE}
+  library(genomesizeR)
+  example_output_file = system.file("extdata", "results_bayesian.csv", package = "genomesizeR")
+  results = read.csv2(example_output_file, sep=',', dec = '.')
+  plotted_df = plot_genome_size_histogram(results)
+```
