@@ -44,23 +44,34 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
 
   ref_data = size_db[LCA + 1, ]
 
-#  out['species'] = NA
-#  out['genus'] = NA
-#  out['family'] = NA
-#  out['order'] = NA
+  out['species'] = NA
+  out['genus'] = NA
+  out['family'] = NA
+  out['order'] = NA
+  out['class'] = NA
+  out['phylum'] = NA
+  out['superkingdom'] = NA
 
-  # ranks = getrank(parents, taxdir=NA, nodes=nodes)
-  # #ranks = ncbitax::getRank(parents, alltax)
-  # if (is.null(ranks)) {
-  #   cat("\nParent taxid ranks not found for:", fill=T)
-  #   cat(match, fill=T)
-  #   cat(parents, fill=T)
-  #   out['genome_size_estimation_status'] = 'Parent taxid ranks not found'
-  #   return(out)
-  # }
-  # for (i in 1:length(parents)) {
-  #   out[ranks[[i]]] = parents[[i]]
-  # }
+  parents = allparents(LCA, taxdir=NA, nodes=nodes)
+  #parents = ncbitax::get.parents(LCA, alltax)
+  if (is.null(parents)) {
+    cat("\nParent taxids not found for:", fill=T)
+    cat(match, fill=T)
+    out['genome_size_estimation_status'] = 'Parent taxids not found'
+    return(out)
+  }
+  ranks = getrank(parents, taxdir=NA, nodes=nodes)
+  #ranks = ncbitax::getRank(parents, alltax)
+  if (is.null(ranks)) {
+    cat("\nParent taxid ranks not found for:", fill=T)
+    cat(match, fill=T)
+    cat(parents, fill=T)
+    out['genome_size_estimation_status'] = 'Parent taxid ranks not found'
+    return(out)
+  }
+  for (i in 1:length(parents)) {
+    out[ranks[[i]]] = parents[[i]]
+  }
 
   out = as.data.frame(t(as.data.frame(out)))
 
@@ -89,27 +100,6 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
   else {
 
     # Get bayes model for the query's superkingdom
-
-    # cat(str(query), fill=T)
-    # if ("Bacteria" %in% query) {
-    #   model = models$bayes_model_bact
-    #   out['model_used'] = 'bayesian Bacteria'
-    # }
-    # else {
-    #   cat("\nBayesian model not found for:", fill=T)
-    #   cat(match, fill=T)
-    #   out['genome_size_estimation_status'] = 'Bayesian model not found'
-    #   return(out)
-    # }
-
-    parents = allparents(LCA, taxdir=NA, nodes=nodes)
-    #parents = ncbitax::get.parents(LCA, alltax)
-    if (is.null(parents)) {
-      cat("\nParent taxids not found for:", fill=T)
-      cat(match, fill=T)
-      out['genome_size_estimation_status'] = 'Parent taxids not found'
-      return(out)
-    }
     if (2 %in% parents) {
       model = models$bayes_model_bact
       out['model_used'] = 'bayesian Bacteria'
@@ -132,7 +122,7 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
     pred = brms::posterior_predict(model, newdat = out, allow_new_levels=TRUE)
 
     pred = as.data.frame(pred) %>%
-      mutate_all(function(x){exp(x)*10})
+      mutate_all(function(x){exp(x)*10^7})
 
     probabilities <- c(0.025, 0.975)
     pred_quant <- pred %>%
@@ -143,13 +133,11 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
 
     pred_mean <- pred %>%
       summarise_all(~mean(.)) %>%
-      t() %>%
-      as.data.frame()
+      t()
 
-    out['estimated_genome_size'] = pred_mean *10e6
-
-    out['confidence_interval_lower'] = pred_quant$Q0.025 *10e6
-    out['confidence_interval_upper'] = pred_quant$Q0.975 *10e6
+    out['estimated_genome_size'] = pred_mean
+    out['confidence_interval_lower'] = pred_quant$Q0.025
+    out['confidence_interval_upper'] = pred_quant$Q0.975
 
   }
 
