@@ -71,9 +71,56 @@ The R package accepts the dada2 format, as well as the BIOM format, used by moth
 
 ## Examples
 
-```{r, echo = TRUE}
+#### Example using default bayesian method on example file:
+
+```
+  results = estimate_genome_size(example_input_file, format='csv', sep='\t', match_column='TAXID', output_format='input')
+
+#############################################################################
+# Genome size estimation summary:
+#
+#  8.888889 % estimations achieving required precision
+#
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+  2893119   5344026  17768591  24126621  42194240 128877284 
+
+# Estimation status:
+Confidence interval to estimated size ratio > ci_threshold                                                         OK 
+                                                       164                                                         16
+```
+
+#### Plot genome size histogram per sample:
+
+```{r, echo = FALSE}
   library(genomesizeR)
   example_output_file = system.file("extdata", "results_bayesian.csv", package = "genomesizeR")
   results = read.csv2(example_output_file, sep=',', dec = '.')
+```
+
+```{r, echo = TRUE}
   plotted_df = plot_genome_size_histogram(results)
+```
+
+#### Plot genome size histogram for one sample:
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_histogram(results, only_sample='16S_1')
+```
+
+#### Plot genome size boxplot per sample:
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_boxplot(results)
+```
+
+#### Plot genome size boxplot for one sample:
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_boxplot(results, only_sample='ITS_1')
+```
+
+#### Plot simplified taxonomic tree with colour-coded estimated genome sizes:
+
+```{r, echo = TRUE, fig.width= 22, fig.height= 22}
+  plotted_df = plot_genome_size_tree(results)
 ```

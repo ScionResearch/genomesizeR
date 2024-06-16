@@ -99,18 +99,6 @@ Run the main function to get estimated genome sizes:
 
 ```
 results = estimate_genome_size(example_input_file, format='csv', sep='\t', match_column='TAXID', output_format='input')
-
-#############################################################################
-# Genome size estimation summary:
-#
-#  8.888889 % estimations achieving required precision
-#
-     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-  2893119   5344026  17768591  24126621  42194240 128877284 
-
-# Estimation status:
-Confidence interval to estimated size ratio > ci_threshold                                                         OK 
-                                                       164                                                         16
 ```
 
 Plot genome size histogram per sample:
