@@ -8,7 +8,7 @@ authors:
     orcid: 0000-0002-4782-1530
     equal-contrib: true
     affiliation: 1
-  - name: Joane Ellouet
+  - name: Joane Elleouet
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
     affiliation: 1
 
@@ -25,7 +25,7 @@ bibliography: paper.bib
 
 The purpose of this R package is to implement tools that allow the inference of genome size based on taxonomic information and available genome data from the National Center for Biotechnology Information (NCBI).
 
-This R package offers three different methods for genome size prediction: a bayesian linar hierarchical model, a hierarchical linear mixed-effects model, and a weighted mean method.
+This R package offers three different methods for genome size prediction: a Bayesian linear hierarchical model, a frequentist linear mixed-effects model, and a weighted mean method.
 
 The methods use:
 
@@ -60,31 +60,55 @@ and refer to \autoref{eq:fourier} from text.
 
 ## Bayesian method
 
-A Bayesian linar hierarchical model using the brm function from the brms package is used for each superkingdom (Bacteria, Archeae, Eukaryotes), following the model below:
+The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the brm function from the brms package was fitted to each superkingdom dataset. The general model structure is outlined below.
 
 \begin{equation}
-log(G) \sim \mathcal{N}(\mu, \sigma^2) \\
-\mu = \mu_0 + \alpha_{genus} \\
-\alpha_{genus} \sim \mathcal{N}(\alpha_{family}, \sigma_{genus}^2) \\
-\alpha_{family} \sim \mathcal{N}(\alpha_{order}, \sigma_{family}^2) \\
-\alpha_{order} \sim \mathcal{N}(\alpha_{class}, \sigma_{order}^2) \\
-\alpha_{class} \sim \mathcal{N}(\alpha_{phylum}, \sigma_{class}^2) \\
-\alpha_{phylum} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
-\mu_0 \sim \mathcal{N}(0,5) \\
-(\sigma,\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum}) \sim \mathcal{N}^+(0,1) \\
+log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
+\end{equation}
+where $G$ is the genome size in the units of 10 Mbp. The model uses predictors for
+both mean and standard deviation. The mean is modelled as follows:
+\begin{equation}
+\mu_i = \alpha_0 + \alpha_{genus_{g[i]}} \\
+\alpha_{genus_{g[i]}} \sim \mathcal{N}(\alpha_{family_{f[i]}}, \sigma_{genus}^2) \\
+\alpha_{family_{f[i]}} \sim \mathcal{N}(\alpha_{order_{o[i]}}, \sigma_{family}^2) \\
+\alpha_{order_{o[i]}} \sim \mathcal{N}(\alpha_{class_{c[i]}}, \sigma_{order}^2) \\
+\alpha_{class_{c[i]}} \sim \mathcal{N}(\alpha_{phylum_{p[i]}}, \sigma_{class}^2) \\
+\alpha_{phylum_{p[i]}} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
+\alpha_0 \sim \mathcal{N}(0,5) \\
+(\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum},s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
+\end{equation}
+and the standard deviation is modelled as follows:
+\begin{equation}
+log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} \\
+\lambda_{class_{c[i]}} \sim \mathcal{N}(\lambda_{phylum_{p[i]}}, s_{class}^2) \\
+\lambda_{phylum_{p[i]}} \sim \mathcal{N}(0, s_{phylum}^2) \\
+\lambda_0 \sim \mathcal{N}(0,1) \\
+(s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
 \end{equation}
 
-where $G$ is the genome size in the units of 10 Mbp and $\mathcal{N}^+$ is the normal distribution truncated to positive values.
+ $g[i]$,$f[i]$,$o[i]$,$c[i]$ and $p[i]$ are respectively the index for the genome, family, order, class, and phylum of observation $i$. $\mathcal{N}^+$ is the normal distribution truncated to positive values.
 
-The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. Credible intervals are obtained using quantiles from the posterior distribution.
+The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. 
 
-## Hierarchical method
+Posterior predictions are obtained using the predict() function from the brms package, and credible intervals are obtained using quantiles from the posterior distribution. 
 
-A hierarchical linear mixed-effects model using the lmer function from the lme4 package, based on the known genome sizes at the genus and family levels as follows:  
+Note that the model was fitted at the species level. The base dataset for the model used a version of the
+NCBI database where all entries below the species level were iteratively averaged, starting from the smallest level, until one value was obtained per species.
 
-lmer(log(genome_size) ~ (1|family/genus), data)
 
+## Frequentist method
+
+A frequentist linear mixed-effects model using the lmer function from the lme4 package was fitted to the NCBI database of species with known genome sizes. The model is as follows:
+
+\begin{equation}
+log(G_i) =  \alpha_0 + \alpha_{genus_{g[i]}} +  \alpha_{family_{f[i]}} + e_i \\
+\end{equation}
+where $\alpha_0$ is the overall mean, $\alpha_{genus_{g[i]}}$ and $\alpha_{family_{f[i]}}$ are random effect of genus and family for genus $g[i]$ and family $f[i]$ and $e_i$ is the residual error of observation $i$. 
+
+The estimation process using the restricted maximum likelihood method (REML). 
 A prediction interval is computed using the predictInterval function from the merTools package.
+
+As for the Bayesian method, the model was fitted at the species level. The base dataset for the model used a version of the NCBI database where all entries below the species level were iteratively averaged, starting from the smallest level, until one value was obtained per species.
 
 ## Weighted mean method
 
@@ -92,11 +116,14 @@ The weighted mean method computes the genome size of a query by averaging the kn
 
 The confidence interval is calculated as:
 
-```
-  standard_error = sqrt(computed_weighted_mean)
-  Z = 1.96
-  confidence_interval = Z * standard_error
-```
+\begin{equation}
+CI = 1.96 \times \sqrt{\hat{\mu}}
+\end{equation}
+
+where $\hat{\mu}$ is the computed weighted mean.
+
+
+Note that this method allows for estimation below the species level. For queries relating to well-characterised species where many genetic studies have been performed, this might lead to more precise predictions than the two other methods. Otherwise, we suggest using one of the other methods.
 
 # Implementation
 
