@@ -23,9 +23,18 @@ The methods use:
 
 ## Methods
 
+### Frequentist hierarchical model
+
+A hierarchical linear random-effects model using the lmer function from the lme4 package, based on the known genome sizes at the genus and family levels as follows:
+
+lmer(log(genome_size) ~ (1|family/genus), data)
+
+A 95% prediction interval is computed using the predictInterval function from the merTools package. 
+
+
 ### Bayesian method
 
-A Bayesian linar hierarchical model using the brm function from the brms package is used for each superkingdom (Bacteria, Archeae, Eukaryotes), following the model below:
+A Bayesian linear hierarchical model was fitted to data from each superkingdom (Bacteria, Archeae, Eukaryotes) using the brm function from the brms package, following the model below:
 
 \begin{equation}
 log(G) \sim \mathcal{N}(\mu, \sigma^2) \\
@@ -41,21 +50,14 @@ log(G) \sim \mathcal{N}(\mu, \sigma^2) \\
 
 where $G$ is the genome size in the units of 10 Mbp and $\mathcal{N}^+$ is the normal distribution truncated to positive values.
 
-The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. Credible intervals are obtained using quantiles from the posterior distribution.
+The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. 95% credible intervals are obtained using quantiles from the posterior distribution for each prediction.
 
-### Hierarchical method
-
-A hierarchical linear mixed-effects model using the lmer function from the lme4 package, based on the known genome sizes at the genus and family levels as follows:  
-
-lmer(log(genome_size) ~ (1|family/genus), data) 
-
-A prediction interval is computed using the predictInterval function from the merTools package. 
 
 ### Weighted mean method
 
 The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean.
 
-The confidence interval is calculated as:
+The 95% confidence interval is calculated as:
 
 ```
   standard_error = sqrt(computed_weighted_mean)
