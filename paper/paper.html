@@ -380,18 +380,6 @@ with a confidence interval on the estimation.</p>
 <h1>Statement of need</h1>
 <p>Ask Steve?</p>
 </div>
-<div id="from-the-journal-to-write-equations" class="section level1">
-<h1>From the journal to write equations:</h1>
-<p>Single dollars ($) are required for inline mathematics e.g. <span class="math inline">\(f(x) = e^{\pi/x}\)</span></p>
-<p>Double dollars make self-standing equations:</p>
-<p><span class="math display">\[\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x &lt; 0\cr
-1\textrm{ else}
-\end{array}\right.\]</span></p>
-<p>You can also use plain for equations <span class="math display">\[\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}\]</span> and refer to from text.</p>
-</div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
 <div id="bayesian-method" class="section level2">
@@ -406,31 +394,34 @@ log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
 \end{equation}\]</span> where <span class="math inline">\(G\)</span> is
 the genome size in the units of 10 Mbp. The model uses predictors for
 both mean and standard deviation. The mean is modelled as follows: <span class="math display">\[\begin{equation}
-\mu_i = \alpha_0 + \alpha_{genus_{g[i]}} \\
-\alpha_{genus_{g[i]}} \sim \mathcal{N}(\alpha_{family_{f[i]}},
-\sigma_{genus}^2) \\
-\alpha_{family_{f[i]}} \sim \mathcal{N}(\alpha_{order_{o[i]}},
-\sigma_{family}^2) \\
-\alpha_{order_{o[i]}} \sim \mathcal{N}(\alpha_{class_{c[i]}},
-\sigma_{order}^2) \\
-\alpha_{class_{c[i]}} \sim \mathcal{N}(\alpha_{phylum_{p[i]}},
-\sigma_{class}^2) \\
+\mu_i = \alpha_0 + \alpha_{genus_{g[i]}} + \alpha_{family_{f[i]}} +
+\alpha_{order_{o[i]}} + \alpha_{class_{c[i]}} +
+\alpha_{phylum_{p[i]}}  \\
+\alpha_{genus_{g[i]}} \sim \mathcal{N}(0, \sigma_{genus}^2) \\
+\alpha_{family_{f[i]}} \sim \mathcal{N}(0, \sigma_{family}^2) \\
+\alpha_{order_{o[i]}} \sim \mathcal{N}(0, \sigma_{order}^2) \\
+\alpha_{class_{c[i]}} \sim \mathcal{N}(0, \sigma_{class}^2) \\
 \alpha_{phylum_{p[i]}} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
+\end{equation}\]</span> with priors <span class="math display">\[\begin{equation}
 \alpha_0 \sim \mathcal{N}(0,5) \\
 (\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum},s_{class},s_{phylum})
 \sim \mathcal{N}^+(0,1) \\
-\end{equation}\]</span> and the standard deviation is modelled as
-follows: <span class="math display">\[\begin{equation}
-log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} \\
-\lambda_{class_{c[i]}} \sim \mathcal{N}(\lambda_{phylum_{p[i]}},
-s_{class}^2) \\
+\end{equation}\]</span></p>
+<p>The standard deviation is modelled as follows: <span class="math display">\[\begin{equation}
+log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} +
+\lambda_{phylum_{p[i]}} \\
+\lambda_{class_{c[i]}} \sim \mathcal{N}(0, s_{class}^2) \\
 \lambda_{phylum_{p[i]}} \sim \mathcal{N}(0, s_{phylum}^2) \\
+\end{equation}\]</span></p>
+<p>with priors <span class="math display">\[\begin{equation}
 \lambda_0 \sim \mathcal{N}(0,1) \\
 (s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
 \end{equation}\]</span></p>
-<p><span class="math inline">\(g[i]\)</span>,<span class="math inline">\(f[i]\)</span>,<span class="math inline">\(o[i]\)</span>,<span class="math inline">\(c[i]\)</span> and <span class="math inline">\(p[i]\)</span> are respectively the index for the
-genome, family, order, class, and phylum of observation <span class="math inline">\(i\)</span>. <span class="math inline">\(\mathcal{N}^+\)</span> is the normal distribution
-truncated to positive values.</p>
+<p><span class="math inline">\(\mathcal{N}^+\)</span> is the normal
+distribution truncated to positive values. <span class="math inline">\(g[i]\)</span>,<span class="math inline">\(f[i]\)</span>,<span class="math inline">\(o[i]\)</span>,<span class="math inline">\(c[i]\)</span> and <span class="math inline">\(p[i]\)</span> are respectively the index for the
+genome, family, order, class, and phylum of observation <span class="math inline">\(i\)</span>. Note that taxonomic groups are
+naturally nested within each other and the indices are designed to be
+unique to the particular taxonomic group it represents.</p>
 <p>The estimation process uses Stan’s Hamiltonian Monte Carlo algorithm
 with the U-turn sampler.</p>
 <p>Posterior predictions are obtained using the predict() function from
@@ -473,10 +464,7 @@ in the computed mean.</p>
 CI = 1.96 \times \sqrt{\hat{\mu}}
 \end{equation}\]</span></p>
 <p>where <span class="math inline">\(\hat{\mu}\)</span> is the computed
-weighted mean</p>
-<pre><code>  standard_error = sqrt(computed_weighted_mean)
-  Z = 1.96
-  confidence_interval = Z * standard_error</code></pre>
+weighted mean.</p>
 <p>Note that this method allows for estimation below the species level.
 For queries relating to well-characterised species where many genetic
 studies have been performed, this might lead to more precise predictions

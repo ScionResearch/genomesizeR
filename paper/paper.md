@@ -39,23 +39,6 @@ The methods use:
 
 Ask Steve?
 
-# From the journal to write equations:
-
-Single dollars ($) are required for inline mathematics e.g. $f(x) = e^{\pi/x}$
-
-Double dollars make self-standing equations:
-
-$$\Theta(x) = \left\{\begin{array}{l}
-0\textrm{ if } x < 0\cr
-1\textrm{ else}
-\end{array}\right.$$
-
-You can also use plain \LaTeX for equations
-\begin{equation}\label{eq:fourier}
-\hat f(\omega) = \int_{-\infty}^{\infty} f(x) e^{i\omega x} dx
-\end{equation}
-and refer to \autoref{eq:fourier} from text.
-
 # Methods
 
 ## Bayesian method
@@ -68,29 +51,37 @@ log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
 where $G$ is the genome size in the units of 10 Mbp. The model uses predictors for
 both mean and standard deviation. The mean is modelled as follows:
 \begin{equation}
-\mu_i = \alpha_0 + \alpha_{genus_{g[i]}} \\
-\alpha_{genus_{g[i]}} \sim \mathcal{N}(\alpha_{family_{f[i]}}, \sigma_{genus}^2) \\
-\alpha_{family_{f[i]}} \sim \mathcal{N}(\alpha_{order_{o[i]}}, \sigma_{family}^2) \\
-\alpha_{order_{o[i]}} \sim \mathcal{N}(\alpha_{class_{c[i]}}, \sigma_{order}^2) \\
-\alpha_{class_{c[i]}} \sim \mathcal{N}(\alpha_{phylum_{p[i]}}, \sigma_{class}^2) \\
+\mu_i = \alpha_0 + \alpha_{genus_{g[i]}} + \alpha_{family_{f[i]}} + \alpha_{order_{o[i]}} + \alpha_{class_{c[i]}} + \alpha_{phylum_{p[i]}}  \\
+\alpha_{genus_{g[i]}} \sim \mathcal{N}(0, \sigma_{genus}^2) \\
+\alpha_{family_{f[i]}} \sim \mathcal{N}(0, \sigma_{family}^2) \\
+\alpha_{order_{o[i]}} \sim \mathcal{N}(0, \sigma_{order}^2) \\
+\alpha_{class_{c[i]}} \sim \mathcal{N}(0, \sigma_{class}^2) \\
 \alpha_{phylum_{p[i]}} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
+\end{equation}
+with priors
+\begin{equation}
 \alpha_0 \sim \mathcal{N}(0,5) \\
 (\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum},s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
 \end{equation}
-and the standard deviation is modelled as follows:
+
+The standard deviation is modelled as follows:
 \begin{equation}
-log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} \\
-\lambda_{class_{c[i]}} \sim \mathcal{N}(\lambda_{phylum_{p[i]}}, s_{class}^2) \\
+log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} + \lambda_{phylum_{p[i]}} \\
+\lambda_{class_{c[i]}} \sim \mathcal{N}(0, s_{class}^2) \\
 \lambda_{phylum_{p[i]}} \sim \mathcal{N}(0, s_{phylum}^2) \\
+\end{equation}
+
+with priors
+\begin{equation}
 \lambda_0 \sim \mathcal{N}(0,1) \\
 (s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
 \end{equation}
 
- $g[i]$,$f[i]$,$o[i]$,$c[i]$ and $p[i]$ are respectively the index for the genome, family, order, class, and phylum of observation $i$. $\mathcal{N}^+$ is the normal distribution truncated to positive values.
+  $\mathcal{N}^+$ is the normal distribution truncated to positive values. $g[i]$,$f[i]$,$o[i]$,$c[i]$ and $p[i]$ are respectively the index for the genome, family, order, class, and phylum of observation $i$. Note that taxonomic groups are naturally nested within each other and the indices are designed to be unique to the particular taxonomic group it represents.
 
 The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. 
 
-Posterior predictions are obtained using the predict() function from the brms package, and credible intervals are obtained using quantiles from the posterior distribution. 
+Posterior predictions are obtained using the predict function from the brms package, and credible intervals are obtained using quantiles from the posterior distribution. 
 
 Note that the model was fitted at the species level. The base dataset for the model used a version of the
 NCBI database where all entries below the species level were iteratively averaged, starting from the smallest level, until one value was obtained per species.
