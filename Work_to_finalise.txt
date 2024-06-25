@@ -1,15 +1,16 @@
 PACKAGE:
 - solve Git data over limit issue (IT)
 - Update taxdump (Celine)
+- fix error when selecting Bayesian method with new taxdump (Celine)
 - re-run models with new taxdump (Celine/Joane)
 - update methods comparison with results with new taxdump (Joane)
-- rename "hierarchical" method to "lmm"
+- rename "hierarchical" method to "lmm" (Celine)
 - Make output similar across methods:
     - concordant columns (Celine)
     - fixed query column for weighted_mean output (Celine)
 - change/update Bayesian method to incorporate uncertainty at the species level (as is done with LMM) (Celine?)
 - Celine-Joane chat about NCBI data pre-processing 
-- Fix issue with /tmp files not updating (replace 'if exists' check by remove/re-untar?)
+- Fix issue with /tmp files not updating (replace 'if exists' check by remove/re-untar?) (Celine)
 
 
 PAPER:
