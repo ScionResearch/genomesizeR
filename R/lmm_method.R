@@ -1,5 +1,5 @@
 
-compute_confidence_interval_hierarchical <- function(query, model, n_cores) {
+compute_confidence_interval_lmm <- function(query, model, n_cores) {
 
   cluster <- parallel::makeCluster(
     n_cores,
@@ -13,7 +13,7 @@ compute_confidence_interval_hierarchical <- function(query, model, n_cores) {
 }
 
 
-hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
+lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
 
   genusfamily_model = models$genusfamily_model
 
@@ -106,7 +106,7 @@ hierarchical <- function(query, models, na_models, size_db, taxonomy, names, nod
   }
   else if (! na_models[1] && ! is.na(out$family)) {
     estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
-    out['model_used'] = 'hierarchical|genus/family'
+    out['model_used'] = 'lmm|genus/family'
   }
   else {
     out['genome_size_estimation_status'] = 'No reference and query too high in taxonomic tree to fit in model'

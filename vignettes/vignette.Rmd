@@ -23,7 +23,7 @@ The methods use:
 
 ## Methods
 
-### Frequentist hierarchical model
+### Frequentist hierarchical model (lmm)
 
 A hierarchical linear random-effects model using the lmer function from the lme4 package, based on the known genome sizes at the genus and family levels as follows:
 

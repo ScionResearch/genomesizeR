@@ -4,10 +4,10 @@
   temp_dir = tempdir()
   taxonomy_dir = paste(temp_dir, 'taxdump', sep = '/')
   genome_size_db = paste(temp_dir, 'genome_size_db.csv', sep = '/')
-  genome_size_db_for_hierarchical = paste(temp_dir, 'genome_size_db_for_hierarchical.csv', sep = '/')
+  genome_size_db_for_lmm = paste(temp_dir, 'genome_size_db_for_lmm.csv', sep = '/')
   taxonomy_archive = system.file("extdata", 'taxdump.tar.gz', package = "genomesizeR")
   genome_size_db_archive = system.file("extdata", 'genome_size_db.tar.gz', package = "genomesizeR")
-  genome_size_db_for_hierarchical_archive = system.file("extdata", 'genome_size_db_for_hierarchical.tar.gz', package = "genomesizeR")
+  genome_size_db_for_lmm_archive = system.file("extdata", 'genome_size_db_for_lmm.tar.gz', package = "genomesizeR")
   bayesian_model_bact = system.file("extdata/fits", 'm_superkingdom2.rds', package = "genomesizeR")
   bayesian_model_euka = system.file("extdata/fits", 'm_superkingdom2759.rds', package = "genomesizeR")
   bayesian_model_arch = system.file("extdata/fits", 'm_superkingdom2157.rds', package = "genomesizeR")
@@ -16,10 +16,10 @@
   assign('bayesian_model_arch', bayesian_model_arch, envir = topenv())
   assign('taxonomy_archive', taxonomy_archive, envir = topenv())
   assign('genome_size_db_archive', genome_size_db_archive, envir = topenv())
-  assign('genome_size_db_for_hierarchical_archive', genome_size_db_for_hierarchical_archive, envir = topenv())
+  assign('genome_size_db_for_lmm_archive', genome_size_db_for_lmm_archive, envir = topenv())
   assign('taxonomy_dir', taxonomy_dir, envir = topenv())
   assign('genome_size_db', genome_size_db, envir = topenv())
-  assign('genome_size_db_for_hierarchical', genome_size_db_for_hierarchical, envir = topenv())
+  assign('genome_size_db_for_lmm', genome_size_db_for_lmm, envir = topenv())
   assign('temp_dir', temp_dir, envir = topenv())
 }
 
@@ -36,7 +36,7 @@ build_model <- function(size_db, effects) {
       lmer(f, data = size_db)
     },
     error=function(cond) {
-      message("Error building hierarchical model:")
+      message("Error building lmm model:")
       message(cond)
       return(NA)
     },
@@ -102,18 +102,18 @@ get_genome_size_db <- function(genome_size_db_path) {
 }
 
 
-#' Read genome size database for hierarchical model
+#' Read genome size database for lmm model
 #'
 #' @param genome_size_db_path Path to genome size database file or NA
 #' @importFrom utils untar
-get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
+get_genome_size_db_for_lmm <- function(genome_size_db_path) {
   if (is.na(genome_size_db_path)) {
-    if ( ! dir.exists(genome_size_db_for_hierarchical)) {
+    if ( ! dir.exists(genome_size_db_for_lmm)) {
       cat("Untarring genome size reference database", fill=T)
-      cat(genome_size_db_for_hierarchical_archive, fill=T)
-      untar(genome_size_db_for_hierarchical_archive, exdir=temp_dir)
+      cat(genome_size_db_for_lmm_archive, fill=T)
+      untar(genome_size_db_for_lmm_archive, exdir=temp_dir)
     }
-    genome_size_db_path = genome_size_db_for_hierarchical
+    genome_size_db_path = genome_size_db_for_lmm
   }
   cat("Using genome size reference database:", genome_size_db_path, fill=T)
   return(genome_size_db_path)
@@ -136,7 +136,7 @@ get_genome_size_db_for_hierarchical <- function(genome_size_db_path) {
 #'                      with the added columns: "estimated_genome_size" and "estimated_genome_size_confidence_interval".
 #'                      Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns:
 #'                      "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".
-#' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'hierarchical'
+#' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'
 #' @param ci_threshold Threshold for the confidence interval as a proportion of the guessed size
 #'                     (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of
 #'                     the guessed size will be discarded)
@@ -195,8 +195,8 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
     bayes_model_arch = get_bayes_model('Archaea')
   }
 
-  if (method == 'hierarchical') {
-    size_db_h = get_genome_size_db_for_hierarchical(size_db)
+  if (method == 'lmm') {
+    size_db_h = get_genome_size_db_for_lmm(size_db)
     size_db_h = read.table(size_db_h, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
     size_db_h$order = as.factor(size_db_h$order)
     size_db_h$family = as.factor(size_db_h$family)
@@ -269,9 +269,9 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   #parallel::stopCluster(cl = cluster)
 
   # Handle R formatting issues
-  if (method == 'hierarchical') {
+  if (method == 'lmm') {
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
-    confidence_interval = exp(compute_confidence_interval_hierarchical(output_table, genusfamily_model, n_cores))
+    confidence_interval = exp(compute_confidence_interval_lmm(output_table, genusfamily_model, n_cores))
     output_table$confidence_interval_lower = as.numeric(confidence_interval$lwr)
     output_table$confidence_interval_upper = as.numeric(confidence_interval$upr)
     new_queries = output_table

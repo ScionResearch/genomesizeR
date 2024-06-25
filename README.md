@@ -84,7 +84,7 @@ Path to taxonomy database (NCBI taxdump) to use if not the default one
 Format in which the output should be. Default: "input" a data frame with the same columns as the input, with the added columns: "estimated_genome_size" and "estimated_genome_size_confidence_interval". Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns: "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".
 
 `method`	
-Method to use for genome size estimation, 'weighted_mean' or 'hierarchical'
+Method to use for genome size estimation, 'weighted_mean' or 'lmm'
 
 `ci_threshold`	
 Threshold for the confidence interval as a proportion of the guessed size (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of the guessed size will be discarded)
