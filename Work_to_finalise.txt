@@ -1,28 +1,31 @@
 PACKAGE:
 - solve Git data over limit issue (IT)
-- Update taxdump (Celine)
-- fix error when selecting Bayesian method with new taxdump (Celine)
+- Update taxdump (Celine) (waiting for push)
+- fix error when selecting Bayesian method with new taxdump / Fix issue with /tmp files not updating (replace 'if exists' check by remove/re-untar?) (Celine)
+- Taxdump structure check (Celine)
 - re-run models with new taxdump (Celine/Joane)
 - update methods comparison with results with new taxdump (Joane)
-- rename "hierarchical" method to "lmm" (Celine)
+- rename "hierarchical" method to "lmm" (Celine) (waiting for push / double check)
 - Make output similar across methods:
-    - concordant columns (Celine)
+    - concordant columns (Celine) (check format)
     - fixed query column for weighted_mean output (Celine)
-- change/update Bayesian method to incorporate uncertainty at the species level (as is done with LMM) (Celine?)
-- Celine-Joane chat about NCBI data pre-processing 
-- Fix issue with /tmp files not updating (replace 'if exists' check by remove/re-untar?) (Celine)
+- change/update Bayesian method to incorporate uncertainty at the species level (as is done with LMM) (maybe use db used for bayesian)
+- Test on Windows and BFC (Celine)
+- Clean/handle prerequisites (Celine)
+- Update Usage doc (Celine)
+- Look into tree plot colours
+- Double check how ref db is built and what it means for INFO_NODE check (and document)
+- One day maybe: scripts to build db and bayesian models from scratch
 
 
 PAPER:
 - update methods comparisons with new figures from new taxdump (Joane)
-- for pandoc compilation: change multiline equations into align* (https://stackoverflow.com/questions/63350182/pandoc-not-generating-new-lines-in-markdown-with-latex) (Joane)
+- for pandoc compilation: change multiline equations into align* (https://stackoverflow.com/questions/63350182/pandoc-not-generating-new-lines-in-markdown-with-latex) (Joane) (probably waiting for push)
 - re-float figures to the right place (Joane)
 - for pandoc compilation: in example, get code to fit into page (Celine)
 - get intro from Steve
 - update references (from Steve's blurb? + do we need to cite anything related to NCBI?)
 - remove template/instruction sections
-
-
--
+- finish/rework example
 
 
