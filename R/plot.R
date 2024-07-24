@@ -205,7 +205,7 @@ plot_genome_size_tree <- function(output_table, taxonomy=NA) {
   tree = full_join(tn$tree, to_plot, by='label')
 
   plot(ggtree(tree, branch.length="none", layout='circular', aes(color=estimated_genome_size)) +
-    scale_color_gradient2(low = "red", midpoint = median(to_plot$estimated_genome_size), mid = "blue", high = "green", space="Lab") +
+    scale_color_gradient2(limits=c(min(to_plot$estimated_genome_size), max(to_plot$estimated_genome_size)), midpoint = (max(to_plot$estimated_genome_size)+min(to_plot$estimated_genome_size))/2, low = "red", mid = "blue", high = "green", space="Lab") +
     geom_tiplab(aes(label=sci_name_for_tree)) +
     geom_nodelab(aes(label=sci_name_for_tree), geom='label'))
 
