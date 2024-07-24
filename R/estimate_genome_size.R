@@ -74,10 +74,11 @@ get_bayes_model <- function(superkingdom) {
 #' @importFrom utils untar
 get_taxonomy <- function(taxonomy_path) {
   if (is.na(taxonomy_path)) {
-    if ( ! dir.exists(taxonomy_dir)) {
-      cat("Untarring taxonomy", fill=T)
-      untar(taxonomy_archive, exdir=temp_dir)
+    if (dir.exists(taxonomy_dir)) {
+      unlink(taxonomy_dir, recursive = TRUE)
     }
+    cat("Untarring taxonomy", fill=T)
+    untar(taxonomy_archive, exdir=temp_dir)
     taxonomy_path = taxonomy_dir
   }
   cat("Using taxonomy:", taxonomy_path, fill=T)
@@ -91,10 +92,11 @@ get_taxonomy <- function(taxonomy_path) {
 #' @importFrom utils untar
 get_genome_size_db <- function(genome_size_db_path) {
   if (is.na(genome_size_db_path)) {
-    if ( ! dir.exists(genome_size_db)) {
-      cat("Untarring genome size reference database", fill=T)
-      untar(genome_size_db_archive, exdir=temp_dir)
+    if (dir.exists(genome_size_db)) {
+      unlink(genome_size_db, recursive = TRUE)
     }
+    cat("Untarring genome size reference database", fill=T)
+    untar(genome_size_db_archive, exdir=temp_dir)
     genome_size_db_path = genome_size_db
   }
   cat("Using genome size reference database:", genome_size_db_path, fill=T)
@@ -108,11 +110,12 @@ get_genome_size_db <- function(genome_size_db_path) {
 #' @importFrom utils untar
 get_genome_size_db_for_lmm <- function(genome_size_db_path) {
   if (is.na(genome_size_db_path)) {
-    if ( ! dir.exists(genome_size_db_for_lmm)) {
-      cat("Untarring genome size reference database", fill=T)
-      cat(genome_size_db_for_lmm_archive, fill=T)
-      untar(genome_size_db_for_lmm_archive, exdir=temp_dir)
+    if (dir.exists(genome_size_db_for_lmm)) {
+      unlink(genome_size_db_for_lmm, recursive = TRUE)
     }
+    cat("Untarring genome size reference database", fill=T)
+    cat(genome_size_db_for_lmm_archive, fill=T)
+    untar(genome_size_db_for_lmm_archive, exdir=temp_dir)
     genome_size_db_path = genome_size_db_for_lmm
   }
   cat("Using genome size reference database:", genome_size_db_path, fill=T)
