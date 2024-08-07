@@ -205,7 +205,7 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
     size_db_h$family = as.factor(size_db_h$family)
     size_db_h$genus = as.factor(size_db_h$genus)
     size_db_h$species = as.factor(size_db_h$species)
-    size_db_h$genome.size = as.integer(as.character(size_db_h$genome_size))
+    size_db_h$genome.size = trunc(round(size_db_h$genome_size))
     genusfamily_size_db = na.omit(size_db_h[, c("genome.size", "family", "genus")])
 #    genusorder_size_db = na.omit(size_db_h[, c("genome.size", "genus", "order")])
 #    familyorder_size_db = na.omit(size_db_h[, c("genome.size", "family", "order")])
