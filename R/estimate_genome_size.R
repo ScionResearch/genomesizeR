@@ -78,7 +78,7 @@ get_taxonomy <- function(taxonomy_path) {
       unlink(taxonomy_dir, recursive = TRUE)
     }
     cat("Untarring taxonomy", fill=T)
-    untar(taxonomy_archive, exdir=temp_dir)
+    untar(taxonomy_archive, exdir=taxonomy_dir)
     taxonomy_path = taxonomy_dir
   }
   cat("Using taxonomy:", taxonomy_path, fill=T)
