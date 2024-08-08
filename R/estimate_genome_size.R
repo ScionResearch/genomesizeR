@@ -2,15 +2,20 @@
 
 .onLoad = function(libname, pkgname) {
   temp_dir = tempdir()
+  refdata_dir = paste(temp_dir, 'refdata', sep = '/')
+  extdata_dir = paste(temp_dir, 'refdata', 'extdata', sep = '/')
   taxonomy_dir = paste(temp_dir, 'taxdump', sep = '/')
   genome_size_db = paste(temp_dir, 'genome_size_db.csv', sep = '/')
   genome_size_db_for_lmm = paste(temp_dir, 'genome_size_db_for_lmm.csv', sep = '/')
-  taxonomy_archive = system.file("extdata", 'taxdump.tar.gz', package = "genomesizeR")
-  genome_size_db_archive = system.file("extdata", 'genome_size_db.tar.gz', package = "genomesizeR")
-  genome_size_db_for_lmm_archive = system.file("extdata", 'genome_size_db_for_lmm.tar.gz', package = "genomesizeR")
-  bayesian_model_bact = system.file("extdata/fits", 'm_superkingdom2.rds', package = "genomesizeR")
-  bayesian_model_euka = system.file("extdata/fits", 'm_superkingdom2759.rds', package = "genomesizeR")
-  bayesian_model_arch = system.file("extdata/fits", 'm_superkingdom2157.rds', package = "genomesizeR")
+  taxonomy_archive = paste(extdata_dir, 'taxdump.tar.gz', sep = '/')
+  bayesian_model_bact = paste(extdata_dir, 'fits', 'm_superkingdom2.rds', sep = '/')
+  bayesian_model_euka = paste(extdata_dir, 'fits', 'm_superkingdom2759.rds', sep = '/')
+  bayesian_model_arch = paste(extdata_dir, 'fits', 'm_superkingdom2157.rds', sep = '/')
+  genome_size_db_archive = paste(extdata_dir, 'genome_size_db.tar.gz', sep = '/')
+  genome_size_db_for_lmm_archive = paste(extdata_dir, 'genome_size_db_for_lmm.tar.gz', sep = '/')
+
+  assign('temp_dir', temp_dir, envir = topenv())
+  assign('refdata_dir', refdata_dir, envir = topenv())
   assign('bayesian_model_bact', bayesian_model_bact, envir = topenv())
   assign('bayesian_model_euka', bayesian_model_euka, envir = topenv())
   assign('bayesian_model_arch', bayesian_model_arch, envir = topenv())
@@ -20,7 +25,6 @@
   assign('taxonomy_dir', taxonomy_dir, envir = topenv())
   assign('genome_size_db', genome_size_db, envir = topenv())
   assign('genome_size_db_for_lmm', genome_size_db_for_lmm, envir = topenv())
-  assign('temp_dir', temp_dir, envir = topenv())
 }
 
 
@@ -67,12 +71,26 @@ get_bayes_model <- function(superkingdom) {
   return(bmodel)
 }
 
+#' Untar external data
+#'
+#' @param data_path Path to tar.gz archive or NA
+#' @importFrom utils untar
+get_refdata <- function(refdata_path) {
+  if (dir.exists(refdata_dir)) {
+    unlink(refdata_dir, recursive = TRUE)
+  }
+  cat("Untarring reference data", fill=T)
+  untar(refdata_path, exdir=refdata_dir)
+  cat("Using reference data in:", refdata_dir, fill=T)
+  return(refdata_dir)
+}
+
 
 #' Read taxonomy database
 #'
 #' @param taxonomy_path Path to taxonomy database file or NA
 #' @importFrom utils untar
-get_taxonomy <- function(taxonomy_path) {
+get_taxonomy <- function(taxonomy_path=NA) {
   if (is.na(taxonomy_path)) {
     if (dir.exists(taxonomy_dir)) {
       unlink(taxonomy_dir, recursive = TRUE)
@@ -90,7 +108,7 @@ get_taxonomy <- function(taxonomy_path) {
 #'
 #' @param genome_size_db_path Path to genome size database file or NA
 #' @importFrom utils untar
-get_genome_size_db <- function(genome_size_db_path) {
+get_genome_size_db <- function(genome_size_db_path=NA) {
   if (is.na(genome_size_db_path)) {
     if (dir.exists(genome_size_db)) {
       unlink(genome_size_db, recursive = TRUE)
@@ -108,7 +126,7 @@ get_genome_size_db <- function(genome_size_db_path) {
 #'
 #' @param genome_size_db_path Path to genome size database file or NA
 #' @importFrom utils untar
-get_genome_size_db_for_lmm <- function(genome_size_db_path) {
+get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
   if (is.na(genome_size_db_path)) {
     if (dir.exists(genome_size_db_for_lmm)) {
       unlink(genome_size_db_for_lmm, recursive = TRUE)
@@ -158,9 +176,12 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path) {
 #' @import doParallel
 # @import parabar
 #' @export
-estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA, match_sep=';',
-                                 size_db=NA, taxonomy=NA, output_format='input', method='bayesian',
-                                 ci_threshold=0.2, prediction_variables=c('family', 'genus'), n_cores='half') {
+estimate_genome_size <- function(queries, refdata_path,
+                                 format='csv', sep=',', match_column=NA, match_sep=';',
+                                 output_format='input',
+                                 method='bayesian',
+                                 ci_threshold=0.2,
+                                 n_cores='half') {
 
   options(warn=1)
 
@@ -192,6 +213,8 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   bayes_model_euka = NA
   bayes_model_arch = NA
 
+  refdata_path = get_refdata(refdata_path)
+
   if (method == 'bayesian') {
     bayes_model_bact = get_bayes_model('Bacteria')
     bayes_model_euka = get_bayes_model('Eukaryota')
@@ -199,17 +222,17 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
   }
 
   if (method == 'lmm') {
-    size_db_h = get_genome_size_db_for_lmm(size_db)
-    size_db_h = read.table(size_db_h, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
-    size_db_h$order = as.factor(size_db_h$order)
-    size_db_h$family = as.factor(size_db_h$family)
-    size_db_h$genus = as.factor(size_db_h$genus)
-    size_db_h$species = as.factor(size_db_h$species)
-    size_db_h$genome.size = trunc(round(size_db_h$genome_size))
-    genusfamily_size_db = na.omit(size_db_h[, c("genome.size", "family", "genus")])
-#    genusorder_size_db = na.omit(size_db_h[, c("genome.size", "genus", "order")])
-#    familyorder_size_db = na.omit(size_db_h[, c("genome.size", "family", "order")])
-    genusfamily_model = build_model(genusfamily_size_db, c('genus', 'family'))
+    size_db_lmm = get_genome_size_db_for_lmm()
+    size_db_lmm = read.table(size_db_lmm, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
+    size_db_lmm$order = as.factor(size_db_lmm$order)
+    size_db_lmm$family = as.factor(size_db_lmm$family)
+    size_db_lmm$genus = as.factor(size_db_lmm$genus)
+    size_db_lmm$species = as.factor(size_db_lmm$species)
+    size_db_lmm$genome.size = trunc(round(size_db_lmm$genome_size))
+    genusfamily_size_db = na.omit(size_db_lmm[, c("genome.size", "family", "genus")])
+#    genusorder_size_db = na.omit(size_db_lmm[, c("genome.size", "genus", "order")])
+#    familyorder_size_db = na.omit(size_db_lmm[, c("genome.size", "family", "order")])
+    genusfamily_model = build_model(genusfamily_size_db, c("family", "genus"))
 #    genusorder_model = build_model(genusorder_size_db, c('genus', 'order'))
 #    familyorder_model = build_model(familyorder_size_db, c('family', 'order'))
     na_models = c(0)
@@ -223,10 +246,10 @@ estimate_genome_size <- function(queries, format='csv', sep=',', match_column=NA
 #      na_models[3] = 1
 #    }
   }
-  full_size_db = get_genome_size_db(size_db)
+  full_size_db = get_genome_size_db()
   full_size_db = read.csv(full_size_db, sep='\t', quote="", stringsAsFactors = FALSE)
 
-  taxonomy = get_taxonomy(taxonomy)
+  taxonomy = get_taxonomy()
   cat("Reading taxonomy names", fill=T)
   names = getnames(taxonomy)
   cat("Reading taxonomy nodes", fill=T)
