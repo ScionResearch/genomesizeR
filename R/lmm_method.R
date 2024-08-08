@@ -106,7 +106,7 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
   }
   else if (! na_models[1] && ! is.na(out$family)) {
     estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
-    out['model_used'] = 'lmm|genus/family'
+    out['model_used'] = 'lmm|family/genus'
   }
   else {
     out['genome_size_estimation_status'] = 'No reference and query too high in taxonomic tree to fit in model'
