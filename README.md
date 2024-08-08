@@ -38,11 +38,19 @@ library(genomesizeR)
 example_input_file = system.file("extdata", "example_input.csv", package = "genomesizeR")
 ```
 
+### Store the path to the archive containing all the reference databases and the bayesian models
+
+```
+refdata_archive_path = "~/Downloads/genomesizeRdata.tar.gz"
+```
+
+
 ### Usage
 
 ```
 estimate_genome_size(
   queries,
+  refdata_archive_path,
   format = "csv",
   sep = ",",
   match_column = NA,
@@ -61,6 +69,9 @@ estimate_genome_size(
 
 `queries`
 Queries: path to file or table object
+
+`refdata_archive_path`
+Path to the archive containing all the reference data and the bayesian models
 
 `format`
 Query format if in a file ('csv' (default), 'tax_table' or 'biom' (taxonomy table files))
@@ -98,7 +109,7 @@ Number of CPU cores to use (default is 'half': all available divided by two)
 Run the main function to get estimated genome sizes:
 
 ```
-results = estimate_genome_size(example_input_file, format='csv', sep='\t', match_column='TAXID', output_format='input')
+results = estimate_genome_size(example_input_file, refdata_archive_path, format='csv', sep='\t', match_column='TAXID', output_format='input')
 ```
 
 Plot genome size histogram per sample:
