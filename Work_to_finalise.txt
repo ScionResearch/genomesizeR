@@ -10,7 +10,7 @@ PACKAGE:
     - concordant columns (Celine) (check format)
     - fixed query column for weighted_mean output (Celine)
 - change/update Bayesian method to incorporate uncertainty at the species level (as is done with LMM) (maybe use db used for bayesian)
-- Re-do model selection on Bayesian method with final db version
+- Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 - Test on Windows and BFC (Celine)
 - Clean/handle prerequisites (Celine)
 - Update Usage doc (Celine)
