@@ -4,7 +4,7 @@
 \alias{get_taxonomy}
 \title{Read taxonomy database}
 \usage{
-get_taxonomy(taxonomy_path)
+get_taxonomy(taxonomy_path = NA)
 }
 \arguments{
 \item{taxonomy_path}{Path to taxonomy database file or NA}

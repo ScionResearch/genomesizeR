@@ -6,16 +6,14 @@
 \usage{
 estimate_genome_size(
   queries,
+  refdata_path,
   format = "csv",
   sep = ",",
   match_column = NA,
   match_sep = ";",
-  size_db = NA,
-  taxonomy = NA,
   output_format = "input",
   method = "bayesian",
   ci_threshold = 0.2,
-  prediction_variables = c("family", "genus"),
   n_cores = "half"
 )
 }
@@ -30,23 +28,23 @@ estimate_genome_size(
 
 \item{match_sep}{If 'csv' format and several matches in match column, separator between matches}
 
-\item{size_db}{Path to the genome size reference database to use if not the default one}
-
-\item{taxonomy}{Path to taxonomy database (NCBI taxdump) to use if not the default one}
-
 \item{output_format}{Format in which the output should be.
 Default: "input" a data frame with the same columns as the input,
 with the added columns: "estimated_genome_size" and "estimated_genome_size_confidence_interval".
 Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns:
 "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".}
 
-\item{method}{Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'hierarchical'}
+\item{method}{Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'}
 
 \item{ci_threshold}{Threshold for the confidence interval as a proportion of the guessed size
 (e.g. 0.2 means that estimations with a confidence interval that represents more than 20\% of
 the guessed size will be discarded)}
 
 \item{n_cores}{Number of CPU cores to use (default is 'half': half of all available cores)}
+
+\item{size_db}{Path to the genome size reference database to use if not the default one}
+
+\item{taxonomy}{Path to taxonomy database (NCBI taxdump) to use if not the default one}
 }
 \description{
 This function loads a query file and predicts genome sizes.

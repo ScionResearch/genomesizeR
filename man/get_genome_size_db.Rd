@@ -4,7 +4,7 @@
 \alias{get_genome_size_db}
 \title{Read genome size database}
 \usage{
-get_genome_size_db(genome_size_db_path)
+get_genome_size_db(genome_size_db_path = NA)
 }
 \arguments{
 \item{genome_size_db_path}{Path to genome size database file or NA}
