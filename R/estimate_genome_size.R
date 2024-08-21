@@ -294,7 +294,7 @@ estimate_genome_size <- function(queries, refdata_path,
   #parabar::stop_backend(backend)
   #parallel::stopCluster(cl = cluster)
 
-  # Handle R formatting issues
+  # Compute confidence interval if needed and handle formatting
   if (method == 'lmm') {
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
     confidence_interval = exp(compute_confidence_interval_lmm(output_table, genusfamily_model, n_cores))
@@ -313,10 +313,18 @@ estimate_genome_size <- function(queries, refdata_path,
     output_table$confidence_interval_upper = as.numeric(output_table$confidence_interval_upper)
   }
   else {
-    output_table = as.data.frame(t(as.data.frame(output_table, stringsAsFactors = F)), stringsAsFactors = F)
-    output_table$estimated_genome_size_confidence_interval = as.numeric(output_table$estimated_genome_size_confidence_interval)
+    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+    output_table$confidence_interval_lower = as.numeric(output_table$confidence_interval_lower)
+    output_table$confidence_interval_upper = as.numeric(output_table$confidence_interval_upper)
     output_table$genome_size_estimation_distance = as.numeric(output_table$genome_size_estimation_distance)
   }
+
+  # Drop NA columns if there are any
+  all_na_cols = sapply(output_table, \(x) all(is.na(x)))
+  output_table = output_table[!all_na_cols]
+
+  # Rename rows
+  row.names(output_table) = paste0('query_', 1:nrow(output_table))
 
   output_table$estimated_genome_size = as.numeric(output_table$estimated_genome_size)
   #output_table$data_density = as.numeric(output_table$data_density)
@@ -334,18 +342,20 @@ estimate_genome_size <- function(queries, refdata_path,
   cat('\n# Estimation status:')
   print(table(output_table$genome_size_estimation_status))
 
-  if (method == 'weighted_mean') {
-    cat('\n# Estimation at taxonomic rank:')
-    print(table(output_table$genome_size_estimation_rank))
-    cat('\n# Estimation distance:', fill=T)
-    cat('#\n')
-    print(summary(output_table$genome_size_estimation_distance))
-    cat("#############################################################################", fill=T)
-  }
+  # if (method == 'weighted_mean') {
+  #   cat('\n# Estimation at taxonomic rank:')
+  #   print(table(output_table$genome_size_estimation_rank))
+  #   cat('\n# Estimation distance:', fill=T)
+  #   cat('#\n')
+  #   print(summary(output_table$genome_size_estimation_distance))
+  #   cat("#############################################################################", fill=T)
+  # }
 
-  # Reformat if needed
+  # Minimal dataframe if dataframe output requested
   if (output_format == "data.frame") {
-    output_table = output_table[c('LCA', 'estimated_genome_size', 'estimated_genome_size_confidence_interval', 'genome_size_estimation_status')]
+    output_table = output_table[c('LCA', 'estimated_genome_size',
+                                  'confidence_interval_lower', 'confidence_interval_upper',
+                                  'genome_size_estimation_status', 'model_used')]
     names(output_table)[names(output_table) == 'LCA'] = 'TAXID'
   }
 

@@ -15,7 +15,8 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
   #}
 
   out['estimated_genome_size'] = NA
-  out['estimated_genome_size_confidence_interval'] = NA
+  out['confidence_interval_lower'] = NA
+  out['confidence_interval_upper'] = NA
   out['genome_size_estimation_status'] = NA
   out['genome_size_estimation_rank'] = NA
   out['genome_size_estimation_distance'] = NA
@@ -70,6 +71,16 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
     }
 
     ranks = getrank(parents, taxdir=NA, nodes=nodes)
+    if (is.null(ranks)) {
+      cat("\nParent taxid ranks not found for:", fill=T)
+      cat(match, fill=T)
+      cat(parents, fill=T)
+      out['genome_size_estimation_status'] = 'Parent taxid ranks not found'
+      return(out)
+    }
+    for (i in 1:length(parents)) {
+      out[ranks[[i]]] = parents[[i]]
+    }
 
     for (i in 1:length(parents)) {
       parent_taxid = parents[[i]]
@@ -125,16 +136,19 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
   Z = 1.96     # 95% CI
 
   # Compute confidence interval
-  confidence_interval = Z * standard_error
+  margin_of_error = Z * standard_error
 
-  if (confidence_interval > ci_threshold*estimated_size) {
+  if (margin_of_error > ci_threshold*estimated_size) {
     out['genome_size_estimation_status'] = 'Confidence interval to estimated size ratio > ci_threshold'
     return(out)
   }
 
   out['estimated_genome_size'] = estimated_size
-  out['estimated_genome_size_confidence_interval'] = confidence_interval
+  out['confidence_interval_lower'] = estimated_size - margin_of_error
+  out['confidence_interval_upper'] = estimated_size + margin_of_error
   out['genome_size_estimation_status'] = 'OK'
+  out['model_used'] = 'weighted_mean'
+
   out['genome_size_estimation_rank'] = estimation_rank
   out['genome_size_estimation_distance'] = distances[length(distances)]
 

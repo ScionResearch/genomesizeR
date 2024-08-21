@@ -19,7 +19,8 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
 
   out = query
   out['estimated_genome_size'] = NA
-  out['estimated_genome_size_confidence_interval'] = NA
+  out['confidence_interval_lower'] = NA
+  out['confidence_interval_upper'] = NA
   out['genome_size_estimation_status'] = NA
   out['model_used'] = NA
   out['LCA'] = NA
@@ -92,12 +93,13 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
     # Compute confidence interval
     standard_error = sqrt(ref_data['STANDARD_ERROR_GENOME_SIZE'])
     Z = 1.96     # 95% CI
-    confidence_interval = Z * as.numeric(standard_error)
-    out['estimated_genome_size_confidence_interval'] = confidence_interval
-    if ((!is.na(confidence_interval)) && (confidence_interval > ci_threshold*estimated_size)) {
+    margin_of_error = Z * as.numeric(standard_error)
+    out['confidence_interval_lower'] = estimated_size - margin_of_error
+    out['confidence_interval_upper'] = estimated_size + margin_of_error
+    if ((!is.na(margin_of_error)) && (margin_of_error > ci_threshold*estimated_size)) {
       out['genome_size_estimation_status'] = 'Confidence interval to estimated size ratio > ci_threshold'
     }
-    else if (is.na(confidence_interval)) {
+    else if (is.na(margin_of_error)) {
       out['genome_size_estimation_status'] = 'OK but no confidence interval'
     }
     else {
