@@ -2,6 +2,7 @@ PACKAGE:
 - Acronyms? Steve: "Trying to get a good backronym... MAGIC – Microbiome Average Genome Size Inference Calculation
 IMAGINE - Inference of Microbial Average Genome Size In Next Generation eDNA libraries"
 - Make databases and models available online (Celine)
+- Check suspicious identical predictions with lmm method (Joane)
 - Run methods on validation set and update methods comparison with updated databases (Celine for weighted mean/Joane)
 - Make output similar across methods:
     - concordant columns (Celine) DONE?
