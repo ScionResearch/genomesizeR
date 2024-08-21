@@ -41,7 +41,7 @@ example_input_file = system.file("extdata", "example_input.csv", package = "geno
 ### Store the path to the archive containing all the reference databases and the bayesian models
 
 ```
-refdata_archive_path = "~/Downloads/genomesizeRdata.tar.gz"
+refdata_archive_path = "path/to/genomesizeRdata.tar.gz"
 ```
 
 
