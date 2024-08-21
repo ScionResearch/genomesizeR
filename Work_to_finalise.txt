@@ -2,8 +2,7 @@ PACKAGE:
 - Acronyms? Steve: "Trying to get a good backronym... MAGIC – Microbiome Average Genome Size Inference Calculation
 IMAGINE - Inference of Microbial Average Genome Size In Next Generation eDNA libraries"
 - Make databases and models available online (Celine)
-- re-run models with updated databases (Celine/Joane)
-- update methods comparison with results with updated databases (Joane)
+- Run methods on validation set and update methods comparison with updated databases (Celine for weighted mean/Joane)
 - Make output similar across methods:
     - concordant columns (Celine) DONE?
     - fixed query column for weighted_mean output (Celine) DONE?
@@ -26,3 +25,4 @@ PAPER:
 - update references (from Steve's blurb? + do we need to cite anything related to NCBI?)
 - remove template/instruction sections
 - finish/rework example
+- Ask Shane about pandoc compilation
