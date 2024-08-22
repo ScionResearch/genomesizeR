@@ -11,6 +11,7 @@ IMAGINE - Inference of Microbial Average Genome Size In Next Generation eDNA lib
 - Test on Windows and BFC (Celine)
 - Clean/handle prerequisites (Celine)
 - Update and check all the documentation (Celine)
+- readme: change github address when ready (it is set on the old repo) (Celine)
 - Clean the code (Celine)
 - Do the R checks (Celine)
 - Double check how ref db is built and what it means for INFO_NODE check (and document) (Celine)
