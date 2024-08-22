@@ -5,8 +5,7 @@ IMAGINE - Inference of Microbial Average Genome Size In Next Generation eDNA lib
 - Check suspicious identical predictions with lmm method (Joane)
 - Run methods on validation set and update methods comparison with updated databases (Celine for weighted mean/Joane)
 - Make output similar across methods:
-    - concordant columns (Celine) DONE?
-    - fixed query column for weighted_mean output (Celine) DONE?
+    - concordant columns (Celine) DONE? Yes - the order is not the same though (but I am chipotting)
 - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 - Test on Windows and BFC (Celine)
 - Clean/handle prerequisites (Celine)
