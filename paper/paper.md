@@ -11,6 +11,7 @@ authors:
   equal-contrib: true
   affiliation: 1
 - name: Joane Elleouet
+  orcid: "0000-0002-9597-3360"
   equal-contrib: true
   affiliation: 1
 bibliography: paper.bib
@@ -21,17 +22,16 @@ affiliations:
 
 # Summary
 
-The purpose of this R package is to implement tools that allow the inference of genome size based on taxonomic information and available genome data from the National Center for Biotechnology Information (NCBI).
+The genome size of organisms present in an environment can provide many insights into evolutionary and ecological processes at play in that environment. The genomic revolution has enabled a rapid expansion of our knowledge of genomes in many living organisms, and most of that knowledge is classified and readily available in the databases of the National Center for Biotechnology Information (NCBI). The `genomesizeR` tool leverages the wealth of taxonomic and genomic information present in NCBI databases to infer the genome size of Acheae, Bacteria, or Eukaryote organisms identified at any taxonomic level. 
+This R package uses statistical modelling on data from the must up-to-date NCBI databases and provides three statistical methods for genome size prediction at the species level. A straightforward weighted mean method identifies the closest taxa with available genome size information in the taxomic tree and averages their genome sizes using weights based on taxonomic distance. A frequentist random effect model uses nested genus and family information to output genome size estimates. Finally a third option provides predictions from a distributional Bayesian multilevel model which uses taxonomic information from genus all the way to superkingdom, therefore providing estimates and uncertainty bounds even for under-represented taxa.
 
-This R package offers three different methods for genome size prediction: a Bayesian linear hierarchical model, a frequentist linear mixed-effects model, and a weighted mean method.
-
-The methods use:
+All three methods use:
 
   - A list of queries; a query being a taxon or a list of several taxa.
   - A reference database containing all the known genome sizes, built from the NCBI databases, with associated taxa.
   - A taxonomic tree structure as built by the NCBI
 
-`genomesizeR` estimates the genome size of each query, with a confidence interval on the estimation.
+`genomesizeR` retrieves the taxonomic classification of input queries, estimates the genome size of each query, and provides 95% confidence intervals for each estimate.
 
 # Statement of need
 
