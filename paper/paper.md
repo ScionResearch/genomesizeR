@@ -35,77 +35,87 @@ All three methods use:
 
 # Statement of need
 
-The size of microbial genomes can provide important insights into evolutionary and ecological processes influencing both microbial species and the environments in which they inhabit. The shedding of unnecessary genetic elements and their associated biosynthetic pathways, for example, is a common phenomenon observed in species with high degree of host symbiosis (Moran 2002). The transition from free-living through to facultative and ultimately obligate symbiosis is typically associated with genome reduction as the microbial taxa make use of metabolites such as amino acids and vitamins produced by the host (Brader et al., 2014), as well as often receiving a steady supply of pre-fixed organic compounds (e.g. Vandenkoornhuyse et al., 2007) driving their heterotrophic respiration. Waste not, want not. 
+The size of microbial genomes and its evolution can provide important insights into evolutionary and ecological processes influencing both microbial species and the environments in which they inhabit. The shedding of unnecessary genetic elements and their associated biosynthetic pathways, for example, is a common phenomenon observed in organisms with a high degree of host symbiosis (Moran 2002,Brader et al., 2014,Vandenkoornhuyse et al., 2007). Genome size reduction has also been observed in organisms experiencing arid environments (Liu et al. 2022), or a narrow range of substrates or metabolic options (Tyson et al., 2004). Among many others, these findings demonstrate the opportunities associated with including genome size as a key trait in microbial communities to provide insights spanning niche size, co-evolution, adaption, and metabolic flexibility of the microbiomes present, but also stability, and ecophysiological and functional complexity of abiotic and biotic environments.   
 
-Genome size is also linked with functional and metabolic repertoire and flexibility. For example, in nutrient deprived ecosystems or where a narrow range of substrates or metabolic options occur, average microbial genome size is reduced; optimisation to the limited lifestyle options available occurs. This is observed, for example, in environments from acid mine drainage to whale fall (Tyson et al., 2004; Raes et al., 2007). Conversely, environments that change frequently in biogeochemical processes, such as the broad range of organoheterotroph substrates or shifting availability terminal electron acceptors, favour microbial taxa with board genetic flexibility leading to agility to shift metabolism to meet changes in environmental conditions.   
+However, characterizing genome size for all organisms in a microbiome remains challenging. Methods in the past have included the use of DNA staining through to cell enumeration, flow cytometry, and culturing, gel electrophoresis, and DNA renaturation kinetics. All have merits and limitations (see comments in Rases et al., 2007). The widespread availability and use of microbiome related tag-amplicon DNA sequencing has tremendously increased our scientific knowledge of microbial genomics. There is also an opportunity to explore the rapidly expanding archives of short read DNA libraries (i.e. extant 16S and ITS amplicon sequences). 
 
-Relationships between genome size and environmental conditions and complexity have also been observed. When looking within metagenomic data sets, Raes et al. (2007) found increased effective genome size and environmental complexity and noted the contribution of the Eukaryotic subcommunity to this. Similarly, in a study of 237 bacterial community profiles globally (i.e. from amplicon libraries), Liu et al. (2022) found clear association of environmental aridity and bacterial genome size, surmising that limitation of water availability to microbial growth led to physiological constraints concomitantly reflected in reduction of genome size. Collectively, these findings demonstrate the opportunities associated with utilising genome size as a key trait in microbial communities to provide insights spanning niche size, co-evolution, adaption, and metabolic flexibility of the microbiomes present, but also stability, and ecophysiological and functional complexity of the abiotic and biotic environments in which they inhabit.   
+Alternatively, when well documented and archived in user-friendly and publicly available databases, the exponentially growing genomic knowledge of micro-organisms is an inexpensive resource unlocking a myriad of research opportunities in all fields of environmental sciences, from human and agricultural microbiomes through to aquatic, soil, and atmospheric ecosystems. Combining available genome size information to data and metadata on community structure from existing projects can add further scientific value to investment already made in these projects, at no added cost. 
 
-Spanning human and agricultural microbiomes, through to aquatic, soil, and atmospheric ecosystems, there exists a myriad of research opportunities for approaches that can measure or infer microbiome genome sizes. Methods in the past have included use of DNA staining through to cell enumeration, flow cytometry, and culturing, gel electrophoresis, and DNA renaturation kinetics. All have merits and limitations (see comments in Rases et al., 2007). However, the widespread availability and use of microbiome related tag-amplicon DNA sequencing provides a direct modern mechanism. Adding this trait alongside information of community structure as well as project metadata will add further scientific value to investment already made in these projects. Finally, there is an opportunity to explore the rapidly expanding archives of short read DNA libraries (i.e. extant 16S and ITS amplicon sequencing projects on NCBI and elsewhere), providing new insights to these datasets.  
+However, Genome size estimates for many taxa found in environmental samples are missing from public databases or fully unknown. The evolutionary rule that phylogenetically related organisms share genetic similarities can be exploited and genome size for taxa with unknown genome size can be statistically inferred from related taxa with known genome size, using taxonomy as a proxy for phylogeny. Another challenge is the precision of identification: some taxa can only be identified at high taxonomic levels. Statistical methods can also be used to infer their genome size range from databases. To our knowledge, there is no convenient and fast way to obtain genome size estimates with uncertainty bounds for all organisms identified or partially identified in an environmental sample.
 
-Using the increased prevalence of whole-genome information for all organisms, we have developed this R package that allows the inference of genome size, based on taxonomic information and available genome data from the National Center for Biotechnology Information (NCBI).
+Using the increased prevalence of whole-genome information for all organisms, we have therefore developed `genomesizeR`, allowing the inference of genome size of many queries at once, based on taxonomic information and available genome data from the National Center for Biotechnology Information (NCBI).
 
 # Methods
 
+## NCBI database filtering and processing
+
+[Celine for the filtering]
+
+For model-based methods (frequentist and Bayesian), the filtered database of genome sizes was gathered to the species level by iteratively averaging all entries below the species level, starting from the smallest level, until one value was obtained per species. Hence model-based methods can only provide estimates at the level of species and above.
+
+
 ## Bayesian method
 
-The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the brm function from the brms package was fitted to each superkingdom dataset. The general model structure is outlined below.
+The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package was fitted to each superkingdom dataset. The general model structure is outlined below.
 
-\begin{equation}
+\begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
-\end{equation}
-where $G$ is the genome size in the units of 10 Mbp. The model uses predictors for
+\end{gather*}
+
+where $G_i$ is the genome size of species $i$ in the units of 10 Mbp. The model uses predictors for
 both mean and standard deviation. The mean is modelled as follows:
-\begin{equation}
+
+\begin{gather*}
 \mu_i = \alpha_0 + \alpha_{genus_{g[i]}} + \alpha_{family_{f[i]}} + \alpha_{order_{o[i]}} + \alpha_{class_{c[i]}} + \alpha_{phylum_{p[i]}}  \\
 \alpha_{genus_{g[i]}} \sim \mathcal{N}(0, \sigma_{genus}^2) \\
 \alpha_{family_{f[i]}} \sim \mathcal{N}(0, \sigma_{family}^2) \\
 \alpha_{order_{o[i]}} \sim \mathcal{N}(0, \sigma_{order}^2) \\
 \alpha_{class_{c[i]}} \sim \mathcal{N}(0, \sigma_{class}^2) \\
 \alpha_{phylum_{p[i]}} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
-\end{equation}
-with priors
-\begin{equation}
+\end{gather*}
+
+The following prior distributions are used:
+
+\begin{gather*}
 \alpha_0 \sim \mathcal{N}(0,5) \\
 (\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum},s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
-\end{equation}
+\end{gather*}
 
-The standard deviation is modelled as follows:
-\begin{equation}
+Differences in genome size variability was observed among taxa, therefore the model also adds predictors to the standard deviation of the response. The standard deviation is modelled as follows:
+
+\begin{gather*}
 log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} + \lambda_{phylum_{p[i]}} \\
 \lambda_{class_{c[i]}} \sim \mathcal{N}(0, s_{class}^2) \\
 \lambda_{phylum_{p[i]}} \sim \mathcal{N}(0, s_{phylum}^2) \\
-\end{equation}
+\end{gather*}
 
 with priors
-\begin{equation}
+
+\begin{gather*}
 \lambda_0 \sim \mathcal{N}(0,1) \\
 (s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
-\end{equation}
+\end{gather*}
 
-  $\mathcal{N}^+$ is the normal distribution truncated to positive values. $g[i]$,$f[i]$,$o[i]$,$c[i]$ and $p[i]$ are respectively the index for the genome, family, order, class, and phylum of observation $i$. Note that taxonomic groups are naturally nested within each other and the indices are designed to be unique to the particular taxonomic group it represents.
+  $\mathcal{N}^+$ is the normal distribution truncated to positive values. $g[i]$,$f[i]$,$o[i]$,$c[i]$ and $p[i]$ are respectively the index for the genus, family, order, class, and phylum of entry $i$ in the species-level database. Note that taxonomic groups are naturally nested within each other and the indices are designed to be unique to the particular taxonomic group it represents.
 
 The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. 
 
-Posterior predictions are obtained using the predict function from the brms package, and credible intervals are obtained using quantiles from the posterior distribution. 
+Posterior predictions are obtained using the `predict` function from the `brms` package, and 95% credible intervals are obtained using 2.5% and 97.5% quantiles from the posterior distribution. 
 
-Note that the model was fitted at the species level. The base dataset for the model used a version of the
-NCBI database where all entries below the species level were iteratively averaged, starting from the smallest level, until one value was obtained per species.
+Queries corresponding to identified species with an available genome size estimate in the NCBI database get allocated the genome size value of the database (averaged at the species level) and 95% confidence intervals are calculated as XXX 
 
 
 ## Frequentist method
 
-A frequentist linear mixed-effects model using the lmer function from the lme4 package was fitted to the NCBI database of species with known genome sizes. The model is as follows:
+A frequentist linear mixed-effects model using the `lmer` function from the `lme4` package was fitted to the NCBI database of species with known genome sizes. The model is as follows:
 
-\begin{equation}
+\begin{gather*}
 log(G_i) =  \alpha_0 + \alpha_{genus_{g[i]}} +  \alpha_{family_{f[i]}} + e_i \\
-\end{equation}
+\end{gather*}
 where $\alpha_0$ is the overall mean, $\alpha_{genus_{g[i]}}$ and $\alpha_{family_{f[i]}}$ are random effect of genus and family for genus $g[i]$ and family $f[i]$ and $e_i$ is the residual error of observation $i$. 
 
-The estimation process using the restricted maximum likelihood method (REML). Models with additional higher nested levels (order, class) were tested but led to convergence failure of the REML algorithm.
-A prediction interval is computed using the predictInterval function from the merTools package.
+The estimation process using the restricted maximum likelihood method (REML). A prediction interval is computed using the `predictInterval` function from the `merTools` package. As higher nested levels (order, class) are not taken into account in the model, predictions cannot be produced for queries with no available genome size information at the genus or family level in the NCBI database. 
 
-As for the Bayesian method, the model was fitted at the species level. The base dataset for the model used a version of the NCBI database where all entries below the species level were iteratively averaged, starting from the smallest level, until one value was obtained per species.
 
 ## Weighted mean method
 
@@ -119,8 +129,8 @@ CI = 1.96 \times \sqrt{\hat{\mu}}
 
 where $\hat{\mu}$ is the computed weighted mean.
 
+Note that this method theoretically allows for estimation below the species level. For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. Otherwise, we suggest using one of the other methods.
 
-Note that this method allows for estimation below the species level. For queries relating to well-characterised species where many genetic studies have been performed, this might lead to more precise predictions than the two other methods. Otherwise, we suggest using one of the other methods.
 
 # Implementation
 
