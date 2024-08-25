@@ -223,12 +223,12 @@ estimate_genome_size <- function(queries, refdata_path,
 
   if (method == 'lmm') {
     size_db_lmm = get_genome_size_db_for_lmm()
-    size_db_lmm = read.table(size_db_lmm, sep=",", header=TRUE, na.strings="None", stringsAsFactors=TRUE,  quote="", fill=FALSE)
+    size_db_lmm = read.table(size_db_lmm, sep=",", header=TRUE, stringsAsFactors=TRUE, fill=FALSE, row.names = NULL, check.names = FALSE)
     size_db_lmm$order = as.factor(size_db_lmm$order)
     size_db_lmm$family = as.factor(size_db_lmm$family)
     size_db_lmm$genus = as.factor(size_db_lmm$genus)
     size_db_lmm$species = as.factor(size_db_lmm$species)
-    size_db_lmm$genome.size = trunc(round(size_db_lmm$genome_size))
+    size_db_lmm$genome.size = trunc(round(size_db_lmm$TOTAL_LENGTH))
     genusfamily_size_db = na.omit(size_db_lmm[, c("genome.size", "family", "genus")])
 #    genusorder_size_db = na.omit(size_db_lmm[, c("genome.size", "genus", "order")])
 #    familyorder_size_db = na.omit(size_db_lmm[, c("genome.size", "family", "order")])
