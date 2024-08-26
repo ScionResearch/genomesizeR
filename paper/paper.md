@@ -119,7 +119,16 @@ The estimation process using the restricted maximum likelihood method (REML). A 
 
 ## Weighted mean method
 
-The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean.
+The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean. The identification of related taxa is limited to levels below and including order.
+
+In the calculation of the prediction for a given query, the weight for a related taxon in the database is calculated as 
+
+\begin{gather*}
+w_i = \frac{1}{d_i + 1}
+\end{gather*}
+
+where $d_i$ is the distance of the related taxon to the query in number of nodes in the taxonomy.
+
 
 The confidence interval is calculated as:
 
