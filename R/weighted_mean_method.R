@@ -97,7 +97,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
         distances = c(distances, i)
         p_idx = p_idx + 1
         # Break out of loop if more than one match
-        if (is.na(LCA) && ! is.na(parent_data$GENOME_COUNT) && parent_data$GENOME_COUNT > 1 ) { #& parent_data$GENOME_DATA_DENSITY > 0.15) {
+        if (length(match_taxid) == 1 && ! is.na(parent_data$GENOME_COUNT) && parent_data$GENOME_COUNT > 1 ) { #& parent_data$GENOME_DATA_DENSITY > 0.15) {
           # But if that parent has poor data density, exit
           #if (! is.na(parent_data$GENOME_DATA_DENSITY) && length(parent_data$GENOME_DATA_DENSITY) > 0 && parent_data$GENOME_DATA_DENSITY < 0.1) { # TODO tune threshold, compute entropy?
           #  out['estimated_genome_size'] = NA
@@ -110,7 +110,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
         }
       }
       # Break out of loop if several matches and the LCA has been reached
-      if (! is.na(LCA) && parent_taxid == LCA && nrow(parent_sizes) > 0) {
+      if (length(match_taxid) > 1 && parent_taxid == LCA && nrow(parent_sizes) > 0) {
         estimation_rank = parent_data$TAXONOMIC_RANK
         break
       }
@@ -150,7 +150,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
   out['model_used'] = 'weighted_mean'
 
   out['genome_size_estimation_rank'] = estimation_rank
-  out['genome_size_estimation_distance'] = distances[length(distances)]
+  out['genome_size_estimation_distance'] = max(distances)
 
   return(out)
 }
