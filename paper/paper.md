@@ -188,10 +188,8 @@ plotted_df = plot_genome_size_histogram(results)
 ```
 ![Histogram of estimated genome sizes for each sample](hist.png){ width=100% }
 
-
 # Acknowledgements
 
 We acknowledge la tartiflette de Haute-Savoie.
 
 # References
-
