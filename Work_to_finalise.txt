@@ -6,15 +6,17 @@ IMAGINE - Inference of Microbial Average Genome Size In Next Generation eDNA lib
 - Run methods on validation set and update methods comparison with updated databases (Celine for weighted mean/Joane)
 - Make output similar across methods:
     - concordant columns (Celine) DONE? Yes - apart from match rank. the order of the columns in common is not the same (but I am chipotting)
-    - add match rank information in lmm and bayesian methods? or too much work? 
+    - add match rank information in lmm and bayesian methods? or too much work? (maybe after pre-print)
+    - Related: LMM behaviour: discuss how/if to prevent prediction when no refs under order (Celine and Joane)
 - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 - Test on Windows and BFC (Celine)
 - Clean/handle prerequisites (Celine)
-- Update and check all the documentation (Celine)
+- Update and check all the documentation (Celine) pseudo code in documentation?
 - readme: change github address when ready (it is set on the old repo) (Celine)
 - Clean the code (Celine)
 - Do the R checks (Celine)
 - Double check how ref db is built and what it means for INFO_NODE check (and document) (Celine)
+- Related to above: Behaviour with INFO_NODE nodes is probably different between weighted_mean and the other methods
 - One day maybe: scripts to build db and bayesian models from scratch (Celine)
 
 PAPER:
@@ -26,4 +28,3 @@ PAPER:
 - do we need to cite anything related to NCBI?
 - remove template/instruction sections
 - finish/rework example
-- Ask Shane about pandoc compilation
