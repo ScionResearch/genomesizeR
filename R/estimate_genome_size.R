@@ -168,13 +168,11 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
 #' @importFrom lme4 lmer
 #' @importFrom dplyr bind_rows
 #' @importFrom merTools predictInterval
-#' @importFrom parallel detectCores
 #' @importFrom biomformat read_biom observation_metadata
 #' @importFrom stats as.formula na.omit predict median
 #' @importFrom brms posterior_predict
-#' @importFrom data.table fread
-#' @import doParallel
-# @import parabar
+#' @importFrom doParallel registerDoParallel
+#' @importFrom parallel detectCores makeCluster stopCluster
 #' @export
 estimate_genome_size <- function(queries, refdata_path,
                                  format='csv', sep=',', match_column=NA, match_sep=';',
