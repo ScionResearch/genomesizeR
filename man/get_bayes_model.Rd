@@ -2,7 +2,7 @@
 % Please edit documentation in R/estimate_genome_size.R
 \name{get_bayes_model}
 \alias{get_bayes_model}
-\title{Read bayesian model from rds}
+\title{Read bayesian model from rds file}
 \usage{
 get_bayes_model(superkingdom)
 }
@@ -10,5 +10,5 @@ get_bayes_model(superkingdom)
 \item{superkingdom}{Target superkingdom, taxid or name}
 }
 \description{
-Read bayesian model from rds
+Read bayesian model from rds file
 }

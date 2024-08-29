@@ -4,11 +4,13 @@
 \alias{plot_genome_size_tree}
 \title{Plot genome size tree}
 \usage{
-plot_genome_size_tree(output_table, taxonomy = NA)
+plot_genome_size_tree(output_table, refdata_path)
 }
 \arguments{
 \item{output_table}{Result table from estimate_genome_size}
+
+\item{refdata_path}{Path to the downloadable archive containing the reference databases and the bayesian models}
 }
 \description{
-This function loads a result table from estimate_genome_size and plots the taxonomic tree with colour-coded estimated genome sizes.
+This function loads a result table from estimate_genome_size and plots a taxonomic tree with colour-coded estimated genome sizes.
 }

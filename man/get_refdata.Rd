@@ -2,13 +2,13 @@
 % Please edit documentation in R/estimate_genome_size.R
 \name{get_refdata}
 \alias{get_refdata}
-\title{Untar external data}
+\title{Untar reference data archive containing reference databases and bayesion models}
 \usage{
 get_refdata(refdata_path)
 }
 \arguments{
-\item{data_path}{Path to tar.gz archive or NA}
+\item{refdata_path}{Path to tar.gz archive}
 }
 \description{
-Untar external data
+Untar reference data archive containing reference databases and bayesion models
 }

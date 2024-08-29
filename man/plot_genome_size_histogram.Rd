@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.R
 \name{plot_genome_size_histogram}
 \alias{plot_genome_size_histogram}
-\title{Plot genome size histograms}
+\title{Plot genome size histogram}
 \usage{
 plot_genome_size_histogram(
   output_table,
@@ -13,16 +13,16 @@ plot_genome_size_histogram(
 )
 }
 \arguments{
-\item{output_table}{Result table from estimate_genome_size}
+\item{output_table}{Result table from estimate_genome_size()}
 
 \item{sample_data}{The file or dataframe containing sample information (sample name and count)}
 
-\item{only_sample}{The sample to plot the genome size histogram for (default: all samples)}
+\item{only_sample}{The sample to plot the genome size histogram for (default: NA, all samples)}
 
 \item{bins}{Histogram bin parameter}
 
 \item{PA}{Use presence/absence data instead of abundance data (all counts are set to 1)}
 }
 \description{
-This function loads a result table from estimate_genome_size and plots the histograms of estimated genome sizes.
+This function loads a result table from estimate_genome_size and plots a histogram of estimated genome sizes.
 }
