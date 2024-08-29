@@ -88,17 +88,20 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
   if ((! PA) && (sample %in% colnames(output_table)) && (count %in% colnames(output_table))) {
     plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, weight=count, fill=sample)) +
          geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
-         labs(fill=""))
+         labs(fill="") +
+           ggtitle("Histogram of the distribution of estimated genome sizes"))
   }
   else if (sample %in% colnames(output_table)) {
     plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, fill=sample)) +
            geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
-           labs(fill=""))
+           labs(fill="") +
+           ggtitle("Histogram of the distribution of estimated genome sizes"))
   }
   else {
     plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density)) +
            geom_histogram( color="#e9ecef", position = 'identity', bins=bins) +
-           labs(fill=""))
+           labs(fill="") +
+           ggtitle("Histogram of the distribution of estimated genome sizes"))
   }
 
   return(to_plot)
@@ -137,12 +140,12 @@ plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=N
   if ((! PA) && (sample %in% colnames(output_table)) && (count %in% colnames(output_table))) {
     plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, weight=count, fill=sample)) +
            geom_boxplot() +
-           ggtitle("Boxplot of the distribution of estimated genome sizes per sample"))
+           ggtitle("Boxplot of the distribution of estimated genome sizes"))
   }
   else if (sample %in% colnames(output_table)) {
     plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, fill=sample)) +
            geom_boxplot() +
-           ggtitle("Boxplot of the distribution of estimated genome sizes per sample"))
+           ggtitle("Boxplot of the distribution of estimated genome sizes"))
   }
   else {
     plot(ggplot(to_plot, aes_string(y=estimated_genome_size)) + geom_boxplot() +
