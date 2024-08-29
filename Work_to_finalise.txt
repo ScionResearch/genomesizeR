@@ -1,23 +1,20 @@
 PACKAGE:
-- Acronyms? Steve: "Trying to get a good backronym... MAGIC – Microbiome Average Genome Size Inference Calculation
-IMAGINE - Inference of Microbial Average Genome Size In Next Generation eDNA libraries"
-- Make databases and models available online (Celine)
+- Joane to check that dbs are all good through methods comparison from the example using the package
+Make databases and models available online (Celine) 
 - Run methods on validation set and update method comparison with updated databases (Celine for weighted mean/Joane)
-- Make output similar across methods:
-    - concordant columns (Celine) DONE? Yes - apart from match rank. the order of the columns in common is not the same (but I am chipotting)
-    - add match rank information in lmm and bayesian methods? or too much work? (maybe after pre-print)
-    - Related: LMM behaviour: discuss how/if to prevent prediction when no refs under order that generates identical spurious predictions (Celine and Joane)
-- Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
+- LMM behaviour: Joane to identifiy threshold to remove lmm estimations above family
 - Test on Windows and BFC (Celine)
 - Update and check all the documentation, should be ok now (Celine)
-- Clean the code, should be ok (Celine)
 - Document more the output in vignette
 - Do the R checks, ok but do again before publishing (Celine)
 - Double check how ref db is built and what it means for INFO_NODE check (and document) (Celine): INFO_NODE True only if node had information, and no propagation
 - Related to above: Behaviour with INFO_NODE nodes is different between weighted_mean and the other methods
 - Clean committed files (Celine)
 - Behaviour is weird with multithreaded (takes longer instead of shorter??) (Celine)
-- One day maybe: scripts to build db and bayesian models from scratch (Celine)
+- One day maybe: 
+    - add rank match info for lmm and bayesian methods
+    - scripts to build db and bayesian models from scratch (Celine)
+    - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
 PAPER:
 - update methods comparisons with new figures from updated databases (Joane)
