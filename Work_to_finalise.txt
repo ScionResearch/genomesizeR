@@ -4,7 +4,7 @@ Make databases and models available online (Celine)
 - Run methods on validation set and update method comparison with updated databases (Celine for weighted mean/Joane)
 - LMM behaviour: Joane to identifiy threshold to remove lmm estimations above family
 - Test on Windows and BFC (Celine)
-- Update and check all the documentation, should be ok now (Celine)
+- Vignette about methods, weighted mean: add figure of example graph (Celine)
 - Document more the output in vignette
 - Do the R checks, ok but do again before publishing (Celine)
 - Clean committed files (Celine)
