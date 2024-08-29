@@ -15,6 +15,7 @@ Make databases and models available online (Celine)
     - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
 PAPER PREPRINT:
+- remove paragraph on sequencing and make transition smoother
 - add small section comparing methods on example - within example section? make a table summarizing pros and cons of each method
 - re-float figures to the right place (Joane)
 - author list: add Steve and Loretta?
