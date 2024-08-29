@@ -7,8 +7,6 @@ Make databases and models available online (Celine)
 - Update and check all the documentation, should be ok now (Celine)
 - Document more the output in vignette
 - Do the R checks, ok but do again before publishing (Celine)
-- Double check how ref db is built and what it means for INFO_NODE check (and document) (Celine): INFO_NODE True only if node had information, and no propagation
-- Related to above: Behaviour with INFO_NODE nodes is different between weighted_mean and the other methods
 - Clean committed files (Celine)
 - Behaviour is weird with multithreaded (takes longer instead of shorter??) (Celine)
 - One day maybe: 
@@ -16,12 +14,13 @@ Make databases and models available online (Celine)
     - scripts to build db and bayesian models from scratch (Celine)
     - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
-PAPER:
-- update methods comparisons with new figures from updated databases (Joane)
-- update all figures and data
-- Write a paragraph about method comparison? (Joane?)
+PAPER PREPRINT:
+- add small section comparing methods on example - within example section? make a table summarizing pros and cons of each method
 - re-float figures to the right place (Joane)
 - author list: add Steve and Loretta?
 - show boxplot?
-- for final paper: could check correlation with variables from original paper
-- for final paper: I think it could be cool to make a table summarizing pros and cons of each method
+
+
+PAPER FINAL
+- update methods comparisons with validation with new figures from updated databases (Joane)
+- could check correlation with variables from original paper
