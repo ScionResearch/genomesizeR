@@ -54,13 +54,13 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
 }
 
 
-#' Plot genome size histograms
+#' Plot genome size histogram
 #'
-#' This function loads a result table from estimate_genome_size and plots the histograms of estimated genome sizes.
+#' This function loads a result table from estimate_genome_size and plots a histogram of estimated genome sizes.
 #'
-#' @param output_table Result table from estimate_genome_size
+#' @param output_table Result table from estimate_genome_size()
 #' @param sample_data The file or dataframe containing sample information (sample name and count)
-#' @param only_sample The sample to plot the genome size histogram for (default: all samples)
+#' @param only_sample The sample to plot the genome size histogram for (default: NA, all samples)
 #' @param bins Histogram bin parameter
 #' @param PA Use presence/absence data instead of abundance data (all counts are set to 1)
 #' @import ggplot2
@@ -105,13 +105,13 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
 }
 
 
-#' Plot genome size boxplots
+#' Plot genome size boxplot
 #'
-#' This function loads a result table from estimate_genome_size and plots the boxplots of estimated genome sizes.
+#' This function loads a result table from estimate_genome_size and plots a boxplot of estimated genome sizes.
 #'
 #' @param output_table Result table from estimate_genome_size
 #' @param sample_data The file or dataframe containing sample information (sample name and count)
-#' @param only_sample The sample to plot the genome size boxplot for (default: all samples)
+#' @param only_sample The sample to plot the genome size boxplot for (default: NA, all samples)
 #' @param PA Use presence/absence data instead of abundance data (all counts are set to 1)
 #' @import ggplot2
 #' @import utils
@@ -154,21 +154,21 @@ plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=N
 
 #' Plot genome size tree
 #'
-#' This function loads a result table from estimate_genome_size and plots the taxonomic tree with colour-coded estimated genome sizes.
+#' This function loads a result table from estimate_genome_size and plots a taxonomic tree with colour-coded estimated genome sizes.
 #'
 #' @param output_table Result table from estimate_genome_size
+#' @param refdata_path Path to the downloadable archive containing the reference databases and the bayesian models
 #' @import ggplot2
 #' @import ncbitax
 #' @import dplyr
 #' @import ggtree
 #' @export
-plot_genome_size_tree <- function(output_table, taxonomy=NA) {
+plot_genome_size_tree <- function(output_table, refdata_path) {
 
-  taxid_column="LCA"
-  if (is.na(taxonomy)) {
-    taxonomy = get_taxonomy(taxonomy)
-  }
+  refdata_path = get_refdata(refdata_path)
+  taxonomy = get_taxonomy()
   tax = parseNCBITaxonomy(taxonomy)
+  taxid_column="LCA"
   to_plot = output_table[!is.na(as.numeric(output_table[,taxid_column])) & !is.na(output_table$estimated_genome_size), ]
   to_plot$label = to_plot[,taxid_column]
   to_plot$label = as.character(to_plot$label)
@@ -183,7 +183,6 @@ plot_genome_size_tree <- function(output_table, taxonomy=NA) {
   for (taxid in taxids) {
     taxid_parents = as.vector(ncbitax::get.parents(taxid, tax))
     parents[[i]] = taxid_parents
-    #cat('i:', i, 'taxid:', taxid, '\n')
     i = i+1
   }
 

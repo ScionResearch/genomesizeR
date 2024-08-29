@@ -74,11 +74,9 @@ read_match <- function(query, format, match_column, match_sep) {
     }
   }
   else if (is.na(match_column)) {
-    #print('42')
     match = query
   }
   else {
-    #print('46')
     match = query[match_column]
   }
 

@@ -1,19 +1,40 @@
 
 weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
 
+  # WEIGHTED MEAN PSEUDOCODE
+  #
+  # # 1. Build table of parent information
+  # for each match (if a query is a list of matches, which can happen) :
+  #   get the taxid associated
+  # get the list of parents and their ranks
+  # for each parent :
+  #   if higher than order rank:
+  #   STOP and return 'Not enough genome size references for close taxa'
+  # if genome size associated with that taxon in the reference database:
+  #   store it in a 'parent information table'
+  # store the distance as well (number of nodes between query and this taxon)
+  # if we have more than one genome that contributed to the data we have in the 'parent information table':
+  #   STOP the iteration through parents here
+  # if the query is a list of matches and we have reached their common ancestor:
+  #   STOP the iteration through parents here
+  #
+  # # 2. Compute weighted mean from the table of parent information
+  # estimated_size = 0
+  # estimated_standard_error = 0
+  # sum_weights = 0
+  # for each line of parent information:
+  #   weight = 1.0/(distance+1)
+  # sum_weights = sum_weights + weight
+  # estimated_size = estimated_size + weight * genome_size
+  # estimated_standard_error = estimated_standard_error + (weight * precomputed_standard_error)**2
+  # estimated_size = estimated_size / sum_of_all_weights
+  # standard_error = square_root(estimated_standard_error)
+  # Z = 1.96 # 95% CI
+  # margin_of_error = Z * standard_error
+  # confidence_interval_lower = estimated_size - margin_of_error
+  # confidence_interval_upper = estimated_size + margin_of_error
+
   out = query
-  # if one match:
-  #   if match has a size and a CI: it's that size
-  #   if a size but no CI: weighted mean up to 1st ancestor with CI
-  #   if no size, weighted mean up to 1st ancestor with a size and CI (should take distance and/or density into account for confidence)
-
-  #if (output_format == 'input') {
-  #  out = query
-  #}
-  #else {
-  #  out = structure(character(0), names=character(0))
-  #}
-
   out['estimated_genome_size'] = NA
   out['confidence_interval_lower'] = NA
   out['confidence_interval_upper'] = NA
@@ -23,7 +44,6 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
   out['LCA'] = NA
   if (format == 'tax_table' || format == 'biom') {
     out['TAXID'] = NA
-    #out['SCIENTIFIC_NAME'] = NA
   }
 
   match = read_match(query, format, match_column, match_sep)
@@ -51,7 +71,6 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
     else {
       out['TAXID'] = as.character(LCA)
     }
-    #out['SCIENTIFIC_NAME'] = sciname(match_taxid, names=names)
   }
   out['LCA'] = as.character(LCA)
 
@@ -97,14 +116,7 @@ weighted_mean <- function(query, models, na_models, size_db, taxonomy, names, no
         distances = c(distances, i)
         p_idx = p_idx + 1
         # Break out of loop if more than one match
-        if (length(match_taxid) == 1 && ! is.na(parent_data$GENOME_COUNT) && parent_data$GENOME_COUNT > 1 ) { #& parent_data$GENOME_DATA_DENSITY > 0.15) {
-          # But if that parent has poor data density, exit
-          #if (! is.na(parent_data$GENOME_DATA_DENSITY) && length(parent_data$GENOME_DATA_DENSITY) > 0 && parent_data$GENOME_DATA_DENSITY < 0.1) { # TODO tune threshold, compute entropy?
-          #  out['estimated_genome_size'] = NA
-          #  out['estimated_genome_size_confidence_interval'] = NA
-          #  out['data_density'] = parent_data$GENOME_DATA_DENSITY
-          #  return(out)
-          #}
+        if (length(match_taxid) == 1 && ! is.na(parent_data$GENOME_COUNT) && parent_data$GENOME_COUNT > 1 ) {
           estimation_rank = parent_data$TAXONOMIC_RANK
           break
         }

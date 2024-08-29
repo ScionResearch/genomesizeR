@@ -1,3 +1,4 @@
+# From https://cran.r-project.org/web/packages/CHNOSZ/
 # CHNOSZ/taxonomy.R
 # functions to work with NCBI taxonomy files
 # 20100311 jmd
@@ -77,15 +78,15 @@ getnames <- function(taxdir) {
 
 
 ## get the scientific name(s) of the selected node(s)
-sciname <- function(id,taxdir,names=NULL) {
-  if(is.null(names)) names <- getnames(taxdir)
-  # we're only interested in the scientific names
-  isci <- which(names$type=="scientific name")
-  names <- names[isci,]
-  # now identify the entries of interest
-  names <- names[match(id,names$id),]
-  n <- as.character(names$name)
-  #if(length(id)==1) n <- s2c(n,sep="\t")[1]
-  if(length(id)==1) n <- s2c(n)[1]
-  return(n)
-}
+# sciname <- function(id,taxdir,names=NULL) {
+#   if(is.null(names)) names <- getnames(taxdir)
+#   # we're only interested in the scientific names
+#   isci <- which(names$type=="scientific name")
+#   names <- names[isci,]
+#   # now identify the entries of interest
+#   names <- names[match(id,names$id),]
+#   n <- as.character(names$name)
+#   #if(length(id)==1) n <- s2c(n,sep="\t")[1]
+#   if(length(id)==1) n <- s2c(n)[1]
+#   return(n)
+# }

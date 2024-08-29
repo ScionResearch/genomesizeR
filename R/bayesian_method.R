@@ -1,7 +1,6 @@
 
 bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
 
-  #bayes_model = models$bayes_model
   out = query
   out['estimated_genome_size'] = NA
   out['confidence_interval_lower'] = NA
@@ -11,7 +10,6 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
   out['LCA'] = NA
   if (format == 'tax_table' || format == 'biom') {
     out['TAXID'] = NA
-    #out['SCIENTIFIC_NAME'] = NA
   }
 
   match = read_match(query, format, match_column, match_sep)
@@ -32,14 +30,13 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
   # Compute LCA
   LCA = compute_LCA(match_taxid, nodes)
 
-  if (format == 'dada2' || format == 'biom') {
+  if (format == 'tax_table' || format == 'biom') {
     if (is.na(LCA)) {
       out['TAXID'] = as.character(match_taxid)
     }
     else {
       out['TAXID'] = as.character(LCA)
     }
-    #out['SCIENTIFIC_NAME'] = sciname(match_taxid, names=names)
   }
   out['LCA'] = as.character(LCA)
 
@@ -54,7 +51,6 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
   out['superkingdom'] = NA
 
   parents = allparents(LCA, taxdir=NA, nodes=nodes)
-  #parents = ncbitax::get.parents(LCA, alltax)
   if (is.null(parents)) {
     cat("\nParent taxids not found for:", fill=T)
     cat(match, fill=T)
@@ -62,7 +58,6 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
     return(out)
   }
   ranks = getrank(parents, taxdir=NA, nodes=nodes)
-  #ranks = ncbitax::getRank(parents, alltax)
   if (is.null(ranks)) {
     cat("\nParent taxid ranks not found for:", fill=T)
     cat(match, fill=T)
@@ -76,10 +71,7 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
 
   out = as.data.frame(t(as.data.frame(out)))
 
-  if ((ref_data['INFO_NODE'] == 'True')) { #&& (! is.na(ref_data['MEAN_GENOME_SIZE']))) {
-    print("\nINFO NODE\n")
-    cat("\nINFO NODE", fill=T)
-    cat(match, fill=T)
+  if (ref_data['INFO_NODE'] == 'True') { #&& (! is.na(ref_data['MEAN_GENOME_SIZE']))) {
     estimated_size = ref_data['MEAN_GENOME_SIZE']
     out['estimated_genome_size'] = estimated_size
     out['model_used'] = 'reference_mean'

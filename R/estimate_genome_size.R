@@ -28,8 +28,11 @@
 }
 
 
-build_model <- function(size_db, effects) {
-
+#' Build a frequentist random effect model using nested effects
+#'
+#' @param size_db Genome size reference database
+#' @param effects Vector of nested effects to use in the formula e.g. c("family", "genus")
+build_lmm_model <- function(size_db, effects) {
   f <- as.formula(
     paste("log(genome.size) ~ (1|",
     paste(effects, collapse = " / "),
@@ -52,7 +55,7 @@ build_model <- function(size_db, effects) {
 }
 
 
-#' Read bayesian model from rds
+#' Read bayesian model from rds file
 #'
 #' @param superkingdom Target superkingdom, taxid or name
 get_bayes_model <- function(superkingdom) {
@@ -71,9 +74,9 @@ get_bayes_model <- function(superkingdom) {
   return(bmodel)
 }
 
-#' Untar external data
+#' Untar reference data archive containing reference databases and bayesion models
 #'
-#' @param data_path Path to tar.gz archive or NA
+#' @param refdata_path Path to tar.gz archive
 #' @importFrom utils untar
 get_refdata <- function(refdata_path) {
   if (dir.exists(refdata_dir)) {
@@ -141,30 +144,30 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
 }
 
 
-#' Infer genome sizes
+#' Estimate genome sizes
 #'
-#' This function loads a query file and predicts genome sizes.
+#' This function loads a query file or table and an archive containing
+#' reference databases and bayesian models, and predicts genome sizes.
 #'
-#' @param queries Queries: path to file or table object
-#' @param format Query format if in a file ('csv' (default), 'tax_table' or 'biom' (taxonomy table files))
-#' @param sep If 'csv' format, column separator
-#' @param match_column If 'csv' format, the column containing match information (with one or several matches)
-#' @param match_sep If 'csv' format and several matches in match column, separator between matches
-#' @param size_db Path to the genome size reference database to use if not the default one
-#' @param taxonomy Path to taxonomy database (NCBI taxdump) to use if not the default one
+#' @param queries Queries: path to csv or BIOM file, or variable name of table object
+#' @param refdata_path Path to the downloadable archive containing the reference databases and the bayesian models
+#' @param format Query format: csv/dataframe format ('table', default), taxonomy table format as used in e.g. phyloseq ('tax_table')
+#' or BIOM format ('biom')
+#' @param sep If table format, column separator
+#' @param match_column If table format, the column containing match information (with one or several matches)
+#' @param match_sep If table format and several matches in match column, separator between matches
 #' @param output_format Format in which the output should be.
 #'                      Default: "input" a data frame with the same columns as the input,
-#'                      with the added columns: "estimated_genome_size" and "estimated_genome_size_confidence_interval".
-#'                      Other formats available: "data.frame", a data frame with the same number of rows as the input, and 3 columns:
-#'                      "TAXID", "estimated_genome_size" and "estimated_genome_size_confidence_interval".
+#'                      with the added columns: "TAXID", "estimated_genome_size", "confidence_interval_lower",
+#'                      "confidence_interval_upper", "genome_size_estimation_status", "model_used", as well as taxids at all ranks.
+#'                      Other formats available: "data.frame", a data frame with only the previous columns, without the taxid columns.
 #' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'
-#' @param ci_threshold Threshold for the confidence interval as a proportion of the guessed size
+#' @param ci_threshold Threshold for the confidence interval as a proportion of the predicted size
 #'                     (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of
-#'                     the guessed size will be discarded)
+#'                     the predicted size will be discarded)
 #' @param n_cores Number of CPU cores to use (default is 'half': half of all available cores)
 #' @importFrom utils read.csv
 #' @importFrom pbapply pbapply
-#' @importFrom seqinr s2c
 #' @importFrom lme4 lmer
 #' @importFrom dplyr bind_rows
 #' @importFrom merTools predictInterval
@@ -228,21 +231,11 @@ estimate_genome_size <- function(queries, refdata_path,
     size_db_lmm$species = as.factor(size_db_lmm$species)
     size_db_lmm$genome.size = trunc(round(size_db_lmm$TOTAL_LENGTH))
     genusfamily_size_db = na.omit(size_db_lmm[, c("genome.size", "family", "genus")])
-#    genusorder_size_db = na.omit(size_db_lmm[, c("genome.size", "genus", "order")])
-#    familyorder_size_db = na.omit(size_db_lmm[, c("genome.size", "family", "order")])
-    genusfamily_model = build_model(genusfamily_size_db, c("family", "genus"))
-#    genusorder_model = build_model(genusorder_size_db, c('genus', 'order'))
-#    familyorder_model = build_model(familyorder_size_db, c('family', 'order'))
+    genusfamily_model = build_lmm_model(genusfamily_size_db, c("family", "genus"))
     na_models = c(0)
     if (typeof(genusfamily_model) == 'logical' && is.na(genusfamily_model)) {
       na_models[1] = 1
     }
-#    if (typeof(genusorder_model) == 'logical' && is.na(genusorder_model)) {
-#      na_models[2] = 1
-#    }
-#    if (typeof(familyorder_model) == 'logical' && is.na(familyorder_model)) {
-#      na_models[3] = 1
-#    }
   }
   full_size_db = get_genome_size_db()
   full_size_db = read.csv(full_size_db, sep='\t', quote="", stringsAsFactors = FALSE)
@@ -255,14 +248,11 @@ estimate_genome_size <- function(queries, refdata_path,
   alltax = parseNCBITaxonomy(taxonomy)
 
   cat("Computing genome sizes", fill=T)
-  #options(warn=2)
 
   if (n_cores == 'half') {
     n_cores = parallel::detectCores() / 2
   }
   cat("Using ", n_cores, " cores", fill=T)
-  #cluster = parallel::makeCluster(n_cores)
-  #parallel::clusterExport(cluster, c("alltax", "nodes", "names"), envir=environment())
 
   output_table = try(pbapply(queries, 1, method,
                          models=list('genusfamily_model'=genusfamily_model,
@@ -272,25 +262,7 @@ estimate_genome_size <- function(queries, refdata_path,
                          names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
                          match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores))
 
-
-  # parabar::set_option("progress_track", TRUE)
-  # backend <- parabar::start_backend(cores = 4, cluster_type = "psock", backend_type = "async")
-  # parabar::export(backend, c("method"), environment())
-  # parabar::export(backend, c("bayesian"), .GlobalEnv)
-  # print(parabar::peek(backend))
-  # output_table = try(parabar::par_apply(backend, queries, 1, method,
-  #                            models=list('genusfamily_model'=genusfamily_model, 'genusorder_model'=genusorder_model,
-  #                                        'familyorder_model'=familyorder_model,
-  #                                        'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
-  #                                        'bayes_model_arch'=bayes_model_arch),
-  #                            na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
-  #                            names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
-  #                            match_sep=match_sep, ci_threshold=ci_threshold))
-
   cat('Done', fill=T)
-
-  #parabar::stop_backend(backend)
-  #parallel::stopCluster(cl = cluster)
 
   # Compute confidence interval if needed and handle formatting
   if (method == 'lmm') {
@@ -325,7 +297,6 @@ estimate_genome_size <- function(queries, refdata_path,
   row.names(output_table) = paste0('query_', 1:nrow(output_table))
 
   output_table$estimated_genome_size = as.numeric(output_table$estimated_genome_size)
-  #output_table$data_density = as.numeric(output_table$data_density)
 
   summary(output_table$estimated_genome_size)
 
@@ -339,15 +310,6 @@ estimate_genome_size <- function(queries, refdata_path,
   print(summary(output_table$estimated_genome_size))
   cat('\n# Estimation status:')
   print(table(output_table$genome_size_estimation_status))
-
-  # if (method == 'weighted_mean') {
-  #   cat('\n# Estimation at taxonomic rank:')
-  #   print(table(output_table$genome_size_estimation_rank))
-  #   cat('\n# Estimation distance:', fill=T)
-  #   cat('#\n')
-  #   print(summary(output_table$genome_size_estimation_distance))
-  #   cat("#############################################################################", fill=T)
-  # }
 
   # Minimal dataframe if dataframe output requested
   if (output_format == "data.frame") {

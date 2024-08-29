@@ -1,14 +1,18 @@
 
 compute_confidence_interval_lmm <- function(query, model, n_cores) {
 
-  cluster <- parallel::makeCluster(
-    n_cores,
-    type = "PSOCK"
-  )
-  doParallel::registerDoParallel(cl = cluster)
-  ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean", .parallel=T)
-  parallel::stopCluster(cl = cluster)
-
+  if (n_cores > 1) {
+    cluster <- parallel::makeCluster(
+      n_cores,
+      type = "PSOCK"
+    )
+    doParallel::registerDoParallel(cl = cluster)
+    ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean", .parallel=T)
+    parallel::stopCluster(cl = cluster)
+  }
+  else {
+    ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean")
+  }
   return(ci)
 }
 
@@ -26,7 +30,6 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
   out['LCA'] = NA
   if (format == 'tax_table' || format == 'biom') {
     out['TAXID'] = NA
-    #out['SCIENTIFIC_NAME'] = NA
   }
 
   match = read_match(query, format, match_column, match_sep)
@@ -54,7 +57,6 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
     else {
       out['TAXID'] = as.character(LCA)
     }
-    #out['SCIENTIFIC_NAME'] = sciname(match_taxid, names=names)
   }
   out['LCA'] = as.character(LCA)
 
@@ -73,7 +75,6 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
     return(out)
   }
   ranks = getrank(parents, taxdir=NA, nodes=nodes)
-  #ranks = ncbitax::getRank(parents, alltax)
   if (is.null(ranks)) {
     cat("\nParent taxid ranks not found for:", fill=T)
     cat(match, fill=T)
@@ -106,7 +107,7 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
       out['genome_size_estimation_status'] = 'OK'
     }
   }
-  else if (! na_models[1] && ! is.na(out$family)) {
+  else if (! is.na(out$family)) {
     estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
     out['model_used'] = 'lmm|family/genus'
   }
