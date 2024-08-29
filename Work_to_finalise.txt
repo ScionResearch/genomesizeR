@@ -6,6 +6,7 @@ Make databases and models available online (Celine)
 - Test on Windows and BFC (Celine)
 - Vignette about methods, weighted mean: add figure of example graph (Celine)
 - Document more the output in vignette
+- In input/output vignette, add an example using phyloseq data
 - Do the R checks, ok but do again before publishing (Celine)
 - Clean committed files (Celine)
 - Behaviour is weird with multithreaded (takes longer instead of shorter??) (Celine)
