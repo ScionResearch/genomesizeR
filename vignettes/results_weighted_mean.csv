@@ -1,181 +1,181 @@
-"","COUNT","SAMPLE","SCIENTIFIC_NAME","TAXID","estimated_genome_size","estimated_genome_size_confidence_interval","genome_size_estimation_status","genome_size_estimation_rank","genome_size_estimation_distance","LCA"
-"V1"," 75","16S_2","Mycobacterium","   1763",5676949.56363607,49197.7584864691,"OK","genus",1,"1763"
-"V2"," 39","16S_2","unclassified Bradyrhizobium","2631580",8314303.45882353,48223.6193741818,"OK","no rank",1,"2631580"
-"V3"," 22","16S_2","Acidicapsa sp. CE1","1078845",NA,NA,"No genome size reference for close taxa",NA,NA,"1078845"
-"V4"," 18","16S_2","Bacillaceae"," 186817",4573659.35983335,21193.40656765,"OK","family",1,"186817"
-"V5"," 15","16S_2","Silvibacterium bohemicum","1577686",6455356.5,2594.55,"OK","species",1,"1577686"
-"V6"," 14","16S_2","Hyphomicrobiaceae","  45401",4272755.9360119,193069.150149001,"OK","family",1,"45401"
-"V7"," 13","16S_2","Granulicella"," 940557",5382711.11764706,187332.985000293,"OK","genus",1,"940557"
-"V8"," 12","16S_2","unclassified Acidobacteriaceae"," 112074",NA,NA,"No genome size reference for close taxa",NA,NA,"112074"
-"V9"," 10","16S_2","unclassified Telmatobacter","2634852",NA,NA,"No genome size reference for close taxa",NA,NA,"2634852"
-"V10"," 10","16S_2","Sphingobacteriaceae","  84566",5304020.57991777,50413.1000458441,"OK","family",1,"84566"
-"V11","  9","16S_2","Heyndrickxia acidicola"," 209389",5137992,0,"OK","species",1,"209389"
-"V12","  9","16S_2","Steroidobacter sp.","1978227",8537399,0,"OK","species",1,"1978227"
-"V13","  8","16S_2","Acidisphaera sp. C37","1671484",NA,NA,"No genome size reference for close taxa",NA,NA,"1671484"
-"V14","  8","16S_2","Bradyrhizobium sp. URHC0015","1703014",NA,NA,"No genome size reference for close taxa",NA,NA,"1703014"
-"V15","  8","16S_2","unclassified Geobacter","2627627",4115020.47619048,137157.939630006,"OK","no rank",1,"2627627"
-"V16","  7","16S_2","unclassified Herbaspirillum","2624150",5343451.65740741,87193.0090631342,"OK","no rank",1,"2624150"
-"V17","  6","16S_2","unclassified Rhizomicrobium","2649895",NA,NA,"No genome size reference for close taxa",NA,NA,"2649895"
-"V18","  6","16S_2","Blastochloris","  59282",3839873.88888889,63565.5769116485,"OK","genus",1,"59282"
-"V19","  6","16S_2","Edaphobacter sp.","1934404",4787281,0,"OK","species",1,"1934404"
-"V20","  6","16S_2","Clostridium magnum","  33954",6551967,81303.74,"OK","species",1,"33954"
-"V21","  6","16S_2","Rhodoplanes sp.","1968906",6477518,0,"OK","species",1,"1968906"
-"V22","  6","16S_2","Aetherobacter"," 888829",NA,NA,"No genome size reference for close taxa",NA,NA,"888829"
-"V23","  5","16S_2","Edaphobacter lichenicola","2051959",5290040.42857143,177952.937987608,"OK","species",1,"2051959"
-"V24","  5","16S_2","Rhizomicrobium sp. URHD0049","1703066",NA,NA,"No genome size reference for close taxa",NA,NA,"1703066"
-"V25","  5","16S_2","Rhodoplanes","  29407",5921481.29166667,840696.769654021,"OK","genus",1,"29407"
-"V26","  5","16S_2","bacterium Ellin335"," 204678",NA,NA,"No genome size reference for close taxa",NA,NA,"204678"
-"V27","  5","16S_2","Flavitalea sp.","1909289",NA,NA,"No genome size reference for close taxa",NA,NA,"1909289"
-"V28","  5","16S_2","Telmatobacter bradus"," 474953",NA,NA,"No genome size reference for close taxa",NA,NA,"474953"
-"V29","  5","16S_2","Nevskia","  64001",4618571.125,115575.001419714,"OK","genus",1,"64001"
-"V30","  5","16S_2","Streptomyces","   1883",8467436.47842998,28441.7118304196,"OK","genus",1,"1883"
-"V31","264","16S_1","Acidobacteriaceae bacterium","2052142",NA,NA,"No genome size reference for close taxa",NA,NA,"2052142"
-"V32","182","16S_1","unclassified Granulicella","2621151",5287462.625,294524.287360121,"OK","no rank",1,"2621151"
-"V33","161","16S_1","Opitutus sp.","1913982",NA,NA,"No genome size reference for close taxa",NA,NA,"1913982"
-"V34","116","16S_1","Granulicella sp.","1969471",NA,NA,"No genome size reference for close taxa",NA,NA,"1969471"
-"V35"," 94","16S_1","Geobacter pickeringii"," 345632",3618700,0,"OK","species",1,"345632"
-"V36"," 79","16S_1","Beijerinckiaceae","  45404",4625427.44230769,182124.849871809,"OK","family",1,"45404"
-"V37"," 76","16S_1","Methylocystis sp.","1911079",3841819,366628.78,"OK","species",1,"1911079"
-"V38"," 69","16S_1","type II methanotroph metano-II"," 120308",NA,NA,"No genome size reference for close taxa",NA,NA,"120308"
-"V39"," 64","16S_1","Syntrophobacter wolinii","  29527",NA,NA,"No genome size reference for close taxa",NA,NA,"29527"
-"V40"," 54","16S_1","Acidobacteriaceae bacterium K5","1078887",NA,NA,"No genome size reference for close taxa",NA,NA,"1078887"
-"V41"," 50","16S_1","Sideroxydans"," 314343",3388256.5,376908.49,"OK","genus",1,"314343"
-"V42"," 44","16S_1","Rhodopila globiformis","   1071",7247838,0,"OK","species",1,"1071"
-"V43"," 43","16S_1","Telmatobacter bradus"," 474953",NA,NA,"No genome size reference for close taxa",NA,NA,"474953"
-"V44"," 36","16S_1","Acidobacteriaceae"," 204434",5257040.92151675,140945.626920027,"OK","family",1,"204434"
-"V45"," 30","16S_1","bacterium Ellin5058"," 234245",NA,NA,"No genome size reference for close taxa",NA,NA,"234245"
-"V46"," 28","16S_1","Acidisphaera","  50714",NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"50714"
-"V47"," 28","16S_1","Terracidiphilus gabretensis","1577687",5345618,0,"OK","species",1,"1577687"
-"V48"," 27","16S_1","Thermomonosporaceae bacterium YE4-D4-16-CH2"," 795107",NA,NA,"No genome size reference for close taxa",NA,NA,"795107"
-"V49"," 26","16S_1","bacterium Ellin335"," 204678",NA,NA,"No genome size reference for close taxa",NA,NA,"204678"
-"V50"," 25","16S_1","Rhizomicrobium sp. URHD0049","1703066",NA,NA,"No genome size reference for close taxa",NA,NA,"1703066"
-"V51"," 18","16S_1","Blastochloris","  59282",3839873.88888889,63565.5769116485,"OK","genus",1,"59282"
-"V52"," 17","16S_1","Steroidobacter sp.","1978227",8537399,0,"OK","species",1,"1978227"
-"V53"," 16","16S_1","unclassified Bradyrhizobium","2631580",8314303.45882353,48223.6193741818,"OK","no rank",1,"2631580"
-"V54"," 14","16S_1","Aciditerrimonas sp.","1872117",NA,NA,"No genome size reference for close taxa",NA,NA,"1872117"
-"V55"," 13","16S_1","Flavitalea sp.","1909289",NA,NA,"No genome size reference for close taxa",NA,NA,"1909289"
-"V56"," 13","16S_1","Spirochaeta sp.","  28185",NA,NA,"No genome size reference for close taxa",NA,NA,"28185"
-"V57"," 12","16S_1","unclassified Telmatobacter","2634852",NA,NA,"No genome size reference for close taxa",NA,NA,"2634852"
-"V58"," 12","16S_1","Acidobacteriaceae bacterium LWQ3","1387378",NA,NA,"No genome size reference for close taxa",NA,NA,"1387378"
-"V59","  9","16S_1","Rhodoplanes","  29407",5921481.29166667,840696.769654021,"OK","genus",1,"29407"
-"V60","  9","16S_1","Solimicrobium silvestre","2099400",5243257,0,"OK","species",1,"2099400"
-"V61"," 76","ITS_3","Psathyrella marquana","2259056",NA,NA,"No genome size reference for close taxa",NA,NA,"2259056"
-"V62"," 27","ITS_3","Saitozyma ninhbinhensis"," 388101",NA,NA,"No genome size reference for close taxa",NA,NA,"388101"
-"V63"," 21","ITS_3","Mucor hiemalis","  64493",NA,NA,"No genome size reference for close taxa",NA,NA,"64493"
-"V64"," 19","ITS_3","Apiotrichum dulcitum","  82515",NA,NA,"No genome size reference for close taxa",NA,NA,"82515"
-"V65"," 18","ITS_3","Hebeloma crustuliniforme","  34454",NA,NA,"No genome size reference for close taxa",NA,NA,"34454"
-"V66"," 13","ITS_3","Didymellaceae"," 683158",35710915.5,1763763.79521722,"OK","family",1,"683158"
-"V67"," 12","ITS_3","Cladosporium","   5498",NA,NA,"No genome size reference for close taxa",NA,NA,"5498"
-"V68"," 11","ITS_3","Fusarium oxysporum","   5507",55147816,4693187.66,"OK","species",1,"5507"
-"V69"," 11","ITS_3","Ascobolus stercorarius"," 255055",NA,NA,"No genome size reference for close taxa",NA,NA,"255055"
-"V70"," 10","ITS_3","Chaetomiaceae sp.","1756124",NA,NA,"No genome size reference for close taxa",NA,NA,"1756124"
-"V71"," 10","ITS_3","Lectera colletotrichoides","1208925",NA,NA,"No genome size reference for close taxa",NA,NA,"1208925"
-"V72","  9","ITS_3","Mucor sp.","1715236",NA,NA,"No genome size reference for close taxa",NA,NA,"1715236"
-"V73","  9","ITS_3","Fusarium tricinctum species complex"," 679429",NA,NA,"No genome size reference for close taxa",NA,NA,"679429"
-"V74","  9","ITS_3","Linnemannia elongata"," 310910",NA,NA,"No genome size reference for close taxa",NA,NA,"310910"
-"V75","  8","ITS_3","Trichoderma sp.","1715253",NA,NA,"No genome size reference for close taxa",NA,NA,"1715253"
-"V76","  8","ITS_3","Gaeumannomyces","  29849",40978577,0,"OK","genus",1,"29849"
-"V77","  7","ITS_3","Mortierella sp.","1715235",NA,NA,"No genome size reference for close taxa",NA,NA,"1715235"
-"V78","  7","ITS_3","Entomortierella beljakovae"," 979673",NA,NA,"No genome size reference for close taxa",NA,NA,"979673"
-"V79","  7","ITS_3","Hypomyces samuelsii"," 767784",NA,NA,"No genome size reference for close taxa",NA,NA,"767784"
-"V80","  6","ITS_3","Fusarium proliferatum"," 948311",44903268,0,"OK","species",1,"948311"
-"V81","  6","ITS_3","Allophylaria subliciformis","2478803",NA,NA,"No genome size reference for close taxa",NA,NA,"2478803"
-"V82","  5","ITS_3","Alternaria sp.","1715220",NA,NA,"No genome size reference for close taxa",NA,NA,"1715220"
-"V83","  5","ITS_3","Saccotheciaceae","1570301",26751132.25,938794.077205986,"OK","family",1,"1570301"
-"V84","  5","ITS_3","Neoascochyta exitialis"," 487631",NA,NA,"No genome size reference for close taxa",NA,NA,"487631"
-"V85","  4","ITS_3","Agaricaceae sp. 325","1198532",NA,NA,"No genome size reference for close taxa",NA,NA,"1198532"
-"V86","  4","ITS_3","Volutella ciliata"," 145967",NA,NA,"No genome size reference for close taxa",NA,NA,"145967"
-"V87","  4","ITS_3","Fusarium","   5506",45135196.85,1263841.33001722,"OK","genus",1,"5506"
-"V88","  4","ITS_3","Phoma herbarum","  73001",NA,NA,"No genome size reference for close taxa",NA,NA,"73001"
-"V89","  4","ITS_3","Fusarium tricinctum","  61284",NA,NA,"No genome size reference for close taxa",NA,NA,"61284"
-"V90","  4","ITS_3","Ceratobasidium sp. FO 38200"," 386466",NA,NA,"No genome size reference for close taxa",NA,NA,"386466"
-"V91","112","ITS_2","Saitozyma ninhbinhensis"," 388101",NA,NA,"No genome size reference for close taxa",NA,NA,"388101"
-"V92"," 81","ITS_2","Linnemannia elongata"," 310910",NA,NA,"No genome size reference for close taxa",NA,NA,"310910"
-"V93"," 68","ITS_2","Cladosporium","   5498",NA,NA,"No genome size reference for close taxa",NA,NA,"5498"
-"V94"," 37","ITS_2","Fusarium oxysporum","   5507",55147816,4693187.66,"OK","species",1,"5507"
-"V95"," 31","ITS_2","Chaetomiaceae sp.","1756124",NA,NA,"No genome size reference for close taxa",NA,NA,"1756124"
-"V96"," 29","ITS_2","Fonsecaea minima","1367421",NA,NA,"No genome size reference for close taxa",NA,NA,"1367421"
-"V97"," 27","ITS_2","Nectria cinnabarina","  29855",NA,NA,"No genome size reference for close taxa",NA,NA,"29855"
-"V98"," 25","ITS_2","Didymella pinodella"," 749633",NA,NA,"No genome size reference for close taxa",NA,NA,"749633"
-"V99"," 23","ITS_2","Hebeloma crustuliniforme","  34454",NA,NA,"No genome size reference for close taxa",NA,NA,"34454"
-"V100"," 19","ITS_2","Fusarium tricinctum","  61284",NA,NA,"No genome size reference for close taxa",NA,NA,"61284"
-"V101"," 19","ITS_2","Capnobotryella sp. MA 3619"," 447491",NA,NA,"No genome size reference for close taxa",NA,NA,"447491"
-"V102"," 18","ITS_2","Shiraia bambusicola"," 224420",NA,NA,"No genome size reference for close taxa",NA,NA,"224420"
-"V103"," 18","ITS_2","Dinemasporium pseudostrigosum","1196448",NA,NA,"No genome size reference for close taxa",NA,NA,"1196448"
-"V104"," 17","ITS_2","Podila","2779937",NA,NA,"No genome size reference for close taxa",NA,NA,"2779937"
-"V105"," 15","ITS_2","Solicoccozyma gelidoterrea","2877759",NA,NA,"No genome size reference for close taxa",NA,NA,"2877759"
-"V106"," 14","ITS_2","Dinemasporium strigosum","1196449",NA,NA,"No genome size reference for close taxa",NA,NA,"1196449"
-"V107"," 12","ITS_2","Coleophoma ericicola","1849048",NA,NA,"No genome size reference for close taxa",NA,NA,"1849048"
-"V108"," 11","ITS_2","Umbelopsis sp. Mykopat 134","1187152",NA,NA,"No genome size reference for close taxa",NA,NA,"1187152"
-"V109"," 11","ITS_2","Clonostachys"," 110564",NA,NA,"No genome size reference for close taxa",NA,NA,"110564"
-"V110","  9","ITS_2","Fontanospora fusiramosa"," 693254",NA,NA,"No genome size reference for close taxa",NA,NA,"693254"
-"V111","  8","ITS_2","Seltsamia ulmi","2053811",NA,NA,"No genome size reference for close taxa",NA,NA,"2053811"
-"V112","  8","ITS_2","Clonostachys rosea","  29856",NA,NA,"No genome size reference for close taxa",NA,NA,"29856"
-"V113","  7","ITS_2","Microsphaeropsis arundinis"," 413604",NA,NA,"No genome size reference for close taxa",NA,NA,"413604"
-"V114","  7","ITS_2","Hyphodiscus hymeniophilus"," 353542",NA,NA,"No genome size reference for close taxa",NA,NA,"353542"
-"V115","  7","ITS_2","Ijuhya corynospora","2015267",NA,NA,"No genome size reference for close taxa",NA,NA,"2015267"
-"V116","  6","ITS_2","Phaeomoniella chlamydospora"," 158046",NA,NA,"No genome size reference for close taxa",NA,NA,"158046"
-"V117","  6","ITS_2","Rhizophlyctis rosea","  64517",NA,NA,"No genome size reference for close taxa",NA,NA,"64517"
-"V118","  5","ITS_2","Bacillicladium lobatum","1909408",NA,NA,"No genome size reference for close taxa",NA,NA,"1909408"
-"V119","  5","ITS_2","Fraxinicola fraxini"," 470489",NA,NA,"No genome size reference for close taxa",NA,NA,"470489"
-"V120","  5","ITS_2","Sarea sp.","2040954",NA,NA,"No genome size reference for close taxa",NA,NA,"2040954"
-"V121"," 68","ITS_1","Podospora","   5144",34250768,0,"OK","genus",1,"5144"
-"V122"," 34","ITS_1","Podila minutissima","  64525",NA,NA,"No genome size reference for close taxa",NA,NA,"64525"
-"V123"," 33","ITS_1","Dactylella cylindrospora","1814901",NA,NA,"No genome size reference for close taxa",NA,NA,"1814901"
-"V124"," 25","ITS_1","Mucor moelleri","1302847",NA,NA,"No genome size reference for close taxa",NA,NA,"1302847"
-"V125"," 23","ITS_1","Mortierella sp.","1715235",NA,NA,"No genome size reference for close taxa",NA,NA,"1715235"
-"V126"," 17","ITS_1","Alternaria japonica"," 119919",NA,NA,"No genome size reference for close taxa",NA,NA,"119919"
-"V127"," 16","ITS_1","Paraconiothyrium sp.","1696682",NA,NA,"No genome size reference for close taxa",NA,NA,"1696682"
-"V128"," 14","ITS_1","Serendipita vermifera"," 109899",NA,NA,"No genome size reference for close taxa",NA,NA,"109899"
-"V129"," 12","ITS_1","Chaetomium","   5149",34336862,0,"OK","genus",1,"5149"
-"V130"," 11","ITS_1","Pragmopora cf. piceae","2653547",NA,NA,"No genome size reference for close taxa",NA,NA,"2653547"
-"V131"," 10","ITS_1","Coleophoma ericicola","1849048",NA,NA,"No genome size reference for close taxa",NA,NA,"1849048"
-"V132","  9","ITS_1","Neonectria neomacrospora","  78403",NA,NA,"No genome size reference for close taxa",NA,NA,"78403"
-"V133","  9","ITS_1","Digitopodium cannae","2571989",NA,NA,"No genome size reference for close taxa",NA,NA,"2571989"
-"V134","  8","ITS_1","Clonostachys"," 110564",NA,NA,"No genome size reference for close taxa",NA,NA,"110564"
-"V135","  8","ITS_1","Saitozyma ninhbinhensis"," 388101",NA,NA,"No genome size reference for close taxa",NA,NA,"388101"
-"V136","  6","ITS_1","Entomortierella beljakovae"," 979673",NA,NA,"No genome size reference for close taxa",NA,NA,"979673"
-"V137","  6","ITS_1","Articulospora proliferata"," 556895",NA,NA,"No genome size reference for close taxa",NA,NA,"556895"
-"V138","  6","ITS_1","Fusarium oxysporum","   5507",55147816,4693187.66,"OK","species",1,"5507"
-"V139","  5","ITS_1","Ceratobasidium sp. FO 38200"," 386466",NA,NA,"No genome size reference for close taxa",NA,NA,"386466"
-"V140","  5","ITS_1","Mycena galopus","  41248",NA,NA,"No genome size reference for close taxa",NA,NA,"41248"
-"V141","  5","ITS_1","Dominikia sp.","2011914",NA,NA,"No genome size reference for close taxa",NA,NA,"2011914"
-"V142","  5","ITS_1","Scutellospora sp.","1931098",NA,NA,"No genome size reference for close taxa",NA,NA,"1931098"
-"V143","  5","ITS_1","Sarea sp.","2040954",NA,NA,"No genome size reference for close taxa",NA,NA,"2040954"
-"V144","  5","ITS_1","Stropharia rugosoannulata","  68746",NA,NA,"No genome size reference for close taxa",NA,NA,"68746"
-"V145","  4","ITS_1","Orbilia atlantis","1798097",NA,NA,"No genome size reference for close taxa",NA,NA,"1798097"
-"V146","  4","ITS_1","Mortierellaceae","   4854",40217128.5,2500784.09,"OK","family",1,"4854"
-"V147","  4","ITS_1","Articulospora tetracladia"," 253309",NA,NA,"No genome size reference for close taxa",NA,NA,"253309"
-"V148","  4","ITS_1","Stagonospora pseudopaludosa","1414640",NA,NA,"No genome size reference for close taxa",NA,NA,"1414640"
-"V149","  4","ITS_1","Allophylaria subliciformis","2478803",NA,NA,"No genome size reference for close taxa",NA,NA,"2478803"
-"V150","  4","ITS_1","Pestalotiopsis mangiferae"," 748176",NA,NA,"No genome size reference for close taxa",NA,NA,"748176"
-"V151","313","16S_3","Acidobacteriaceae"," 204434",5257040.92151675,140945.626920027,"OK","family",1,"204434"
-"V152"," 88","16S_3","Bacillaceae"," 186817",4573659.35983335,21193.40656765,"OK","family",1,"186817"
-"V153"," 79","16S_3","Actinoallomurus sp.","1872127",NA,NA,"No genome size reference for close taxa",NA,NA,"1872127"
-"V154"," 78","16S_3","Mycobacterium","   1763",5676949.56363607,49197.7584864691,"OK","genus",1,"1763"
-"V155"," 74","16S_3","Acidobacteriaceae bacterium","2052142",NA,NA,"No genome size reference for close taxa",NA,NA,"2052142"
-"V156"," 45","16S_3","Opitutus sp.","1913982",NA,NA,"No genome size reference for close taxa",NA,NA,"1913982"
-"V157"," 36","16S_3","Alloacidobacterium dinghuense","2763107",6271114,0,"OK","species",1,"2763107"
-"V158"," 33","16S_3","Blastochloris","  59282",3839873.88888889,63565.5769116485,"OK","genus",1,"59282"
-"V159"," 32","16S_3","bacterium Ellin5058"," 234245",NA,NA,"No genome size reference for close taxa",NA,NA,"234245"
-"V160"," 26","16S_3","Terracidiphilus gabretensis","1577687",5345618,0,"OK","species",1,"1577687"
-"V161"," 25","16S_3","Gallionella sp.","2052161",NA,NA,"No genome size reference for close taxa",NA,NA,"2052161"
-"V162"," 23","16S_3","Syntrophobacter wolinii","  29527",NA,NA,"No genome size reference for close taxa",NA,NA,"29527"
-"V163"," 23","16S_3","Paenibacillus sp. 27-9"," 519770",NA,NA,"No genome size reference for close taxa",NA,NA,"519770"
-"V164"," 23","16S_3","Acidobacteriaceae bacterium LWQ3","1387378",NA,NA,"No genome size reference for close taxa",NA,NA,"1387378"
-"V165"," 19","16S_3","unclassified Bradyrhizobium","2631580",8314303.45882353,48223.6193741818,"OK","no rank",1,"2631580"
-"V166"," 17","16S_3","Rhodoplanes","  29407",5921481.29166667,840696.769654021,"OK","genus",1,"29407"
-"V167"," 15","16S_3","Ktedonobacter sp.","1932716",NA,NA,"No genome size reference for close taxa",NA,NA,"1932716"
-"V168"," 13","16S_3","Acidobacterium capsulatum","  33075",4127356,0,"OK","species",1,"33075"
-"V169"," 12","16S_3","Sideroxydans"," 314343",3388256.5,376908.49,"OK","genus",1,"314343"
-"V170"," 12","16S_3","Rhodopila globiformis","   1071",7247838,0,"OK","species",1,"1071"
-"V171"," 12","16S_3","Granulicella sp.","1969471",NA,NA,"No genome size reference for close taxa",NA,NA,"1969471"
-"V172"," 11","16S_3","unclassified Rhizomicrobium","2649895",NA,NA,"No genome size reference for close taxa",NA,NA,"2649895"
-"V173"," 11","16S_3","bacterium Ellin342"," 204668",NA,NA,"No genome size reference for close taxa",NA,NA,"204668"
-"V174"," 11","16S_3","Spirochaeta sp.","  28185",NA,NA,"No genome size reference for close taxa",NA,NA,"28185"
-"V175"," 11","16S_3","Rhizomicrobium sp. URHD0049","1703066",NA,NA,"No genome size reference for close taxa",NA,NA,"1703066"
-"V176"," 10","16S_3","Trebonia kvetii","2480626",9254566,0,"OK","species",1,"2480626"
-"V177","  9","16S_3","Acidobacteriaceae bacterium KBS 89","1267534",NA,NA,"No genome size reference for close taxa",NA,NA,"1267534"
-"V178","  9","16S_3","Flavitalea sp.","1909289",NA,NA,"No genome size reference for close taxa",NA,NA,"1909289"
-"V179","  8","16S_3","Acidisphaera sp.","1872116",NA,NA,"No genome size reference for close taxa",NA,NA,"1872116"
-"V180","  8","16S_3","unclassified Telmatobacter","2634852",NA,NA,"No genome size reference for close taxa",NA,NA,"2634852"
+"","COUNT","SAMPLE","SCIENTIFIC_NAME","TAXID","estimated_genome_size","confidence_interval_lower","confidence_interval_upper","genome_size_estimation_status","genome_size_estimation_rank","genome_size_estimation_distance","LCA","genus","family","order","class","phylum","clade","superkingdom","no rank","model_used","species","subclass","suborder","subphylum","subkingdom","kingdom","species group","section"
+"query_1"," 75","16S_2","Mycobacterium","   1763",5698532.49895791,5646803.03777707,5750261.96013874,"OK","genus",1,"1763","1763","1762","85007","1760","201174","1783272","2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_2"," 39","16S_2","unclassified Bradyrhizobium","2631580",8053629.35777307,8012992.67383749,8094266.04170864,"OK","no rank",1,"2631580","374","41294","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_3"," 22","16S_2","Acidicapsa sp. CE1","1078845",6321031.33333333,6114660.00802011,6527402.65864656,"OK","genus",3,"1078845","1078830","204434","204433","204432","57723",NA,"2","1","weighted_mean","1078845",NA,NA,NA,NA,NA,NA,NA
+"query_4"," 18","16S_2","Bacillaceae"," 186817",4591108.66296344,4572336.24503258,4609881.08089429,"OK","family",1,"186817",NA,"186817","1385","91061","1239","1783272","2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_5"," 15","16S_2","Silvibacterium bohemicum","1577686",6455356.5,6452761.95,6457951.05,"OK","species",1,"1577686","1775468","204434","204433","204432","57723",NA,"2","1","weighted_mean","1577686",NA,NA,NA,NA,NA,NA,NA
+"query_6"," 14","16S_2","Hyphomicrobiaceae","  45401",3792474.85297296,3627054.34103445,3957895.36491146,"OK","family",1,"45401",NA,"45401","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_7"," 13","16S_2","Granulicella"," 940557",4793740.02117812,4525016.82703619,5062463.21532005,"OK","genus",1,"940557","940557","204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_8"," 12","16S_2","unclassified Acidobacteriaceae"," 112074",4424371.30255006,3950595.25406069,4898147.35103943,"OK","no rank",1,"112074",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_9"," 10","16S_2","unclassified Telmatobacter","2634852",5718671.74964846,5652866.30504182,5784477.19425509,"OK","family",3,"2634852","1078829","204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_10"," 10","16S_2","Sphingobacteriaceae","  84566",5151569.58213602,5102537.36638523,5200601.79788681,"OK","family",1,"84566",NA,"84566","200666","117747","976","1783270","2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_11","  9","16S_2","Heyndrickxia acidicola"," 209389",5111003,5084553.78,5137452.22,"OK","species",1,"209389","2837504","186817","1385","91061","1239","1783272","2","1","weighted_mean","209389",NA,NA,NA,NA,NA,NA,NA
+"query_12","  9","16S_2","Steroidobacter sp.","1978227",4827295.14285714,4269336.90425151,5385253.38146278,"OK","species",1,"1978227","469322","2689614","3060226","1236","1224",NA,"2","1","weighted_mean","1978227",NA,NA,NA,NA,NA,NA,NA
+"query_13","  8","16S_2","Acidisphaera sp. C37","1671484",5867375.89855072,4827654.59899794,6907097.19810351,"OK","no rank",2,"1671484","50714","433","204441","28211","1224",NA,"2","1","weighted_mean","1671484",NA,NA,NA,NA,NA,NA,NA
+"query_14","  8","16S_2","Bradyrhizobium sp. URHC0015","1703014",8053629.35777307,8026538.23514935,8080720.48039678,"OK","no rank",2,"1703014","374","41294","356","28211","1224",NA,"2","1","weighted_mean","1703014",NA,NA,NA,NA,NA,NA,NA
+"query_15","  8","16S_2","unclassified Geobacter","2627627",3203457.277,3042914.94676165,3363999.60723835,"OK","no rank",1,"2627627","28231","213422","3031668","3031651","200940",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_16","  7","16S_2","unclassified Herbaspirillum","2624150",5283140.98552632,5192138.33476563,5374143.636287,"OK","no rank",1,"2624150","963","75682","80840","28216","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_17","  6","16S_2","unclassified Rhizomicrobium","2649895",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"2649895","1241326","1921568","1921567","28211","1224",NA,"2","1",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"query_18","  6","16S_2","Blastochloris","  59282",3399248.0625,3088958.01319737,3709538.11180263,"OK","genus",1,"59282","59282","2831090","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_19","  6","16S_2","Edaphobacter sp.","1934404",3657159.07142857,3395128.44403241,3919189.69882473,"OK","species",1,"1934404","388463","204434","204433","204432","57723",NA,"2","1","weighted_mean","1934404",NA,NA,NA,NA,NA,NA,NA
+"query_20","  6","16S_2","Clostridium magnum","  33954",6551967,6470663.26,6633270.74,"OK","species",1,"33954","1485","31979","186802","186801","1239","1783272","2","1","weighted_mean","33954",NA,NA,NA,NA,NA,NA,NA
+"query_21","  6","16S_2","Rhodoplanes sp.","1968906",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"1968906","29407","45401","356","28211","1224",NA,"2","1",NA,"1968906",NA,NA,NA,NA,NA,NA,NA
+"query_22","  6","16S_2","Aetherobacter"," 888829",12008764.4803678,11518182.9871185,12499345.9736172,"OK","family",2,"888829","888829","49","3031712",NA,"2818505",NA,"2","1","weighted_mean",NA,"3031711",NA,NA,NA,NA,NA,NA
+"query_23","  5","16S_2","Edaphobacter lichenicola","2051959",5290040.42857143,5112087.49058382,5467993.36655904,"OK","species",1,"2051959","388463","204434","204433","204432","57723",NA,"2","1","weighted_mean","2051959",NA,NA,NA,NA,NA,NA,NA
+"query_24","  5","16S_2","Rhizomicrobium sp. URHD0049","1703066",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"1703066","1241326","1921568","1921567","28211","1224",NA,"2","1",NA,"1703066",NA,NA,NA,NA,NA,NA,NA
+"query_25","  5","16S_2","Rhodoplanes","  29407",5823781.10555556,5040305.06123946,6607257.14987165,"OK","genus",1,"29407","29407","45401","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_26","  5","16S_2","bacterium Ellin335"," 204678",3280323.39078341,2989103.64919205,3571543.13237477,"OK","family",3,"204678",NA,"1921568","1921567","28211","1224",NA,"2","1","weighted_mean","204678",NA,NA,NA,NA,NA,NA,NA
+"query_27","  5","16S_2","Flavitalea sp.","1909289",3975566.5,3651872.98689672,4299260.01310328,"OK","species",1,"1909289","1210116","563835","1853229","1853228","976","1783270","2","1","weighted_mean","1909289",NA,NA,NA,NA,NA,NA,NA
+"query_28","  5","16S_2","Telmatobacter bradus"," 474953",5487934.67791856,5422129.23331193,5553740.1225252,"OK","family",3,"474953","1078829","204434","204433","204432","57723",NA,"2","1","weighted_mean","474953",NA,NA,NA,NA,NA,NA,NA
+"query_29","  5","16S_2","Nevskia","  64001",4112309.70833333,3837882.58301344,4386736.83365323,"OK","genus",1,"64001","64001","568386","1775403","1236","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_30","  5","16S_2","Streptomyces","   1883",8587078.35800759,8566027.39005845,8608129.32595673,"OK","genus",1,"1883","1883","2062","85011","1760","201174","1783272","2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_31","264","16S_1","Acidobacteriaceae bacterium","2052142",4004784.32805071,3956501.93224926,4053066.72385216,"OK","species",1,"2052142",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","2052142",NA,NA,NA,NA,NA,NA,NA
+"query_32","182","16S_1","unclassified Granulicella","2621151",4461602.1155914,4029011.65936502,4894192.57181777,"OK","no rank",1,"2621151","940557","204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_33","161","16S_1","Opitutus sp.","1913982",3692303.48387097,3458260.62034799,3926346.34739395,"OK","species",1,"1913982","178440","134623","415000","414999","74201","1783257","2","1","weighted_mean","1913982",NA,NA,NA,NA,NA,NA,NA
+"query_34","116","16S_1","Granulicella sp.","1969471",3566997.38709677,3456657.75166034,3677337.0225332,"OK","species",1,"1969471","940557","204434","204433","204432","57723",NA,"2","1","weighted_mean","1969471",NA,NA,NA,NA,NA,NA,NA
+"query_35"," 94","16S_1","Geobacter pickeringii"," 345632",3525220.76009524,3441067.51866762,3609374.00152286,"OK","genus",2,"345632","28231","213422","3031668","3031651","200940",NA,"2","1","weighted_mean","345632",NA,NA,NA,NA,NA,NA,NA
+"query_36"," 79","16S_1","Beijerinckiaceae","  45404",4197690.50559683,3975117.64373981,4420263.36745385,"OK","family",1,"45404",NA,"45404","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_37"," 76","16S_1","Methylocystis sp.","1911079",2784004.66666667,2664147.90631805,2903861.42701528,"OK","species",1,"1911079","133","31993","356","28211","1224",NA,"2","1","weighted_mean","1911079",NA,NA,NA,NA,NA,NA,NA
+"query_38"," 69","16S_1","type II methanotroph metano-II"," 120308",1782750.2195122,1566209.34002904,1999291.09899535,"OK","no rank",2,"120308",NA,"31993","356","28211","1224",NA,"2","1","weighted_mean","120308",NA,NA,NA,NA,NA,NA,NA
+"query_39"," 64","16S_1","Syntrophobacter wolinii","  29527",4154643.56746032,3775288.25855206,4533998.87636857,"OK","genus",2,"29527","29526","213465","213462","3024408","200940",NA,"2","1","weighted_mean","29527",NA,NA,NA,NA,NA,NA,NA
+"query_40"," 54","16S_1","Acidobacteriaceae bacterium K5","1078887",4424371.30255006,4108520.60355715,4740222.00154298,"OK","no rank",2,"1078887",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","1078887",NA,NA,NA,NA,NA,NA,NA
+"query_41"," 50","16S_1","Sideroxydans"," 314343",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"314343","314343","90627","32003","28216","1224",NA,"2","1",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"query_42"," 44","16S_1","Rhodopila globiformis","   1071",6791598.6501548,6343582.59467012,7239614.70563948,"OK","genus",2,"1071","1070","433","204441","28211","1224",NA,"2","1","weighted_mean","1071",NA,NA,NA,NA,NA,NA,NA
+"query_43"," 43","16S_1","Telmatobacter bradus"," 474953",5487934.67791856,5422129.23331193,5553740.1225252,"OK","family",3,"474953","1078829","204434","204433","204432","57723",NA,"2","1","weighted_mean","474953",NA,NA,NA,NA,NA,NA,NA
+"query_44"," 36","16S_1","Acidobacteriaceae"," 204434",4821360.91514331,4689750.02593004,4952971.80435658,"OK","family",1,"204434",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_45"," 30","16S_1","bacterium Ellin5058"," 234245",4424371.30255006,4108520.60355715,4740222.00154298,"OK","no rank",2,"234245",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","234245",NA,NA,NA,NA,NA,NA,NA
+"query_46"," 28","16S_1","Acidisphaera","  50714",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"50714","50714","433","204441","28211","1224",NA,"2","1",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"query_47"," 28","16S_1","Terracidiphilus gabretensis","1577687",5119104.39069767,4749132.16217054,5489076.61922481,"OK","genus",2,"1577687","1768185","204434","204433","204432","57723",NA,"2","1","weighted_mean","1577687",NA,NA,NA,NA,NA,NA,NA
+"query_48"," 27","16S_1","Thermomonosporaceae bacterium YE4-D4-16-CH2"," 795107",8726051.53961353,8660351.01608,8791752.06314705,"OK","family",3,"795107",NA,"2012","85012","1760","201174","1783272","2","1","weighted_mean","795107",NA,NA,NA,NA,NA,NA,NA
+"query_49"," 26","16S_1","bacterium Ellin335"," 204678",3280323.39078341,2989103.64919205,3571543.13237477,"OK","family",3,"204678",NA,"1921568","1921567","28211","1224",NA,"2","1","weighted_mean","204678",NA,NA,NA,NA,NA,NA,NA
+"query_50"," 25","16S_1","Rhizomicrobium sp. URHD0049","1703066",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"1703066","1241326","1921568","1921567","28211","1224",NA,"2","1",NA,"1703066",NA,NA,NA,NA,NA,NA,NA
+"query_51"," 18","16S_1","Blastochloris","  59282",3399248.0625,3088958.01319737,3709538.11180263,"OK","genus",1,"59282","59282","2831090","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_52"," 17","16S_1","Steroidobacter sp.","1978227",4827295.14285714,4269336.90425151,5385253.38146278,"OK","species",1,"1978227","469322","2689614","3060226","1236","1224",NA,"2","1","weighted_mean","1978227",NA,NA,NA,NA,NA,NA,NA
+"query_53"," 16","16S_1","unclassified Bradyrhizobium","2631580",8053629.35777307,8012992.67383749,8094266.04170864,"OK","no rank",1,"2631580","374","41294","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_54"," 14","16S_1","Aciditerrimonas sp.","1872117",1990579.21345029,1904824.74616325,2076333.68073732,"OK","family",4,"1872117","1042325","84994","84993","84992","201174","1783272","2","1","weighted_mean","1872117",NA,NA,NA,NA,NA,NA,NA
+"query_55"," 13","16S_1","Flavitalea sp.","1909289",3975566.5,3651872.98689672,4299260.01310328,"OK","species",1,"1909289","1210116","563835","1853229","1853228","976","1783270","2","1","weighted_mean","1909289",NA,NA,NA,NA,NA,NA,NA
+"query_56"," 13","16S_1","Spirochaeta sp.","  28185",2788768.16666667,2507327.64145936,3070208.69187397,"OK","species",1,"28185","146","137","136","203692","203691",NA,"2","1","weighted_mean","28185",NA,NA,NA,NA,NA,NA,NA
+"query_57"," 12","16S_1","unclassified Telmatobacter","2634852",5718671.74964846,5652866.30504182,5784477.19425509,"OK","family",3,"2634852","1078829","204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_58"," 12","16S_1","Acidobacteriaceae bacterium LWQ3","1387378",4424371.30255006,4108520.60355715,4740222.00154298,"OK","no rank",2,"1387378",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","1387378",NA,NA,NA,NA,NA,NA,NA
+"query_59","  9","16S_1","Rhodoplanes","  29407",5823781.10555556,5040305.06123946,6607257.14987165,"OK","genus",1,"29407","29407","45401","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_60","  9","16S_1","Solimicrobium silvestre","2099400",4769091.6,3994621.44666667,5543561.75333333,"OK","genus",2,"2099400","2249306","75682","80840","28216","1224",NA,"2","1","weighted_mean","2099400",NA,NA,NA,NA,NA,NA,NA
+"query_61"," 76","ITS_3","Psathyrella marquana","2259056",54473931.5606061,50415991.5511101,58531871.570102,"OK","family",3,"2259056","71729","184208","5338","155619","5204","33154","2759","1","weighted_mean","2259056","452333","2982305","5302","451864","4751",NA,NA
+"query_62"," 27","ITS_3","Saitozyma ninhbinhensis"," 388101",38658502.8508772,31619845.6816374,45697160.020117,"OK","genus",2,"388101","1890244","1890237","5234","155616","5204","33154","2759","1","weighted_mean","388101",NA,NA,"5302","451864","4751",NA,NA
+"query_63"," 21","ITS_3","Mucor hiemalis","  64493",37174121.2156863,35485409.4126603,38862833.0187123,"OK","genus",2,"64493","4830","34489","4827","2212703","1913637","33154","2759","1","weighted_mean","64493",NA,"1344963","451507",NA,"4751",NA,NA
+"query_64"," 19","ITS_3","Apiotrichum dulcitum","  82515",35080168.95,33432967.0395098,36727370.8604902,"OK","genus",2,"82515","105983","1759442","1851469","155616","5204","33154","2759","1","weighted_mean","82515",NA,NA,"5302","451864","4751",NA,NA
+"query_65"," 18","ITS_3","Hebeloma crustuliniforme","  34454",43281763.3214286,39862626.1789851,46700900.463872,"OK","family",3,"34454","34453","80649","5338","155619","5204","33154","2759","1","weighted_mean","34454","452333","2982305","5302","451864","4751",NA,NA
+"query_66"," 13","ITS_3","Didymellaceae"," 683158",36255371.5389652,35448691.8429927,37062051.2349377,"OK","family",1,"683158",NA,"683158","92860","147541","4890","33154","2759","1","weighted_mean",NA,"451868","715340","147538","451864","4751",NA,NA
+"query_67"," 12","ITS_3","Cladosporium","   5498",32123172.1983333,31310245.8070717,32936098.589595,"OK","genus",1,"5498","5498","452563","2726946","147541","4890","33154","2759","1","weighted_mean",NA,"451867",NA,"147538","451864","4751",NA,NA
+"query_68"," 11","ITS_3","Fusarium oxysporum","   5507",52804881.8126685,52638789.5154316,52970974.1099054,"OK","species",1,"5507","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean","5507","222543",NA,"147538","451864","4751","171631",NA
+"query_69"," 11","ITS_3","Ascobolus stercorarius"," 255055",59705045.2050337,58370411.7368856,61039678.6731819,"OK","order",4,"255055","5190","5189","5185","147549","4890","33154","2759","1","weighted_mean","255055",NA,NA,"147538","451864","4751",NA,NA
+"query_70"," 10","ITS_3","Chaetomiaceae sp.","1756124",33404709.2,33032057.5763776,33777360.8236224,"OK","no rank",2,"1756124",NA,"35718","5139","147550","4890","33154","2759","1","weighted_mean","1756124","222544",NA,"147538","451864","4751",NA,NA
+"query_71"," 10","ITS_3","Lectera colletotrichoides","1208925",38400891.7249003,37324260.1903232,39477523.2594773,"OK","family",3,"1208925","1208924","1033978","1028384","147550","4890","33154","2759","1","weighted_mean","1208925","222543",NA,"147538","451864","4751",NA,NA
+"query_72","  9","ITS_3","Mucor sp.","1715236",31245123,29450770.44,33039475.56,"OK","no rank",2,"1715236","4830","34489","4827","2212703","1913637","33154","2759","1","weighted_mean","1715236",NA,"1344963","451507",NA,"4751",NA,NA
+"query_73","  9","ITS_3","Fusarium tricinctum species complex"," 679429",43510566.1897436,42358646.8865552,44662485.492932,"OK","species group",1,"679429","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean",NA,"222543",NA,"147538","451864","4751","679429",NA
+"query_74","  9","ITS_3","Linnemannia elongata"," 310910",48100048,47319895.0906092,48880200.9093908,"OK","species",1,"310910","2779861","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","310910",NA,NA,"1137986",NA,"4751",NA,NA
+"query_75","  8","ITS_3","Trichoderma sp.","1715253",36860790.375,36075559.9630691,37646020.7869309,"OK","no rank",2,"1715253","5543","5129","5125","147550","4890","33154","2759","1","weighted_mean","1715253","222543",NA,"147538","451864","4751",NA,NA
+"query_76","  8","ITS_3","Gaeumannomyces","  29849",46614815,40212871.9,53016758.1,"OK","genus",1,"29849","29849","81093","639021","147550","4890","33154","2759","1","weighted_mean",NA,"222544",NA,"147538","451864","4751",NA,NA
+"query_77","  7","ITS_3","Mortierella sp.","1715235",43627566.4666667,42898804.5400867,44356328.3932466,"OK","no rank",2,"1715235","4855","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","1715235",NA,NA,"1137986",NA,"4751",NA,NA
+"query_78","  7","ITS_3","Entomortierella beljakovae"," 979673",37841323.3,37144313.6571297,38538332.9428703,"OK","genus",2,"979673","2779859","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","979673",NA,NA,"1137986",NA,"4751",NA,NA
+"query_79","  7","ITS_3","Hypomyces samuelsii"," 767784",41240809.5,39433896.9333333,43047722.0666667,"OK","genus",2,"767784","5130","5129","5125","147550","4890","33154","2759","1","weighted_mean","767784","222543",NA,"147538","451864","4751",NA,NA
+"query_80","  6","ITS_3","Fusarium proliferatum"," 948311",45269225.7241379,44408166.2933784,46130285.1548975,"OK","species",1,"948311","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean","948311","222543",NA,"147538","451864","4751","171627",NA
+"query_81","  6","ITS_3","Allophylaria subliciformis","2478803",40275483.3618083,39913905.4776585,40637061.245958,"OK","order",4,"2478803","2478802","2488219","5178","147548","4890","33154","2759","1","weighted_mean","2478803",NA,NA,"147538","451864","4751",NA,NA
+"query_82","  5","ITS_3","Alternaria sp.","1715220",35854779.2083333,34741008.6271375,36968549.7895292,"OK","no rank",2,"1715220","5598","28556","92860","147541","4890","33154","2759","1","weighted_mean","1715220","451868","715340","147538","451864","4751",NA,NA
+"query_83","  5","ITS_3","Saccotheciaceae","1570301",31509495.7903381,29438113.1133277,33580878.4673485,"OK","family",1,"1570301",NA,"1570301","5014","147541","4890","33154","2759","1","weighted_mean",NA,"451867",NA,"147538","451864","4751",NA,NA
+"query_84","  5","ITS_3","Neoascochyta exitialis"," 487631",31163882.088128,30760542.2401417,31567221.9361142,"OK","family",3,"487631","1770170","683158","92860","147541","4890","33154","2759","1","weighted_mean","487631","451868","715340","147538","451864","4751",NA,NA
+"query_85","  4","ITS_3","Agaricaceae sp. 325","1198532",44934946.0925926,42820021.8732726,47049870.3119126,"OK","family",3,"1198532",NA,"5339","5338","155619","5204","33154","2759","1","weighted_mean","1198532","452333","2982305","5302","451864","4751",NA,NA
+"query_86","  4","ITS_3","Volutella ciliata"," 145967",44922308.5078804,44693031.938696,45151585.0770648,"OK","family",3,"145967","145966","110618","5125","147550","4890","33154","2759","1","weighted_mean","145967","222543",NA,"147538","451864","4751",NA,NA
+"query_87","  4","ITS_3","Fusarium","   5506",43135122.2387956,42754982.606056,43515261.8715353,"OK","genus",1,"5506","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean",NA,"222543",NA,"147538","451864","4751",NA,NA
+"query_88","  4","ITS_3","Phoma herbarum","  73001",37476523.04,36514248.0545977,38438798.0254023,"OK","genus",2,"73001","37463","683158","92860","147541","4890","33154","2759","1","weighted_mean","73001","451868","715340","147538","451864","4751",NA,NA
+"query_89","  4","ITS_3","Fusarium tricinctum","  61284",42608373.8,42182813.8469552,43033933.7530448,"OK","species",1,"61284","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean","61284","222543",NA,"147538","451864","4751","679429",NA
+"query_90","  4","ITS_3","Ceratobasidium sp. FO 38200"," 386466",59951471.1666667,57607454.085735,62295488.2475984,"OK","no rank",2,"386466","5251","5250","36064","155619","5204","33154","2759","1","weighted_mean","386466",NA,NA,"5302","451864","4751",NA,NA
+"query_91","112","ITS_2","Saitozyma ninhbinhensis"," 388101",38658502.8508772,31619845.6816374,45697160.020117,"OK","genus",2,"388101","1890244","1890237","5234","155616","5204","33154","2759","1","weighted_mean","388101",NA,NA,"5302","451864","4751",NA,NA
+"query_92"," 81","ITS_2","Linnemannia elongata"," 310910",48100048,47319895.0906092,48880200.9093908,"OK","species",1,"310910","2779861","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","310910",NA,NA,"1137986",NA,"4751",NA,NA
+"query_93"," 68","ITS_2","Cladosporium","   5498",32123172.1983333,31310245.8070717,32936098.589595,"OK","genus",1,"5498","5498","452563","2726946","147541","4890","33154","2759","1","weighted_mean",NA,"451867",NA,"147538","451864","4751",NA,NA
+"query_94"," 37","ITS_2","Fusarium oxysporum","   5507",52804881.8126685,52638789.5154316,52970974.1099054,"OK","species",1,"5507","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean","5507","222543",NA,"147538","451864","4751","171631",NA
+"query_95"," 31","ITS_2","Chaetomiaceae sp.","1756124",33404709.2,33032057.5763776,33777360.8236224,"OK","no rank",2,"1756124",NA,"35718","5139","147550","4890","33154","2759","1","weighted_mean","1756124","222544",NA,"147538","451864","4751",NA,NA
+"query_96"," 29","ITS_2","Fonsecaea minima","1367421",34413768.8333333,34230826.5021168,34596711.1645499,"OK","genus",2,"1367421","40354","43219","34395","147545","4890","33154","2759","1","weighted_mean","1367421","451870",NA,"147538","451864","4751",NA,NA
+"query_97"," 27","ITS_2","Nectria cinnabarina","  29855",54683633,49941445.6666667,59425820.3333333,"OK","genus",2,"29855","5133","110618","5125","147550","4890","33154","2759","1","weighted_mean","29855","222543",NA,"147538","451864","4751",NA,NA
+"query_98"," 25","ITS_2","Didymella pinodella"," 749633",36115625.125,35601490.6115098,36629759.6384902,"OK","species",1,"749633","55170","683158","92860","147541","4890","33154","2759","1","weighted_mean","749633","451868","715340","147538","451864","4751",NA,NA
+"query_99"," 23","ITS_2","Hebeloma crustuliniforme","  34454",43281763.3214286,39862626.1789851,46700900.463872,"OK","family",3,"34454","34453","80649","5338","155619","5204","33154","2759","1","weighted_mean","34454","452333","2982305","5302","451864","4751",NA,NA
+"query_100"," 19","ITS_2","Fusarium tricinctum","  61284",42608373.8,42182813.8469552,43033933.7530448,"OK","species",1,"61284","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean","61284","222543",NA,"147538","451864","4751","679429",NA
+"query_101"," 19","ITS_2","Capnobotryella sp. MA 3619"," 447491",33308826.773866,32462566.1902816,34155087.3574505,"OK","family",4,"447491","62131","668547","2726947","147541","4890","33154","2759","1","weighted_mean","447491","451867",NA,"147538","451864","4751",NA,NA
+"query_102"," 18","ITS_2","Shiraia bambusicola"," 224420",31110078.2,30719178.74,31500977.66,"OK","genus",2,"224420","224419","224418","92860","147541","4890","33154","2759","1","weighted_mean","224420","451868",NA,"147538","451864","4751",NA,NA
+"query_103"," 18","ITS_2","Dinemasporium pseudostrigosum","1196448",48115355.5,39035640.065,57195070.935,"OK","family",3,"1196448","1196446","103886","261460","147550","4890","33154","2759","1","weighted_mean","1196448","222544",NA,"147538","451864","4751",NA,NA
+"query_104"," 17","ITS_2","Podila","2779937",37998104.9714286,36636992.603265,39359217.3395921,"OK","genus",1,"2779937","2779937","4854","214503","2212732","1913637","33154","2759","1","weighted_mean",NA,NA,NA,"1137986",NA,"4751",NA,NA
+"query_105"," 15","ITS_2","Solicoccozyma gelidoterrea","2877759",22395122.25,22090825.5533333,22699418.9466667,"OK","genus",2,"2877759","1851575","1851565","90886","155616","5204","33154","2759","1","weighted_mean","2877759",NA,NA,"5302","451864","4751",NA,NA
+"query_106"," 14","ITS_2","Dinemasporium strigosum","1196449",48115355.5,39035640.065,57195070.935,"OK","family",3,"1196449","1196446","103886","261460","147550","4890","33154","2759","1","weighted_mean","1196449","222544",NA,"147538","451864","4751",NA,NA
+"query_107"," 12","ITS_2","Coleophoma ericicola","1849048",42736542.3333333,41782651.0348323,43690433.6318344,"OK","genus",2,"1849048","453209","76657","5178","147548","4890","33154","2759","1","weighted_mean","1849048",NA,NA,"147538","451864","4751",NA,NA
+"query_108"," 11","ITS_2","Umbelopsis sp. Mykopat 134","1187152",23050600,22524185.1797218,23577014.8202782,"OK","no rank",2,"1187152","64561","1403793","1913639","2212704","1913637","33154","2759","1","weighted_mean","1187152",NA,NA,"451507",NA,"4751",NA,NA
+"query_109"," 11","ITS_2","Clonostachys"," 110564",56959735.2527473,56120736.945106,57798733.5603885,"OK","genus",1,"110564","110564","103887","5125","147550","4890","33154","2759","1","weighted_mean",NA,"222543",NA,"147538","451864","4751",NA,NA
+"query_110","  9","ITS_2","Fontanospora fusiramosa"," 693254",42107543,41974534.95,42240551.05,"OK","family",3,"693254","693252","2794838","5178","147548","4890","33154","2759","1","weighted_mean","693254",NA,NA,"147538","451864","4751",NA,NA
+"query_111","  8","ITS_2","Seltsamia ulmi","2053811",36003766.5,35451517.521734,36556015.478266,"OK","family",3,"2053811","2065321","221670","92860","147541","4890","33154","2759","1","weighted_mean","2053811","451868","715340","147538","451864","4751",NA,NA
+"query_112","  8","ITS_2","Clonostachys rosea","  29856",57415981.7692308,56194351.2287079,58637612.3097536,"OK","species",1,"29856","110564","103887","5125","147550","4890","33154","2759","1","weighted_mean","29856","222543",NA,"147538","451864","4751",NA,NA
+"query_113","  7","ITS_2","Microsphaeropsis arundinis"," 413604",36255371.5389652,35852031.690979,36658711.3869515,"OK","family",3,"413604","107453","683158","92860","147541","4890","33154","2759","1","weighted_mean","413604","451868","715340","147538","451864","4751",NA,NA
+"query_114","  7","ITS_2","Hyphodiscus hymeniophilus"," 353542",35032560.6,34823042.48,35242078.72,"OK","genus",2,"353542","353541","2907103","5178","147548","4890","33154","2759","1","weighted_mean","353542",NA,NA,"147538","451864","4751",NA,NA
+"query_115","  7","ITS_2","Ijuhya corynospora","2015267",41775439.1418269,40003563.8060362,43547314.4776177,"OK","family",3,"2015267","426745","103887","5125","147550","4890","33154","2759","1","weighted_mean","2015267","222543",NA,"147538","451864","4751",NA,NA
+"query_116","  6","ITS_2","Phaeomoniella chlamydospora"," 158046",27041983,26598013.6,27485952.4,"OK","species",1,"158046","158045","2231493","1618100","147545","4890","33154","2759","1","weighted_mean","158046","451870",NA,"147538","451864","4751",NA,NA
+"query_117","  6","ITS_2","Rhizophlyctis rosea","  64517",44518006.6666667,41709994.1115993,47326019.2217341,"OK","species",1,"64517","64515","1396497","642610","451435","4761","33154","2759","1","weighted_mean","64517",NA,NA,NA,NA,"4751",NA,NA
+"query_118","  5","ITS_2","Bacillicladium lobatum","1909408",29765559.12,29136664.603359,30394453.636641,"OK","family",3,"1909408","1909407","1233474","34395","147545","4890","33154","2759","1","weighted_mean","1909408","451870",NA,"147538","451864","4751",NA,NA
+"query_119","  5","ITS_2","Fraxinicola fraxini"," 470489",42954911.3432099,41976566.5720331,43933256.1143867,"OK","family",3,"470489","2729006","5023","1111111","147541","4890","33154","2759","1","weighted_mean","470489","451868",NA,"147538","451864","4751",NA,NA
+"query_120","  5","ITS_2","Sarea sp.","2040954",NA,NA,NA,"Not enough genome size references for close taxa",NA,NA,"2040954","273281","2820411","2820409","2820408","4890","33154","2759","1",NA,"2040954",NA,NA,"147538","451864","4751",NA,NA
+"query_121"," 68","ITS_1","Podospora","   5144",37639891.5454545,36368624.1902237,38911158.9006853,"OK","genus",1,"5144","5144","2609812","5139","147550","4890","33154","2759","1","weighted_mean",NA,"222544",NA,"147538","451864","4751",NA,NA
+"query_122"," 34","ITS_1","Podila minutissima","  64525",39166467.5,38986230.31,39346704.69,"OK","species",1,"64525","2779937","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","64525",NA,NA,"1137986",NA,"4751",NA,NA
+"query_123"," 33","ITS_1","Dactylella cylindrospora","1814901",37853168.2829231,37323905.1792769,38382431.3865692,"OK","family",3,"1814901","47025","47021","189479","189478","4890","33154","2759","1","weighted_mean","1814901",NA,NA,"147538","451864","4751",NA,NA
+"query_124"," 25","ITS_1","Mucor moelleri","1302847",37174121.2156863,35485409.4126603,38862833.0187123,"OK","genus",2,"1302847","4830","34489","4827","2212703","1913637","33154","2759","1","weighted_mean","1302847",NA,"1344963","451507",NA,"4751",NA,NA
+"query_125"," 23","ITS_1","Mortierella sp.","1715235",43627566.4666667,42898804.5400867,44356328.3932466,"OK","no rank",2,"1715235","4855","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","1715235",NA,NA,"1137986",NA,"4751",NA,NA
+"query_126"," 17","ITS_1","Alternaria japonica"," 119919",35852762.0067373,35371300.1816445,36334223.8318302,"OK","genus",3,"119919","5598","28556","92860","147541","4890","33154","2759","1","weighted_mean","119919","451868","715340","147538","451864","4751",NA,"2499259"
+"query_127"," 16","ITS_1","Paraconiothyrium sp.","1696682",39523179,39497433.42,39548924.58,"OK","genus",3,"1696682","300251","221678","92860","147541","4890","33154","2759","1","weighted_mean","1696682","451868","1255046","147538","451864","4751",NA,NA
+"query_128"," 14","ITS_1","Serendipita vermifera"," 109899",35659833,35472100.28,35847565.72,"OK","species",1,"109899","358905","1506295","297313","155619","5204","33154","2759","1","weighted_mean","109899",NA,NA,"5302","451864","4751",NA,NA
+"query_129"," 12","ITS_1","Chaetomium","   5149",34121489.3125,33691368.7582095,34551609.8667905,"OK","genus",1,"5149","5149","35718","5139","147550","4890","33154","2759","1","weighted_mean",NA,"222544",NA,"147538","451864","4751",NA,NA
+"query_130"," 11","ITS_1","Pragmopora cf. piceae","2653547",26803238.5,26429301.615,27177175.385,"OK","family",3,"2653547","2576843","2576842","2793949","147548","4890","33154","2759","1","weighted_mean","2653547",NA,NA,"147538","451864","4751",NA,NA
+"query_131"," 10","ITS_1","Coleophoma ericicola","1849048",42736542.3333333,41782651.0348323,43690433.6318344,"OK","genus",2,"1849048","453209","76657","5178","147548","4890","33154","2759","1","weighted_mean","1849048",NA,NA,"147538","451864","4751",NA,NA
+"query_132","  9","ITS_1","Neonectria neomacrospora","  78403",39289873.837037,38731271.2218516,39848476.4522225,"OK","genus",2,"78403","140106","110618","5125","147550","4890","33154","2759","1","weighted_mean","78403","222543",NA,"147538","451864","4751",NA,NA
+"query_133","  9","ITS_1","Digitopodium cannae","2571989",32625701.7089796,32066070.040663,33185333.3772963,"OK","family",3,"2571989","2571987","43219","34395","147545","4890","33154","2759","1","weighted_mean","2571989","451870",NA,"147538","451864","4751",NA,NA
+"query_134","  8","ITS_1","Clonostachys"," 110564",56959735.2527473,56120736.945106,57798733.5603885,"OK","genus",1,"110564","110564","103887","5125","147550","4890","33154","2759","1","weighted_mean",NA,"222543",NA,"147538","451864","4751",NA,NA
+"query_135","  8","ITS_1","Saitozyma ninhbinhensis"," 388101",38658502.8508772,31619845.6816374,45697160.020117,"OK","genus",2,"388101","1890244","1890237","5234","155616","5204","33154","2759","1","weighted_mean","388101",NA,NA,"5302","451864","4751",NA,NA
+"query_136","  6","ITS_1","Entomortierella beljakovae"," 979673",37841323.3,37144313.6571297,38538332.9428703,"OK","genus",2,"979673","2779859","4854","214503","2212732","1913637","33154","2759","1","weighted_mean","979673",NA,NA,"1137986",NA,"4751",NA,NA
+"query_137","  6","ITS_1","Articulospora proliferata"," 556895",41952431.5714286,41819423.5214286,42085439.6214286,"OK","family",3,"556895","253308","2794838","5178","147548","4890","33154","2759","1","weighted_mean","556895",NA,NA,"147538","451864","4751",NA,NA
+"query_138","  6","ITS_1","Fusarium oxysporum","   5507",52804881.8126685,52638789.5154316,52970974.1099054,"OK","species",1,"5507","5506","110618","5125","147550","4890","33154","2759","1","weighted_mean","5507","222543",NA,"147538","451864","4751","171631",NA
+"query_139","  5","ITS_1","Ceratobasidium sp. FO 38200"," 386466",59951471.1666667,57607454.085735,62295488.2475984,"OK","no rank",2,"386466","5251","5250","36064","155619","5204","33154","2759","1","weighted_mean","386466",NA,NA,"5302","451864","4751",NA,NA
+"query_140","  5","ITS_1","Mycena galopus","  41248",184359090.341935,173509202.921022,195208977.762849,"OK","genus",2,"41248","41247","2024004","5338","155619","5204","33154","2759","1","weighted_mean","41248","452333","2982316","5302","451864","4751",NA,NA
+"query_141","  5","ITS_1","Dominikia sp.","2011914",125184403.791667,123575187.747784,126793619.83555,"OK","family",4,"2011914","1548385","36751","36750","214506","1913637","33154","2759","1","weighted_mean","2011914",NA,NA,"214504",NA,"4751",NA,NA
+"query_142","  5","ITS_1","Scutellospora sp.","1931098",227759581.444444,206760232.22849,248758930.660398,"OK","family",4,"1931098","27382","36753","214509","214506","1913637","33154","2759","1","weighted_mean","1931098",NA,NA,"214504",NA,"4751",NA,NA
+"query_143","  5","ITS_1","Sarea sp.","2040954",NA,NA,NA,"Not enough genome size references for close taxa",NA,NA,"2040954","273281","2820411","2820409","2820408","4890","33154","2759","1",NA,"2040954",NA,NA,"147538","451864","4751",NA,NA
+"query_144","  5","ITS_1","Stropharia rugosoannulata","  68746",48751805.6666667,47946392.848586,49557218.4847473,"OK","species",1,"68746","68745","40562","5338","155619","5204","33154","2759","1","weighted_mean","68746","452333","2982305","5302","451864","4751",NA,NA
+"query_145","  4","ITS_1","Orbilia atlantis","1798097",38552250.9833333,37787415.0927111,39317086.8739556,"OK","genus",2,"1798097","47022","47021","189479","189478","4890","33154","2759","1","weighted_mean","1798097",NA,NA,"147538","451864","4751",NA,NA
+"query_146","  4","ITS_1","Mortierellaceae","   4854",41272664.8927387,40533224.4439772,42012105.3415003,"OK","family",1,"4854",NA,"4854","214503","2212732","1913637","33154","2759","1","weighted_mean",NA,NA,NA,"1137986",NA,"4751",NA,NA
+"query_147","  4","ITS_1","Articulospora tetracladia"," 253309",41898739.1538462,41765731.1038462,42031747.2038462,"OK","family",3,"253309","253308","2794838","5178","147548","4890","33154","2759","1","weighted_mean","253309",NA,NA,"147538","451864","4751",NA,NA
+"query_148","  4","ITS_1","Stagonospora pseudopaludosa","1414640",37213739.875,35779389.687787,38648090.062213,"OK","family",3,"1414640","54788","290882","92860","147541","4890","33154","2759","1","weighted_mean","1414640","451868","1255046","147538","451864","4751",NA,NA
+"query_149","  4","ITS_1","Allophylaria subliciformis","2478803",40275483.3618083,39913905.4776585,40637061.245958,"OK","order",4,"2478803","2478802","2488219","5178","147548","4890","33154","2759","1","weighted_mean","2478803",NA,NA,"147538","451864","4751",NA,NA
+"query_150","  4","ITS_1","Pestalotiopsis mangiferae"," 748176",47425022.3,47023573.7723947,47826470.8276053,"OK","genus",2,"748176","37840","1812776","37989","147550","4890","33154","2759","1","weighted_mean","748176","222545",NA,"147538","451864","4751",NA,NA
+"query_151","313","16S_3","Acidobacteriaceae"," 204434",4821360.91514331,4689750.02593004,4952971.80435658,"OK","family",1,"204434",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_152"," 88","16S_3","Bacillaceae"," 186817",4591108.66296344,4572336.24503258,4609881.08089429,"OK","family",1,"186817",NA,"186817","1385","91061","1239","1783272","2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_153"," 79","16S_3","Actinoallomurus sp.","1872127",6436989.5,5788637.480787,7085341.519213,"OK","species",1,"1872127","667113","2012","85012","1760","201174","1783272","2","1","weighted_mean","1872127",NA,NA,NA,NA,NA,NA,NA
+"query_154"," 78","16S_3","Mycobacterium","   1763",5698532.49895791,5646803.03777707,5750261.96013874,"OK","genus",1,"1763","1763","1762","85007","1760","201174","1783272","2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_155"," 74","16S_3","Acidobacteriaceae bacterium","2052142",4004784.32805071,3956501.93224926,4053066.72385216,"OK","species",1,"2052142",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","2052142",NA,NA,NA,NA,NA,NA,NA
+"query_156"," 45","16S_3","Opitutus sp.","1913982",3692303.48387097,3458260.62034799,3926346.34739395,"OK","species",1,"1913982","178440","134623","415000","414999","74201","1783257","2","1","weighted_mean","1913982",NA,NA,NA,NA,NA,NA,NA
+"query_157"," 36","16S_3","Alloacidobacterium dinghuense","2763107",5831575.2,5113661.82666667,6549488.57333333,"OK","genus",2,"2763107","2951993","204434","204433","204432","57723",NA,"2","1","weighted_mean","2763107",NA,NA,NA,NA,NA,NA,NA
+"query_158"," 33","16S_3","Blastochloris","  59282",3399248.0625,3088958.01319737,3709538.11180263,"OK","genus",1,"59282","59282","2831090","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_159"," 32","16S_3","bacterium Ellin5058"," 234245",4424371.30255006,4108520.60355715,4740222.00154298,"OK","no rank",2,"234245",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","234245",NA,NA,NA,NA,NA,NA,NA
+"query_160"," 26","16S_3","Terracidiphilus gabretensis","1577687",5119104.39069767,4749132.16217054,5489076.61922481,"OK","genus",2,"1577687","1768185","204434","204433","204432","57723",NA,"2","1","weighted_mean","1577687",NA,NA,NA,NA,NA,NA,NA
+"query_161"," 25","16S_3","Gallionella sp.","2052161",2260661.58928571,2200987.66607613,2320335.5124953,"OK","species",1,"2052161","96","90627","32003","28216","1224",NA,"2","1","weighted_mean","2052161",NA,NA,NA,NA,NA,NA,NA
+"query_162"," 23","16S_3","Syntrophobacter wolinii","  29527",4154643.56746032,3775288.25855206,4533998.87636857,"OK","genus",2,"29527","29526","213465","213462","3024408","200940",NA,"2","1","weighted_mean","29527",NA,NA,NA,NA,NA,NA,NA
+"query_163"," 23","16S_3","Paenibacillus sp. 27-9"," 519770",6649804.37043226,6622742.74990792,6676865.9909566,"OK","no rank",2,"519770","44249","186822","1385","91061","1239","1783272","2","1","weighted_mean","519770",NA,NA,NA,NA,NA,NA,NA
+"query_164"," 23","16S_3","Acidobacteriaceae bacterium LWQ3","1387378",4424371.30255006,4108520.60355715,4740222.00154298,"OK","no rank",2,"1387378",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","1387378",NA,NA,NA,NA,NA,NA,NA
+"query_165"," 19","16S_3","unclassified Bradyrhizobium","2631580",8053629.35777307,8012992.67383749,8094266.04170864,"OK","no rank",1,"2631580","374","41294","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_166"," 17","16S_3","Rhodoplanes","  29407",5823781.10555556,5040305.06123946,6607257.14987165,"OK","genus",1,"29407","29407","45401","356","28211","1224",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA
+"query_167"," 15","16S_3","Ktedonobacter sp.","1932716",3676795.77777778,3413720.10620412,3939871.44935144,"OK","species",1,"1932716","363276","388449","388448","388447","200795","1783272","2","1","weighted_mean","1932716",NA,NA,NA,NA,NA,NA,NA
+"query_168"," 13","16S_3","Acidobacterium capsulatum","  33075",4300650.99710145,4014310.76179681,4586991.23240609,"OK","genus",2,"33075","33973","204434","204433","204432","57723",NA,"2","1","weighted_mean","33075",NA,NA,NA,NA,NA,NA,NA
+"query_169"," 12","16S_3","Sideroxydans"," 314343",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"314343","314343","90627","32003","28216","1224",NA,"2","1",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"query_170"," 12","16S_3","Rhodopila globiformis","   1071",6791598.6501548,6343582.59467012,7239614.70563948,"OK","genus",2,"1071","1070","433","204441","28211","1224",NA,"2","1","weighted_mean","1071",NA,NA,NA,NA,NA,NA,NA
+"query_171"," 12","16S_3","Granulicella sp.","1969471",3566997.38709677,3456657.75166034,3677337.0225332,"OK","species",1,"1969471","940557","204434","204433","204432","57723",NA,"2","1","weighted_mean","1969471",NA,NA,NA,NA,NA,NA,NA
+"query_172"," 11","16S_3","unclassified Rhizomicrobium","2649895",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"2649895","1241326","1921568","1921567","28211","1224",NA,"2","1",NA,NA,NA,NA,NA,NA,NA,NA,NA
+"query_173"," 11","16S_3","bacterium Ellin342"," 204668",4424371.30255006,4108520.60355715,4740222.00154298,"OK","no rank",2,"204668",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","204668",NA,NA,NA,NA,NA,NA,NA
+"query_174"," 11","16S_3","Spirochaeta sp.","  28185",2788768.16666667,2507327.64145936,3070208.69187397,"OK","species",1,"28185","146","137","136","203692","203691",NA,"2","1","weighted_mean","28185",NA,NA,NA,NA,NA,NA,NA
+"query_175"," 11","16S_3","Rhizomicrobium sp. URHD0049","1703066",NA,NA,NA,"Confidence interval to estimated size ratio > ci_threshold",NA,NA,"1703066","1241326","1921568","1921567","28211","1224",NA,"2","1",NA,"1703066",NA,NA,NA,NA,NA,NA,NA
+"query_176"," 10","16S_3","Trebonia kvetii","2480626",8478497.86031746,7210919.89883598,9746075.82179894,"OK","genus",2,"2480626","2767073","2767072","85012","1760","201174","1783272","2","1","weighted_mean","2480626",NA,NA,NA,NA,NA,NA,NA
+"query_177","  9","16S_3","Acidobacteriaceae bacterium KBS 89","1267534",5375623.72102003,5059773.02202711,5691474.42001294,"OK","no rank",2,"1267534",NA,"204434","204433","204432","57723",NA,"2","1","weighted_mean","1267534",NA,NA,NA,NA,NA,NA,NA
+"query_178","  9","16S_3","Flavitalea sp.","1909289",3975566.5,3651872.98689672,4299260.01310328,"OK","species",1,"1909289","1210116","563835","1853229","1853228","976","1783270","2","1","weighted_mean","1909289",NA,NA,NA,NA,NA,NA,NA
+"query_179","  8","16S_3","Acidisphaera sp.","1872116",2896360.69565217,2838109.96776198,2954611.42354236,"OK","species",1,"1872116","50714","433","204441","28211","1224",NA,"2","1","weighted_mean","1872116",NA,NA,NA,NA,NA,NA,NA
+"query_180","  8","16S_3","unclassified Telmatobacter","2634852",5718671.74964846,5652866.30504182,5784477.19425509,"OK","family",3,"2634852","1078829","204434","204433","204432","57723",NA,"2","1","weighted_mean",NA,NA,NA,NA,NA,NA,NA,NA

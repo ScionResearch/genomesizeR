@@ -1,0 +1,34 @@
+---
+title: "About the input and the output"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{About the input and the output}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+### Input
+
+`genomesizeR` accepts as input formats the common 'taxonomy table' format used by popular packages such as phyloseq and mothur, and any csv-like file or data frame with a column containing either NCBI taxids or taxon names. 
+
+### Reference database
+
+The genome size reference database used is built by querying all genome metadata information from the curated NCBI RefSeq database. Filters are applied to only keep full genomes, and discard data that the NCBI has tagged as anomalous, or abnormally large or small.
+
+This raw database is then prepared to include more pre-computed information to be used by the package. Genome sizes are aggregated to the species level by iteratively averaging all entries below, hence the package can only provide estimates at the level of species and above. 
+
+### Output
+
+The output format is a data frame with the same columns as the input if the input was a standard data frame (not biom and not ), with some added columns providing information about the estimation and the quality of the estimation. An option also allows an output format containing only the estimation information (`TAXID`, `estimated_genome_size`, `confidence_interval_lower`, `confidence_interval_upper`, `genome_size_estimation_status`, `model_used`).
+
+Columns added:
+
+- `estimated_genome_size`: Estimated genome size
+- `confidence_interval_lower`: Lower limit of the confidence interval
+- `confidence_interval_upper`: Upper limit of the confidence interval
+- `genome_size_estimation_status`: Whether the estimation succeeded ('OK') or if failed, the reason for failure (TODO: list with explanations)
+- `model_used`: The model used for the estimation
+- `LCA`: If queries are made of a list of taxa, taxid of their Last Common Ancestor. Otherwise, `LCA` is equal to `TAXID`.
+- NCBI taxids of all taxonomic ranks, with one column per rank
+- `genome_size_estimation_rank`: Rank of the parent taxon used for the estimation (weighted mean method only)
+- `genome_size_estimation_distance`: Distance in tree nodes (ranks) between the query and the parent taxon used for the estimation (weighted mean method only)

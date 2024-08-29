@@ -1,8 +1,8 @@
 ---
-title: "genomesizeR: Comparing estimation methods"
+title: "Comparing estimation methods"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{genomesizeR}
+  %\VignetteIndexEntry{Comparing estimation methods}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -17,18 +17,16 @@ First a bit of wrangling to combine all results:
 
 ```{r}
 res_wm <- read.csv("results_weighted_mean.csv") %>%
-  mutate(confidence_interval_lower = estimated_genome_size - estimated_genome_size_confidence_interval,
-         confidence_interval_upper = estimated_genome_size + estimated_genome_size_confidence_interval) %>%
   select(X, COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID, genome_size_estimation_rank, estimated_genome_size,
          genome_size_estimation_status, confidence_interval_lower,confidence_interval_upper) %>%
   mutate(method="weighted_mean")
 res_wm$X <- gsub("V","query...", res_wm$X)
-res_lmm <- read.csv("results_hierarchical 1.csv") %>%
+res_lmm <- read.csv("results_lmm.csv") %>%
   mutate(genome_size_estimation_rank = res_wm$genome_size_estimation_rank) %>%
   select(X, COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID, genome_size_estimation_rank, estimated_genome_size,
          genome_size_estimation_status, confidence_interval_lower,confidence_interval_upper) %>%
   mutate(method = "hierarchical")
-res_bayes <- read.csv("results_bayesian 2.csv") %>%
+res_bayes <- read.csv("results_bayesian.csv") %>%
   mutate(genome_size_estimation_rank = res_wm$genome_size_estimation_rank) %>%
   select(X, COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID, genome_size_estimation_rank, estimated_genome_size,
          genome_size_estimation_status, confidence_interval_lower,confidence_interval_upper) %>%

@@ -1,0 +1,63 @@
+---
+title: "Example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+#### Example using default bayesian method on example file:
+
+```
+  results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input')
+  
+  #############################################################################
+  # Genome size estimation summary:
+  #
+  #  32.22222 % estimations achieving required precision
+  #
+       Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+    2260662   4850009  15733757  23739845  39882934 161191581 
+  
+  # Estimation status:
+  Confidence interval to estimated size ratio > ci_threshold  | OK 
+                                                         122  | 58 
+```
+
+#### Plot genome size histogram per sample:
+
+```{r, echo = FALSE}
+  library(genomesizeR)
+  example_output_data = system.file("extdata", "results_bayesian.csv", package = "genomesizeR")
+  refdata_archive_path = "../genomesizeRdata.tar.gz"
+  results = read.csv2(example_output_data, sep=',', dec = '.')
+```
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_histogram(results)
+```
+
+#### Plot genome size histogram for one sample:
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_histogram(results, only_sample='16S_1')
+```
+
+#### Plot genome size boxplot per sample:
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_boxplot(results)
+```
+
+#### Plot genome size boxplot for one sample:
+
+```{r, echo = TRUE}
+  plotted_df = plot_genome_size_boxplot(results, only_sample='ITS_1')
+```
+
+#### Plot simplified taxonomic tree with colour-coded estimated genome sizes:
+
+```{r, echo = TRUE, fig.width= 22, fig.height= 22}
+  plotted_df = plot_genome_size_tree(results, refdata_archive_path)
+```
