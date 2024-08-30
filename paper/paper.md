@@ -160,7 +160,7 @@ Figures below show that estimates and the width of confidence intervals differ b
 
 # Example
 
-This example data is a subset of the dataset from [@Labouyrie2023-yc].
+This example data is a subset of the dataset from @Labouyrie2023-yc.
 
 First, the genome sizes are predicted from the taxa:
 
@@ -180,13 +180,11 @@ Confidence interval to estimated size ratio > ci_threshold  | OK
                                                        122  | 58 
 ```
 
-Then, the results can be visualized using one of the plotting functions provided. \autoref{fig:hist} shows a histogram of the estimated genome sizes for each sample.
+Then, the results can be visualized using the plotting functions provided. \autoref{fig:example_hist_box} shows a histogram and a boxplot of the estimated genome sizes for each sample. \autoref{fig:example_tree} shows a tree showing the taxonomic relationships as well as the estimated genome sizes.
 
-```
-plotted_df = plot_genome_size_histogram(results)
-```
+![Histogram (A) and boxplot (B) of estimated genome sizes for each sample\label{fig:example_hist_box}](example_hist_boxplot.png){ width=100% }
 
-![Histogram of estimated genome sizes for each sample\label{fig:hist}](hist.png){ width=100% }
+![Tree representing taxonomic relationships and estimated genome sizes between queries\label{fig:example_tree}](example_tree.png){ width=100% }
 
 # Acknowledgements
 
