@@ -52,11 +52,11 @@ Using the increased prevalence of whole-genome information for all organisms, we
 
 The reference database used is built by querying all genome metadata information from the curated NCBI RefSeq database [@OLeary2016-kw]. Filters are applied to only keep full genomes, and discard data that the NCBI has tagged as anomalous, or abnormally large or small.
 
-This raw database is then prepared to include more pre-computed information to be used by the package. Genome sizes are aggregated to the species level by iteratively averaging all entries below, hence the package can only provide estimates at the level of species and above. Average genome sizes and their associated standard error values are also pre-computed, to be used by the weighted mean method. 
+This raw database is then prepared to include more pre-computed information to be used by the package. Genome sizes are aggregated to the species level by iteratively averaging all entries below, and estimated standard errors for each species with multiple genome size entries are stored. The package can therefore only provide estimates at the level of species and above. Average genome sizes and their associated standard error values are also pre-computed, to be used by the weighted mean method. 
 
 ## Bayesian method
 
-The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package was fitted to each superkingdom dataset. The general model structure is outlined below.
+The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2017brms] was fitted to each superkingdom dataset. The general model structure is outlined below.
 
 \begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
@@ -102,7 +102,7 @@ The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-
 
 Posterior predictions are obtained using the `predict` function from the `brms` package, and 95% credible intervals are obtained using 2.5% and 97.5% quantiles from the posterior distribution. 
 
-Queries corresponding to identified species with an available genome size estimate in the NCBI database get allocated the genome size value of the database (averaged at the species level) and 95% confidence intervals are calculated based on the standard error of the mean of all genome sizes available for that species in the NCBI database.
+Queries corresponding to identified species with an available genome size estimate in the NCBI database get allocated the genome size value of the database (averaged at the species level) and 95% confidence intervals are calculated based on the standard error of the mean of all genome sizes available for that species in the processed NCBI database.
 
 ## Frequentist method
 
@@ -115,29 +115,22 @@ where $\alpha_0$ is the overall mean, $\alpha_{genus_{g[i]}}$ and $\alpha_{famil
 
 The estimation process using the restricted maximum likelihood method (REML). A prediction interval is computed using the `predictInterval` function from the `merTools` package [@knowles2024mertools]. As higher nested levels (order, class) are not taken into account in the model, predictions produced for queries above the family level are not to be trusted. 
 
-Queries corresponding to identified species with an available genome size estimate in the NCBI database get allocated the genome size value of the database (averaged at the species level) and 95% confidence intervals are calculated based on the standard error of the mean of all genome sizes available for that species in the NCBI database.
+Queries corresponding to identified species with an available genome size estimate in the NCBI database get allocated the genome size value of the database (averaged at the species level) and 95% confidence intervals are calculated based on the standard error of the mean of all genome sizes available for that species in the processed NCBI database.
 
 ## Weighted mean method
 
 The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean. The identification of related taxa is limited to levels below and including order.
 
-In the calculation of the prediction for a given query, the weight for a related taxon in the database is calculated as 
+<!-- In the calculation of the prediction for a given query, the weight for a related taxon in the database is calculated as 
 
 \begin{gather*}
 w_i = \frac{1}{d_i + 1}
 \end{gather*}
 
 where $d_i$ is the distance of the related taxon to the query in number of nodes in the taxonomy.
+-->
 
-The confidence interval is calculated as:
-
-\begin{equation}
-CI = 1.96 \times \sqrt{\hat{\mu}}
-\end{equation}
-
-where $\hat{\mu}$ is the computed weighted mean.
-
-The pseudocode describing the algorithm for the confidence interval computation is available in the package vignettes.
+The pseudocode describing the algorithm for the estimate and confidence interval computation is available in the package vignettes.
 
 For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. This method can also perform better than the others if your queries consist of lists of taxa (for example, an output of *blastn* where several matches can be obtained for each query). Otherwise, we suggest using one of the other methods, as the confidence intervals calculated are less reliable for the weighted mean method.
 
@@ -151,22 +144,6 @@ The R package accepts as input formats the common 'taxonomy table' format used b
 
 Several plotting functions using the ggplot2 [@ggplot22016] and ggtree [@Yu2020-pa] packages are also provided to visualise the results.
 
-# Method comparison
-
-The applicability of each method varies. The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. Below is a comparison of estimates for an example set of bacteria and fungi queries where the highest level of match with the database is the family level. Note that there are fewer successful estimations with the weighted mean method than with the two model-based methods.
-
-| | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
-| -- | -- | -- | -- | -- | -- |
-| Bayesian | reliable | any rank | + | + | 1 |
-| LMM | reliable | up to family level | + | + | 1 |
-| Weighted mean | underestimated | up to order level | ++ | ++ | 2 |
-
-
-Figures below show that estimates and the width of confidence intervals differ between methods (figures \autoref{fig:est_comp} and \autoref{fig:CI_comp_combined}).
-
-![Pairwise comparison of estimates from different methods for a. bacteria and b. fungi. Pearson's correlation coefficient is displayed at the top left.\label{fig:est_comp}](compare_estimates.png){ width=100% }
-
-![Pairwise comparison of 95% confidence intervals (A) and relative 95% confidence intervals (scaled by estimated size) (B) from different methods for bacteria and fungi.\label{fig:CI_comp_combined}](compare_CI_combined.png){ width=100% }
 
 # Example
 
@@ -195,6 +172,25 @@ Then, the results can be visualized using the plotting functions provided. \auto
 ![Histogram (A) and boxplot (B) of estimated genome sizes for each sample\label{fig:example_hist_box}](example_hist_boxplot.png){ width=100% }
 
 ![Tree representing taxonomic relationships and estimated genome sizes between queries\label{fig:example_tree}](example_tree.png){ width=100% }
+
+# Method comparison
+
+The applicability of each method varies. The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. Below is a comparison of estimates for an example set of bacteria and fungi queries where the highest level of match with the database is the family level. Note that there are fewer successful estimations with the weighted mean method than with the two model-based methods.
+
+| | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
+| -- | -- | -- | -- | -- | -- |
+| Bayesian | reliable | any rank | + | + | 1 |
+| LMM | reliable | up to family level | + | + | 1 |
+| Weighted mean | underestimated | up to order level | ++ | ++ | 2 |
+
+
+Figures below show that estimates and the width of confidence intervals differ between methods (figures \autoref{fig:est_comp} and \autoref{fig:CI_comp_combined}).
+
+![Pairwise comparison of estimates from different methods for bacteria and fungi. A. Bayesian model vs. weighted means method; B. Frequentist mixed model vs. weighted means method; C. Bayesian model vs. frequentist mixed model. \label{fig:est_comp}](comparison_methods_estimates.png){ width=100% }
+
+![Pairwise comparison of 95% confidence intervals (A) and relative 95% confidence intervals (scaled by estimated size) (B) from different methods for bacteria and fungi.\label{fig:CI_comp_combined}](compare_CI_combined.png){ width=100% }
+
+
 
 # Availability
 
