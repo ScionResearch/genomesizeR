@@ -44,7 +44,7 @@ The size of microbial genomes and its evolution can provide important insights i
 
 However, characterizing genome size for all organisms in a microbiome remains challenging. The exponentially growing genome databases are an inexpensive resource unlocking a myriad of research opportunities in all fields of environmental sciences, but genome size estimates for many taxa found in environmental samples are missing from public databases, or fully unknown. The evolutionary rule that phylogenetically related organisms share genetic similarities can be exploited and genome size for taxa with unknown genome size can be statistically inferred from related taxa with known genome size, using taxonomy as a proxy for phylogeny. Another challenge is the precision of identification: some taxa can only be identified at high taxonomic levels. Statistical methods can also be used to infer their genome size range from databases. To our knowledge, there is no convenient and fast way to obtain genome size estimates with uncertainty bounds for all organisms identified or partially identified in an environmental sample.
 
-Using the increased prevalence of whole-genome information for all organisms, we have therefore developed `genomesizeR`, allowing the inference of genome size of many queries at once, based on taxonomic information and available genome data from the National Center for Biotechnology Information (NCBI).
+Using the increased prevalence of whole-genome information for all organisms, we have therefore developed `genomesizeR`, allowing the inference of genome size of many queries at once, based on taxonomic information and available genome data from the NCBI.
 
 # Methods
 
@@ -137,6 +137,8 @@ CI = 1.96 \times \sqrt{\hat{\mu}}
 
 where $\hat{\mu}$ is the computed weighted mean.
 
+The pseudocode describing the algorithm for the confidence interval computation is available in the package vignettes.
+
 For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. This method can also perform better than the others if your queries consist of lists of taxa (for example, an output of *blastn* where several matches can be obtained for each query). Otherwise, we suggest using one of the other methods, as the confidence intervals calculated are less reliable for the weighted mean method.
 
 # Implementation
@@ -151,15 +153,20 @@ Several plotting functions using the ggplot2 [@ggplot22016] and ggtree [@Yu2020-
 
 # Method comparison
 
-The applicability of each method varies. The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. Below is a comparison of estimates for an example set of bacteria and fungi queries where the highest level of match with the database is the family level. Note that there are fewer successful estimations with the weighted mean method than with the two model-based methods. 
+The applicability of each method varies. The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. Below is a comparison of estimates for an example set of bacteria and fungi queries where the highest level of match with the database is the family level. Note that there are fewer successful estimations with the weighted mean method than with the two model-based methods.
 
-Figures below show that estimates and the width of confidence intervals differ between methods (figures \autoref{fig:est_comp}, \autoref{fig:CI_comp} and \autoref{fig:CI_rel_comp}).
+| | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
+| -- | -- | -- | -- | -- | -- |
+| Bayesian | reliable | any rank | + | + | 1 |
+| LMM | reliable | up to family level | + | + | 1 |
+| Weighted mean | underestimated | up to order level | ++ | ++ | 2 |
+
+
+Figures below show that estimates and the width of confidence intervals differ between methods (figures \autoref{fig:est_comp} and \autoref{fig:CI_comp_combined}).
 
 ![Pairwise comparison of estimates from different methods for a. bacteria and b. fungi. Pearson's correlation coefficient is displayed at the top left.\label{fig:est_comp}](compare_estimates.png){ width=100% }
 
-![Pairwise comparison of 95% confidence intervals from different methods for a. bacteria and b. fungi.\label{fig:CI_comp}](compare_CI.png){ width=75% }
-
-![Pairwise comparison of relative 95% confidence intervals (scaled by estimated size) from different methods for a.bacteria and b.fungi.\label{fig:CI_rel_comp}](compare_CI_rel.png){ width=75% }
+![Pairwise comparison of 95% confidence intervals (A) and relative 95% confidence intervals (scaled by estimated size) (B) from different methods for bacteria and fungi.\label{fig:CI_comp_combined}](compare_CI_combined.png){ width=100% }
 
 # Example
 
@@ -191,11 +198,11 @@ Then, the results can be visualized using the plotting functions provided. \auto
 
 # Availability
 
-Project name: genomesizeR
-Project home page: https://github.com/ScionResearch/genomesizeR 
-Operating system(s): Platform independent
-Programming language: R
-License: GNU General Public License
+- Project name: genomesizeR
+- Project home page: https://github.com/ScionResearch/genomesizeR 
+- Operating system(s): Platform independent
+- Programming language: R
+- License: GNU General Public License
 
 # Acknowledgements
 
