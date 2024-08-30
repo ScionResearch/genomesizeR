@@ -188,7 +188,7 @@ Figures below show that estimates and the width of confidence intervals differ b
 
 ![Pairwise comparison of estimates from different methods for bacteria and fungi. A. Bayesian model vs. weighted means method; B. Frequentist mixed model vs. weighted means method; C. Bayesian model vs. frequentist mixed model. \label{fig:est_comp}](comparison_methods_estimates.png){ width=100% }
 
-![Pairwise comparison of 95% confidence intervals (A) and relative 95% confidence intervals (scaled by estimated size) (B) from different methods for bacteria and fungi.\label{fig:CI_comp_combined}](compare_CI_combined.png){ width=100% }
+![Distribution of relative 95% confidence intervals per method and rank match. 95% confidence intervals were scaled by estimated size. Rank match refers to the smallest rank in common between the query and the closest database entry with a valid genome size.  \label{fig:CI_comp_combined}](comparison_methods_CI.png){ width=100% }
 
 
 
