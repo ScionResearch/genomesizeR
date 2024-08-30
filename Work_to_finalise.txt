@@ -21,7 +21,6 @@ PAPER PREPRINT:
 - add link to algorithm vignette in wm method (Joane + Celine)
 - re-float figures to the right place (Joane)
 - author list: add Steve and Loretta?
-- example: show boxplot/histogram/tree? (Celine)
 - add methods comp section after example: figure (Joane) and pro/cons table (Joane + Celine)
 
 
