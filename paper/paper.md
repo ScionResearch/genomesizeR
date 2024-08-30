@@ -3,21 +3,26 @@ title: 'genomesizeR: An R package for genome size prediction'
 tags:
 - R
 - molecular ecology
-date: "14 June 2024"
 output: pdf_document
-authors:
-- name: Celine Mercier
-  orcid: "0000-0002-4782-1530"
-  equal-contrib: true
-  affiliation: 1
-- name: Joane Elleouet
-  orcid: "0000-0002-9597-3360"
-  equal-contrib: true
-  affiliation: 1
+geometry: margin=3cm
+author:
+  - Celine Mercier:
+      email: celine.mercier@scionresearch.com
+      correspondance: "yes"
+      orcid: "0000-0002-4782-1530"
+      institute: [scion]
+  - Joane Elleouet:
+      orcid: "0000-0002-9597-3360"
+      institute: [scion]
+  - Loretta Garrett:
+      orcid: "0000-0001-7687-6795"
+      institute: [scion]
+  - Steve A Wakelin:
+      orcid: "0000-0002-1167-8699"
+      institute: [scion]
+institute:
+  - scion: Scion, New Zealand Forest Research Institute, New Zealand
 bibliography: paper.bib
-affiliations:
-- name: Scion, New Zealand Forest Research Institute, New Zealand
-  index: 1
 ---
 
 # Summary
@@ -37,11 +42,7 @@ All three methods use:
 
 The size of microbial genomes and its evolution can provide important insights into evolutionary and ecological processes influencing both microbial species and the environments in which they inhabit. The shedding of unnecessary genetic elements and their associated biosynthetic pathways, for example, is a common phenomenon observed in organisms with a high degree of host symbiosis [@moran2002microbial; @brader2014metabolic; @vandenkoornhuyse2007active]. Genome size reduction has also been observed in organisms experiencing arid environments [@liu2023warmer], or a narrow range of substrates or metabolic options [@tyson2004community]. Among many others, these findings demonstrate the opportunities associated with including genome size as a key trait in microbial communities to provide insights spanning niche size, co-evolution, adaption, and metabolic flexibility of the microbiomes present, but also stability, and ecophysiological and functional complexity of abiotic and biotic environments.   
 
-However, characterizing genome size for all organisms in a microbiome remains challenging. Methods in the past have included the use of DNA staining through to cell enumeration, flow cytometry, culturing, gel electrophoresis, and DNA renaturation kinetics. All have merits and limitations [@raes2007prediction]. The widespread availability and use of microbiome related tag-amplicon DNA sequencing has tremendously increased our scientific knowledge of microbial genomics. There is also an opportunity to explore the rapidly expanding archives of short read DNA libraries (i.e. extant 16S and ITS amplicon sequences). 
-
-Alternatively, when well documented and archived in user-friendly and publicly available databases, the exponentially growing genomic knowledge of micro-organisms is an inexpensive resource unlocking a myriad of research opportunities in all fields of environmental sciences, from human and agricultural microbiomes through to aquatic, soil, and atmospheric ecosystems. Combining available genome size information to data and metadata on community structure from existing projects can add further scientific value to investment already made in these projects, at no added cost. 
-
-However, genome size estimates for many taxa found in environmental samples are missing from public databases, or fully unknown. The evolutionary rule that phylogenetically related organisms share genetic similarities can be exploited and genome size for taxa with unknown genome size can be statistically inferred from related taxa with known genome size, using taxonomy as a proxy for phylogeny. Another challenge is the precision of identification: some taxa can only be identified at high taxonomic levels. Statistical methods can also be used to infer their genome size range from databases. To our knowledge, there is no convenient and fast way to obtain genome size estimates with uncertainty bounds for all organisms identified or partially identified in an environmental sample.
+However, characterizing genome size for all organisms in a microbiome remains challenging. The exponentially growing genome databases are an inexpensive resource unlocking a myriad of research opportunities in all fields of environmental sciences, but genome size estimates for many taxa found in environmental samples are missing from public databases, or fully unknown. The evolutionary rule that phylogenetically related organisms share genetic similarities can be exploited and genome size for taxa with unknown genome size can be statistically inferred from related taxa with known genome size, using taxonomy as a proxy for phylogeny. Another challenge is the precision of identification: some taxa can only be identified at high taxonomic levels. Statistical methods can also be used to infer their genome size range from databases. To our knowledge, there is no convenient and fast way to obtain genome size estimates with uncertainty bounds for all organisms identified or partially identified in an environmental sample.
 
 Using the increased prevalence of whole-genome information for all organisms, we have therefore developed `genomesizeR`, allowing the inference of genome size of many queries at once, based on taxonomic information and available genome data from the National Center for Biotechnology Information (NCBI).
 
@@ -170,14 +171,14 @@ First, the genome sizes are predicted from the taxa:
 #############################################################################
 # Genome size estimation summary:
 #
-#  32.22222 % estimations achieving required precision
+#  22.22222 % estimations achieving required precision
 #
      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-  2260662   4850009  15733757  23739845  39882934 161191581 
+  3007721   5408472  16980834  23969767  41811396 143278734 
 
 # Estimation status:
-Confidence interval to estimated size ratio > ci_threshold  | OK 
-                                                       122  | 58 
+Confidence interval to estimated size ratio > ci_threshold      OK 
+                                                       140      40 
 ```
 
 Then, the results can be visualized using the plotting functions provided. \autoref{fig:example_hist_box} shows a histogram and a boxplot of the estimated genome sizes for each sample. \autoref{fig:example_tree} shows a tree showing the taxonomic relationships as well as the estimated genome sizes.
@@ -185,6 +186,14 @@ Then, the results can be visualized using the plotting functions provided. \auto
 ![Histogram (A) and boxplot (B) of estimated genome sizes for each sample\label{fig:example_hist_box}](example_hist_boxplot.png){ width=100% }
 
 ![Tree representing taxonomic relationships and estimated genome sizes between queries\label{fig:example_tree}](example_tree.png){ width=100% }
+
+# Availability
+
+Project name: genomesizeR
+Project home page: https://github.com/ScionResearch/genomesizeR 
+Operating system(s): Platform independent
+Programming language: R
+License: GNU General Public License
 
 # Acknowledgements
 
