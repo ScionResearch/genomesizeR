@@ -15,10 +15,7 @@ PACKAGE:
     - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
 PAPER PREPRINT:
-- Joane: finish bayesian and lmm CI desciption
-- fix or delete CI formula in wm method description (Joane + Celine)
-- re-float figures to the right place (Joane)
-- add methods comp section after example: figure (Joane) (CI comparison figure updated and combined by Celine) and pro/cons table (Joane + Celine)
+- re-float figures to the right place (Celine)
 
 
 PAPER FINAL
