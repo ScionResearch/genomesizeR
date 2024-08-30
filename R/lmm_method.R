@@ -7,11 +7,11 @@ compute_confidence_interval_lmm <- function(query, model, n_cores) {
       type = "PSOCK"
     )
     doParallel::registerDoParallel(cl = cluster)
-    ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean", .parallel=T)
+    ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 1000, include.resid.var = FALSE, level=0.95,  stat="mean", .parallel=T)
     parallel::stopCluster(cl = cluster)
   }
   else {
-    ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 100, include.resid.var = FALSE, level=0.95,  stat="mean")
+    ci =  predictInterval(model, newdata = query,  which = "full",  n.sims = 1000, include.resid.var = FALSE, level=0.95,  stat="mean")
   }
   return(ci)
 }
