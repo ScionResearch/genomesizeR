@@ -12,7 +12,9 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-Remotes: github::raim/ncbitax, bioc::ggtree, bioc::biomformat
-Imports: pbapply, ggplot2, dplyr, lme4, merTools, brms, parallel, doParallel
+Imports: pbapply, ggplot2, dplyr, lme4, merTools, brms, parallel, doParallel, ncbitax, ggtree, biomformat
+Remotes: github::raim/ncbitax, 
+         bioc::ggtree, 
+         bioc::biomformat
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
