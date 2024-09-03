@@ -1,8 +1,7 @@
 PACKAGE:
-- Joane to check that dbs are all good through methods comparison from the example using the package
+- Try putting on Bioconductor??
 - Make databases and models available online (Celine)
 - Run methods on validation set and update method comparison with updated databases (Celine for weighted mean/Joane)
-- LMM behaviour: Joane to identifiy threshold to remove lmm estimations above family (not possible apparently)
 - Test on Windows and BFC (Celine)
 - Vignette about methods, weighted mean: add figure of example graph (Celine)
 - Document more the output in vignette
