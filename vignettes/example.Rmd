@@ -10,19 +10,19 @@ vignette: >
 #### Example using default bayesian method on example file:
 
 ```
-  results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input')
+  results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)
   
   #############################################################################
   # Genome size estimation summary:
   #
-  #  32.22222 % estimations achieving required precision
+  #  22.22222 % estimations achieving required precision
   #
        Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-    2260662   4850009  15733757  23739845  39882934 161191581 
+    3007721   5408472  16980834  23969767  41811396 143278734 
   
   # Estimation status:
-  Confidence interval to estimated size ratio > ci_threshold  | OK 
-                                                         122  | 58 
+  Confidence interval to estimated size ratio > ci_threshold                                                         OK 
+                                                         140                                                         40 
 ```
 
 #### Plot genome size histogram per sample:
