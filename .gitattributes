@@ -4,3 +4,5 @@ NAMESPACE !text !filter !merge !diff
 *.md !text !filter !merge !diff
 *.Rproj !text !filter !merge !diff
 *.Rd !text !filter !merge !diff
+
+*.html linguist-detectable=false
