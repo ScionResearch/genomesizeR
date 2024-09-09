@@ -16,3 +16,4 @@ Imports: pbapply, ggplot2, dplyr, lme4, merTools, brms, parallel, doParallel, nc
 Remotes: bioc::ggtree, bioc::biomformat, github::raim/ncbitax
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
+URL: https://scionresearch.github.io/genomesizeR/
