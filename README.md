@@ -27,7 +27,7 @@ Download the archive containing the reference databases and the bayesian models 
 
 ```
 remotes::install_github("inbo/inborutils")
-inborutils::download_zenodo("10.5281/zenodo.13733184", path=".")
+inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ```
 
 ### Simple example
