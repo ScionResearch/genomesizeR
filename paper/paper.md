@@ -21,7 +21,7 @@ author:
       orcid: "0000-0002-1167-8699"
       institute: [scion]
 institute:
-  - scion: Scion, New Zealand Forest Research Institute, New Zealand
+  - scion: Scion, New Zealand Forest Research Institute, 49 Sala Street, Private Bag 3020, Rotorua 3046, New Zealand
 bibliography: paper.bib
 ---
 
