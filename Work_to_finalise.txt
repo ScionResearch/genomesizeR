@@ -1,22 +1,16 @@
 PACKAGE:
-- Try putting on Bioconductor??
-- Make databases and models available online (Celine)
+- Try putting on Bioconductor? (Celine)
+- Fix dependencies (Celine)
 - Run methods on validation set and update method comparison with updated databases (Celine for weighted mean/Joane)
-- Test on Windows and BFC (Celine)
 - Vignette about methods, weighted mean: add figure of example graph (Celine)
 - Document more the output in vignette
 - In input/output vignette, add an example using phyloseq data
-- Do the R checks, ok but do again before publishing (Celine)
-- Behaviour is weird with multithreaded (takes longer instead of shorter??) (Celine)
+- Multithreading behaviour is weird (Celine)
 - One day maybe:
     - add rank match info for lmm and bayesian methods
     - scripts to build db and bayesian models from scratch (Celine)
     - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
-PAPER PREPRINT:
-- re-float figures to the right place (Celine)
-
-
 PAPER FINAL
-- update methods comparisons with validation with new figures from updated databases (Joane)
-- could check correlation with variables from original paper
+- update methods comparisons with validation with new figures from updated databases (Joane/Celine)
+- could check correlation with variables from original paper (Celine)
