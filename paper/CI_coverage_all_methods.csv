@@ -1,0 +1,4 @@
+"Method","match_above_family","match_family_or_below"
+"Bayesian","96/99 (97%)","326/340 (96%)"
+"lmm","0/0 (NaN%)","283/340 (83%)"
+"weighted_mean","1/60 (2%)","27/337 (8%)"
