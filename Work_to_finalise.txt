@@ -1,26 +1,16 @@
 PACKAGE:
-- Joane to check that dbs are all good through methods comparison from the example using the package
-- Make databases and models available online (Celine)
+- Try putting on Bioconductor? (Celine)
+- Fix dependencies (Celine)
 - Run methods on validation set and update method comparison with updated databases (Celine for weighted mean/Joane)
-- LMM behaviour: Joane to identifiy threshold to remove lmm estimations above family (not possible apparently)
-- Test on Windows and BFC (Celine)
 - Vignette about methods, weighted mean: add figure of example graph (Celine)
 - Document more the output in vignette
 - In input/output vignette, add an example using phyloseq data
-- Do the R checks, ok but do again before publishing (Celine)
-- Behaviour is weird with multithreaded (takes longer instead of shorter??) (Celine)
+- Multithreading behaviour is weird (Celine)
 - One day maybe:
     - add rank match info for lmm and bayesian methods
     - scripts to build db and bayesian models from scratch (Celine)
     - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
-PAPER PREPRINT:
-- Joane: finish bayesian and lmm CI desciption
-- fix or delete CI formula in wm method description (Joane + Celine)
-- re-float figures to the right place (Joane)
-- add methods comp section after example: figure (Joane) (CI comparison figure updated and combined by Celine) and pro/cons table (Joane + Celine)
-
-
 PAPER FINAL
-- update methods comparisons with validation with new figures from updated databases (Joane)
-- could check correlation with variables from original paper
+- update methods comparisons with validation with new figures from updated databases (Joane/Celine)
+- could check correlation with variables from original paper (Celine)

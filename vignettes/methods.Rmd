@@ -72,20 +72,41 @@ The estimation process using the restricted maximum likelihood method (REML). A 
 
 The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean. The identification of related taxa is limited to levels below and including order.
 
-In the calculation of the prediction for a given query, the weight for a related taxon in the database is calculated as 
-
-\begin{gather*}
-w_i = \frac{1}{d_i + 1}
-\end{gather*}
-
-where $d_i$ is the distance of the related taxon to the query in number of nodes in the taxonomy.
-
-The confidence interval is calculated as:
-
-\begin{equation}
-CI = 1.96 \times \sqrt{\hat{\mu}}
-\end{equation}
-
-where $\hat{\mu}$ is the computed weighted mean.
-
 For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. This method can also perform better than the others if your queries consist of lists of taxa (for example, an output of *blastn* where several matches can be obtained for each query). Otherwise, we suggest using one of the other methods, as the confidence intervals calculated are less reliable for the weighted mean method.
+
+#### Pseudocode describing the weighted mean method computation:
+
+```
+# 1. Build table of parent information
+
+for each match (a query can be a list of matches e.g. blast result):
+  get the taxid associated
+  get the list of parents and their ranks
+  for each parent :
+    if higher than order rank: 
+      STOP and return 'Not enough genome size references for close taxa'
+    if genome size associated with that taxon in the reference database:
+      store it in a 'parent information table'
+      store the distance as well (number of nodes between query and this taxon)
+      if we have more than one genome that contributed to the data we have in the 'parent information table':
+        STOP the iteration through parents here
+    if the query is a list of matches and we have reached their common ancestor:
+      STOP the iteration through parents here
+
+# 2. Compute weighted mean from the table of parent information
+
+estimated_size = 0
+estimated_standard_error = 0
+sum_weights = 0
+for each line of parent information:
+  weight = 1.0/(distance+1)
+  sum_weights = sum_weights + weight
+  estimated_size = estimated_size + weight * genome_size
+  estimated_standard_error = estimated_standard_error + (weight * precomputed_standard_error)**2
+estimated_size = estimated_size / sum_of_all_weights
+standard_error = square_root(estimated_standard_error)
+Z = 1.96 # 95% CI
+margin_of_error = Z * standard_error
+confidence_interval_lower = estimated_size - margin_of_error
+confidence_interval_upper = estimated_size + margin_of_error
+```

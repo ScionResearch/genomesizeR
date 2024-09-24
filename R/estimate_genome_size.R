@@ -265,8 +265,13 @@ estimate_genome_size <- function(queries, refdata_path,
   cat('Done', fill=T)
 
   # Compute confidence interval if needed and handle formatting
-  if (method == 'lmm') {
+  if (typeof(output_table) == 'character') {
+    output_table = data.frame(t(data.frame(output_table)))
+  }
+  else {
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+  }
+  if (method == 'lmm') {
     confidence_interval = exp(compute_confidence_interval_lmm(output_table, genusfamily_model, n_cores))
     output_table$confidence_interval_lower = as.numeric(confidence_interval$lwr)
     output_table$confidence_interval_upper = as.numeric(confidence_interval$upr)
@@ -275,15 +280,12 @@ estimate_genome_size <- function(queries, refdata_path,
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
   }
   else if (method == 'bayesian') {
-    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
-    new_queries = output_table
-    output_table = pbapply(new_queries, 1, ci_post_treat, ci_threshold=ci_threshold)
+    output_table = pbapply(output_table, 1, ci_post_treat, ci_threshold=ci_threshold)
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
     output_table$confidence_interval_lower = as.numeric(output_table$confidence_interval_lower)
     output_table$confidence_interval_upper = as.numeric(output_table$confidence_interval_upper)
   }
   else {
-    output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
     output_table$confidence_interval_lower = as.numeric(output_table$confidence_interval_lower)
     output_table$confidence_interval_upper = as.numeric(output_table$confidence_interval_upper)
     output_table$genome_size_estimation_distance = as.numeric(output_table$genome_size_estimation_distance)

@@ -19,13 +19,15 @@ All three methods use:
 Install from GitHub:
 
 ```
+install.packages("remotes")
 remotes::install_github("ScionResearch/genomesizeR")
 ```
 
-Download the archive containing the reference databases and the bayesian models:
+Download the archive containing the reference databases and the bayesian models from `zenodo.org`, using the `inborutils` package. You can change the `path` option to where you want to download the archive (default is current directory '.'):
 
 ```
-download.file("zenodo url")
+remotes::install_github("inbo/inborutils")
+inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ```
 
 ### Simple example

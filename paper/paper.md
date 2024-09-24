@@ -21,7 +21,7 @@ author:
       orcid: "0000-0002-1167-8699"
       institute: [scion]
 institute:
-  - scion: Scion, New Zealand Forest Research Institute, New Zealand
+  - scion: Scion, New Zealand Forest Research Institute, 49 Sala Street, Private Bag 3020, Rotorua 3046, New Zealand
 bibliography: paper.bib
 ---
 
@@ -50,7 +50,7 @@ Using the increased prevalence of whole-genome information for all organisms, we
 
 ## NCBI database filtering and processing
 
-The reference database used is built by querying all genome metadata information from the curated NCBI RefSeq database [@OLeary2016-kw]. Filters are applied to only keep full genomes, and discard data that the NCBI has tagged as anomalous, or abnormally large or small.
+The reference database used is built by querying all genome metadata information from the curated NCBI RefSeq database [@OLeary2016-kw]. Filters are applied to only keep full genomes, and discard data that the NCBI has tagged as anomalous, or as abnormally large or small sizes.
 
 This raw database is then prepared to include more pre-computed information to be used by the package. Genome sizes are aggregated to the species level by iteratively averaging all entries below, and estimated standard errors for each species with multiple genome size entries are stored. The package can therefore only provide estimates at the level of species and above. Average genome sizes and their associated standard error values are also pre-computed, to be used by the weighted mean method. 
 
@@ -144,14 +144,13 @@ The R package accepts as input formats the common 'taxonomy table' format used b
 
 Several plotting functions using the ggplot2 [@ggplot22016] and ggtree [@Yu2020-pa] packages are also provided to visualise the results.
 
-
 # Example
 
 This example data is a subset of the dataset from @Labouyrie2023-yc.
 
 First, the genome sizes are predicted from the taxa:
 
-`results = estimate_genome_size(example_input_file, refdata_archive_path, sep='\t', match_column='TAXID', output_format='input')`
+`results = estimate_genome_size(example_input_file, refdata_archive_path, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)`
 
 ```
 #############################################################################
@@ -167,7 +166,7 @@ Confidence interval to estimated size ratio > ci_threshold      OK
                                                        140      40 
 ```
 
-Then, the results can be visualized using the plotting functions provided. \autoref{fig:example_hist_box} shows a histogram and a boxplot of the estimated genome sizes for each sample. \autoref{fig:example_tree} shows a tree showing the taxonomic relationships as well as the estimated genome sizes.
+Then, the results can be visualized using the plotting functions provided. \autoref{fig:example_hist_box} shows a histogram and a boxplot of the estimated genome sizes for each sample. \autoref{fig:example_tree} shows a tree showing the taxonomic relationships as well as the estimated genome sizes. The difference between the genome size distribution of bacteria (16S marker) and fungi (ITS marker) is visible in both figures, as well as different distributions between samples.
 
 ![Histogram (A) and boxplot (B) of estimated genome sizes for each sample\label{fig:example_hist_box}](example_hist_boxplot.png){ width=100% }
 
@@ -175,7 +174,7 @@ Then, the results can be visualized using the plotting functions provided. \auto
 
 # Method comparison
 
-The applicability of each method varies. The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. Below is a comparison of estimates for an example set of bacteria and fungi queries where the highest level of match with the database is the family level. Note that there are fewer successful estimations with the weighted mean method than with the two model-based methods.
+The applicability of each method varies (\autoref{table:method_comp}). The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. 
 
 | | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
 | -- | -- | -- | -- | -- | -- |
@@ -183,14 +182,13 @@ The applicability of each method varies. The Bayesian method outputs results for
 | LMM | reliable | up to family level | + | + | 1 |
 | Weighted mean | underestimated | up to order level | ++ | ++ | 2 |
 
+: Comparison of method behaviour and applicability \label{table:method_comp}
 
-Figures below show that estimates and the width of confidence intervals differ between methods (figures \autoref{fig:est_comp} and \autoref{fig:CI_comp_combined}).
+Below is a comparison of estimates for an example set of bacteria and fungi queries where the highest level of match with the database is the family level. Estimates and the width of confidence intervals differ between methods (figures \autoref{fig:est_comp} and \autoref{fig:CI_comp_combined}).
 
-![Pairwise comparison of estimates from different methods for bacteria and fungi. A. Bayesian model vs. weighted means method; B. Frequentist mixed model vs. weighted means method; C. Bayesian model vs. frequentist mixed model. \label{fig:est_comp}](comparison_methods_estimates.png){ width=100% }
+![Pairwise comparison of estimates from different methods for bacteria and fungi. A. Bayesian model vs. weighted means method; B. Frequentist mixed model vs. weighted means method; C. Bayesian model vs. frequentist mixed model. \label{fig:est_comp}](comparison_methods_estimates.png){ width=80% }
 
-![Distribution of relative 95% confidence intervals per method and rank match. 95% confidence intervals were scaled by estimated size. Rank match refers to the smallest rank in common between the query and the closest database entry with a valid genome size.  \label{fig:CI_comp_combined}](comparison_methods_CI.png){ width=100% }
-
-
+![Distribution of relative 95% confidence intervals per method and rank match. 95% confidence intervals were scaled by estimated size. Rank match refers to the smallest rank in common between the query and the closest database entry with a valid genome size.  \label{fig:CI_comp_combined}](comparison_methods_CI.png){ width=70% }
 
 # Availability
 
