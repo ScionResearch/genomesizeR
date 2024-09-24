@@ -56,7 +56,7 @@ This raw database is then prepared to include more pre-computed information to b
 
 ## Bayesian method
 
-The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2017brms] was fitted to each superkingdom dataset. The general model structure is outlined below.
+The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2017brms] was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds exactly the most complex model, implemented for the Bacteria superkingdom. This general model was simplified by dropping the class group effect in the standard deviation model for the Eukaryote superkingdom, and dropping both the class and phylum group effect in the standard deviation model for the Archeae superkingdom. The latter is therefore not addressed using a distributional model, as the response variance has no predictor.
 
 \begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
@@ -132,7 +132,7 @@ where $d_i$ is the distance of the related taxon to the query in number of nodes
 
 The pseudocode describing the algorithm for the estimate and confidence interval computation is available in the package vignettes.
 
-For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. This method can also perform better than the others if your queries consist of lists of taxa (for example, an output of *blastn* where several matches can be obtained for each query). Otherwise, we suggest using one of the other methods, as the confidence intervals calculated are less reliable for the weighted mean method.
+For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. This method can also perform better than the others if queries consist of lists of taxa (for example, an output of *blastn* where several matches can be obtained for each query). Otherwise, we suggest using one of the other methods, as the confidence intervals calculated are less reliable for the weighted mean method.
 
 # Implementation
 
@@ -172,15 +172,35 @@ Then, the results can be visualized using the plotting functions provided. \auto
 
 ![Tree representing taxonomic relationships and estimated genome sizes between queries\label{fig:example_tree}](example_tree.png){ width=100% }
 
-# Method comparison
 
-The applicability of each method varies (\autoref{table:method_comp}). The Bayesian method outputs results for any taxon that is recognised in the NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted mean method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level. 
+# Method validation and comparison
+
+Each method was quality-controlled by splitting the species-level database into a training set and a validation set. Sampling the validation set involved a level of stratification to obtain a sample representing all match ranks (rank of the closest taxon represented in the training set). Estimation error and confidence bounds were assessed for each method on the same validation set.
+
+Not all queries are estimable by all methods. As stated above, the identification of taxa related to a query in the weighted means method is limited to ranks below and including order and only performs an estimation for queries that have at least two such matches.  Valid estimations from the frequentist LMM method are limited to match ranks below and including family. Only the Bayesian method can output results for any taxon that is recognised in the NCBI taxonomy.
+
+\autoref{fig:validation} shows summaries of estimation error relative to the size of the genome and 95% confidence interval widths relative to the size of the genome for all successful estimations from the validation set, per method, match rank, and superkingdom. The magnitude and variability of estimation error increases as match rank increases, for all methods. Relative errors seem similar across methods for low match ranks (genus and family), with a slightly better performance of the weighted means method for match ranks at the genus levels in the Eukaryotes superkingdom. Confidence interval widths also increases as match rank increases for the model-based methods, while the weighted means method has narrow confidence intervals across match ranks. Although the Bayesian method seems to have narrower confidence bands than the frequentist method for match ranks at the genus level (especially for Eukaryotes), it has the widest intervals for queries at a higher match rank.
+
+To assess the adequacy of estimated confidence intervals in each method, the number of true genome sizes contained between the estimated confidence bounds across the validation set was added up across two groups of low match ranks (genus and family) and high match ranks (above family). We would expect an adequate model to have around 95% of true values falling within 95% confidence intervals. The Bayesian method performs as expected across the two groups (\autoref{table:CI_coverage}). The frequentist LMM method only has a coverage of 83% over the estimable group, suggesting that 95% confidence intervals might not always be fully reliable. The weighted mean method does not perform well in confidence interval estimation.  
+
+
+![Boxplot of  (a) estimation error (b) 95% confidence interval widths, for all successful estimations from the validation set. In both cases values are relative to the size of the genome. \label{fig:validation}](compare_error_and_CI_per_method_and_sk.png){ width=100% }
+
+| Method | Match rank genus or family | Match rank above family | 
+| -- | -- | -- |
+| Bayesian | 96/99 (97%) | 326/340 (96%) |
+| Frequentist LMM | - | 283/340 (83%) |
+| Weighted means | 1/60 (2%) | 27/337 (8%) |
+ 
+ : Observed coverage of 95% confidence intervals for each method and two different rank groups, obtained from the validation process. \label{table:CI_coverage}
+
+The strengths and limitation of each method are outlined in \autoref{table:method_comp}. We emphasize that the weighted mean method is only suitable for taxa that are well-characterised at low taxonomic levels and when uncertainty bounds are of minor interest. The major advantage of the method is that it can be used on queries with several potential taxonomic matches. The Bayesian method is the most solid method especially for quantifying uncertainty around estimated means and obtaining estimates for taxa that are not well represented at low ranks in the NCBI database.
 
 | | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
 | -- | -- | -- | -- | -- | -- |
-| Bayesian | reliable | any rank | + | + | 1 |
-| LMM | reliable | up to family level | + | + | 1 |
-| Weighted mean | underestimated | up to order level | ++ | ++ | 2 |
+| Bayesian | very reliable | any rank | + | + | 1 |
+| LMM | mostly reliable | up to family level | + | + | 1 |
+| Weighted mean | unreliable | up to order level | ++ | ++ | 2 |
 
 : Comparison of method behaviour and applicability \label{table:method_comp}
 
