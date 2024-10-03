@@ -1,7 +1,10 @@
 PACKAGE:
 - Try putting on Bioconductor? (Celine)
+- Add tests?
+- Fix git page behaviour? 
+- Update bayesian models (Celine)
 - Fix dependencies (Celine)
-- Run methods on validation set and update method comparison with updated databases (Celine for weighted mean/Joane)
+- Update method comparison with updated databases in vignettes? (Celine for weighted mean/Joane)
 - Vignette about methods, weighted mean: add figure of example graph (Celine)
 - Document more the output in vignette
 - In input/output vignette, add an example using phyloseq data
@@ -12,5 +15,5 @@ PACKAGE:
     - Re-do model selection on Bayesian method with final db version (Joane -> do after pre-print)
 
 PAPER FINAL
-- update methods comparisons with validation with new figures from updated databases (Joane/Celine)
+- reformat/shorten for JOSS
 - could check correlation with variables from original paper (Celine)
