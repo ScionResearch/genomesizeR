@@ -291,14 +291,14 @@ estimate_genome_size <- function(queries, refdata_path,
     output_table$genome_size_estimation_distance = as.numeric(output_table$genome_size_estimation_distance)
   }
 
+  output_table$estimated_genome_size = as.numeric(output_table$estimated_genome_size)
+
   # Drop NA columns if there are any
   all_na_cols = sapply(output_table, \(x) all(is.na(x)))
   output_table = output_table[!all_na_cols]
 
   # Rename rows
   row.names(output_table) = paste0('query_', 1:nrow(output_table))
-
-  output_table$estimated_genome_size = as.numeric(output_table$estimated_genome_size)
 
   summary(output_table$estimated_genome_size)
 
