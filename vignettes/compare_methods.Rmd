@@ -7,144 +7,124 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-```{r, include=FALSE}
+```{r, message=FALSE}
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(cowplot)
 ```
 
-First a bit of wrangling to combine all results:
+Methods can be assessed and compared by splitting the species-level database into a training set and a validation set. The validation set used here was created using stratification: Species were randomly sampled within each group defined by match rank. For instance the family group was defined by species that, when removed from the database and placed on the validation set, are only represented in the training set at the family level. 
+
+
+Not all queries are estimable by all methods. The identification of taxa related to a query in the weighted means method is limited to ranks below and including order and only performs an estimation for queries that have at least two such matches. Valid estimations from the frequentist regression method are limited to match ranks below and including family. Only the Bayesian method can output results for any taxon that is recognised in the NCBI taxonomy.
+
+Estimation error and confidence bounds were assessed for each method on the same validation set. However, summaries of performance displayed for each method only include estimates on observations that were estimable by the given method. 
 
 ```{r}
-res_wm <- read.csv("results_weighted_mean.csv") %>%
-  select(X, COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID, genome_size_estimation_rank, estimated_genome_size,
-         genome_size_estimation_status, confidence_interval_lower,confidence_interval_upper) %>%
-  mutate(method="weighted_mean")
-res_wm$X <- gsub("V","query...", res_wm$X)
-res_lmm <- read.csv("results_lmm.csv") %>%
-  mutate(genome_size_estimation_rank = res_wm$genome_size_estimation_rank) %>%
-  select(X, COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID, genome_size_estimation_rank, estimated_genome_size,
-         genome_size_estimation_status, confidence_interval_lower,confidence_interval_upper) %>%
-  mutate(method = "hierarchical")
-res_bayes <- read.csv("results_bayesian.csv") %>%
-  mutate(genome_size_estimation_rank = res_wm$genome_size_estimation_rank) %>%
-  select(X, COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID, genome_size_estimation_rank, estimated_genome_size,
-         genome_size_estimation_status, confidence_interval_lower,confidence_interval_upper) %>%
-  mutate(method = "bayesian")
 
-#put together
-res <- bind_rows(res_wm,res_lmm,res_bayes)
-
-#add CI width and relative CI width
-res <- res %>%
-  mutate(CI_width = confidence_interval_upper - confidence_interval_lower) %>%
-  mutate(CI_width_rel = CI_width/estimated_genome_size)
-
-#add whether the sample has fungi or bacteria
-res <- res %>%
-  mutate(sample_type = ifelse(grepl("16S",SAMPLE), "bacteria","fungi"))
-
+#loading the validation results across methods
+val_all <- readRDS(paste0("../../../genome_size_db/out/all_methods_validation_results_filtered_refseq_ungapped.rds")) %>%
+  mutate(sk_name = as.factor(case_when(superkingdom == 2 ~"Bacteria",
+                             superkingdom == 2157 ~"Archeae",
+                             superkingdom == 2759 ~"Eukaryotes")))
 ```
 
 
 
-# 1. Comparing estimation success
+# 1. Estimation error
 
-## 1.a. Estimates
-
-```{r, message=FALSE, warning=FALSE}
-res %>%
-  filter(is.na(estimated_genome_size)) %>%
-  group_by(method,genome_size_estimation_status) %>%
-  summarise(NA_count=n())
-```
-The Bayesian method outputs results for any taxon that is recognised in NCBI taxonomy. The frequentist random effects model method only outputs results for queries that have a match at the species, genus, or family level. The weighted means method only performs an estimation for queries that have at least two matches at the species, genus, family, or order level.
-
-
-
-## 1b. Confidence intervals
-
-When applying the Bayesian method, some cases an estimate is provided but confidence intervals are missing.
-
-```{r}
-res %>%
-  filter(!is.na(estimated_genome_size)) %>%
-  filter(is.na(confidence_interval_lower) | is.na(confidence_interval_lower)) %>%
-  group_by(method,genome_size_estimation_rank) %>%
-  summarise(count=n())
-```
-
-These cases correspond to queries where the NCBI database has genome size information at the species level or below. The Bayesian model was run on the database where genome size values were averaged across all ranks at and below species level, only giving one value per species. The estimation process therefore returns that averaged value, with no uncertainty bounds.   
-
-
-
-# 2. Differences in estimates
-
-The estimates (based on means) are summarised below for the 3 methods across the two sample types.
+Below, we display the estimation error (relative to the true genome size) summarised by method and superkingdom.
+For a given match rank group, the three methods have on average similar errors. The error increases with match rank. For the validation set used here, the error for queries that have matches at the genus level is mostly between 10% and 20% of the genome size and can go up to above 50% at higher match ranks.
 
 ```{r, fig.width=8,fig.height=5,out.width="100%"}
-ggplot(res, aes(x=method, y=estimated_genome_size)) +
-  geom_boxplot() +
-  facet_wrap(~sample_type, scale="free")
+mycol <- c("#009E73", "#0072B2", "#D55E00")
+
+ggplot(val_all, aes(y=relative_abs_error, x=match_rank, fill=model_used, col=model_used)) +
+  geom_boxplot(position = position_dodge(preserve = "single"), outliers=FALSE) +
+  labs(fill="method",colour="method", y="Relative error",x=NULL) +
+  facet_wrap(~sk_name) +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust=1)) +
+  scale_color_manual(values = mycol) +
+  scale_fill_manual(values = alpha(mycol,0.4))
 ```
 
-Below is a 1-to-1 comparison of the Bayesian and the frequentist modelling method:
+When estimable by all three methods, genome size predictions are in general similar across methods:
+
+```{r, fig.width=8,fig.height=5,out.width="100%"}
+val_all_wide <- val_all %>%
+  select(sk_name, species, model_used, mean_Mbp) %>%
+  pivot_wider(names_from = model_used, values_from = mean_Mbp)
+
+wm_vs_bayes <- ggplot(val_all_wide, aes(x=weighted_mean, y=Bayesian)) +
+  geom_point(size=1) +
+  geom_abline(slope=1, intercept=0, col="gray50", linetype="dashed") +
+  facet_wrap(~ sk_name, scale="free") +
+  xlab("Weighted mean estimate (Mbp)") +
+  ylab("Bayesian estimate (Mbp)")
+
+freq_vs_bayes <- ggplot(val_all_wide, aes(x=lmm, y=Bayesian)) +
+  geom_point(size=1) +
+  geom_abline(slope=1, intercept=0, col="gray50", linetype="dashed") +
+  facet_wrap(~ sk_name, scale="free") +
+  xlab("LMM estimate (Mbp)") +
+  ylab("Bayesian estimate (Mbp)")
+
+plot_grid(wm_vs_bayes,freq_vs_bayes, ncol=1)
+
+
+```
+
+
+
+# 2. Confidence intervals
+
+Below we look at performance across 95% confidence interval estimated in each method. We compare summaries of width of intervals relative to genome size, by superkingdom. The intervals are negligible for the weighted means method compared to the two model-based methods, where the 95% CI width is around 50% of the genome size on average for species with matched at the genus level. For the Bayesian method, the confidence interval width increases dramatically with match rank. 
 
 ```{r,fig.width=8,fig.height=5,out.width="100%"}
+mycol <- c("#009E73", "#0072B2", "#D55E00")
 
-res_wide <- res %>%
-  select(X, sample_type,method,estimated_genome_size) %>%
-  pivot_wider(names_from = "method", values_from = "estimated_genome_size")
+ggplot(val_all, aes(y=relative_half_CI95*2, x=match_rank, fill=model_used, col=model_used)) +
+  geom_boxplot(position = position_dodge(preserve = "single"), outliers=FALSE) +
+  labs(fill="method",colour="method", y="Relative error",x=NULL) +
+  facet_wrap(~sk_name) +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust=1)) +
+  scale_color_manual(values = mycol) +
+  scale_fill_manual(values = alpha(mycol,0.4))
+```
 
-res_wide %>%
-ggplot(aes(x=hierarchical,y=bayesian)) +
-  geom_point() +
-  geom_abline(intercept=0, slope=1) +
-  facet_wrap(~sample_type, scale="free")
+Trustworthy CI estimates should translate into a similar observed coverage, that is, we expect roughly 95% of true values to fall within the 95% confidence intervals. However we see that only the Bayesian method roughly satisfies this property. The frequentist methods slightly underperforms and the weighted mean method is untrustworthy for uncertainty estimates.
+
+```{r}
+qc_long <- val_all %>% group_by(model_used,match_rank_2) %>%
+  summarise(n=sum(!is.na(in_CI95_range)),
+            CI95_coverage = sum(in_CI95_range, na.rm=TRUE),
+            CI95_coverage_prop = CI95_coverage/n)
+
+qc_text <- qc_long %>%
+  mutate(CI_coverage = paste0(CI95_coverage,"/",n," (",round(CI95_coverage_prop*100,0),"%)"))
+
+qc_wide <- qc_text %>%
+  select(model_used,match_rank_2, CI_coverage) %>%
+  pivot_wider(names_from = match_rank_2, values_from = CI_coverage)
+names(qc_wide) <- c("Method","95%CI coverage for match above family","95%CI coverage for match at or below family")
+
+knitr::kable(qc_wide, format="markdown")
 ```
 
 
 
-# 3. Uncertainty estimates across all queries
+# 3. Conclusion
 
-Below are the estimated confidence intervals for all queries with estimates
-
-```{r,fig.width=8,fig.height=5,out.width="100%"}
-res %>%
-  filter(!is.na(estimated_genome_size)) %>%
-ggplot(aes(x=estimated_genome_size, y=CI_width, colour = method)) +
-  geom_point() +
-  facet_wrap(~ sample_type, scale="free")
-```
-
-The figure below shows confidence intervals as a proportion of the estimated size
-
-```{r,fig.width=8,fig.height=5,out.width="100%"}
-res %>%
-  filter(!is.na(estimated_genome_size)) %>%
-ggplot(aes(x=estimated_genome_size, y=CI_width_rel, colour = method)) +
-  geom_point() +
-  facet_wrap(~ sample_type, scale="free")
-```
+The strengths and limitation of each method are outlined below. We emphasize that the weighted mean method is only suitable for taxa that are well-characterised at low taxonomic levels and when uncertainty bounds are of minor interest. The major advantage of the method is that it can be used on queries with several potential taxonomic matches. The Bayesian method is the most solid method especially for quantifying uncertainty around estimated means and obtaining estimates for taxa that are not well represented at low ranks in the NCBI database.  
 
 
+| | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
+| -- | -- | -- | -- | -- | -- |
+| Bayesian | very reliable | any rank | + | + | 1 |
+| LMM | mostly reliable | up to family level | + | + | 1 |
+| Weighted mean | unreliable | up to order level | ++ | ++ | 2 |
 
-#4. Comparing uncertainty estimates across queries with successful estimations in all three methods
 
-Selecting queries that have estimates with all three methods provides a more thourough comparison of uncertainty estimates.
-
-```{r, message=FALSE}
-res_tax_complete <- res %>%
-  group_by(X) %>%
-  summarise(count_na = length(which(is.na(estimated_genome_size)))) %>%
-  filter(count_na == 0)
-res_complete <- res %>% filter(X %in% res_tax_complete$X)
-```
-
-Below is a similar figure as the previous one but with the selected queries
-
-```{r,fig.width=8,fig.height=5,out.width="100%"}
-ggplot(res_complete, aes(x=estimated_genome_size, y=CI_width_rel, colour = method)) +
-  geom_point() +
-  facet_wrap(~ sample_type, scale="free")
-```
