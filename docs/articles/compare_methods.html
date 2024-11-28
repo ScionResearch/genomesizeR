@@ -5,57 +5,49 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="genomesizeR">
 <title>Comparing estimation methods • genomesizeR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Comparing estimation methods">
-<meta property="og:description" content="genomesizeR">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Comparing estimation methods">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">genomesizeR</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.0001</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/compare_methods.html">Comparing estimation methods</a>
-    <a class="dropdown-item" href="../articles/example.html">Example</a>
-    <a class="dropdown-item" href="../articles/input_output.html">About the input and the output</a>
-    <a class="dropdown-item" href="../articles/methods.html">Method description</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/compare_methods.html">Comparing estimation methods</a></li>
+    <li><a class="dropdown-item" href="../articles/example.html">Example</a></li>
+    <li><a class="dropdown-item" href="../articles/input_output.html">About the input and the output</a></li>
+    <li><a class="dropdown-item" href="../articles/methods.html">Method description</a></li>
+  </ul>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav"></ul>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+      </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -64,168 +56,212 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Comparing estimation methods</h1>
+
+      <h1>Comparing estimation methods</h1>
             
       
-      
+
       <div class="d-none name"><code>compare_methods.Rmd</code></div>
     </div>
 
     
     
-<p>First a bit of wrangling to combine all results:</p>
+<p>Methods can be assessed and compared by splitting the species-level
+database into a training set and a validation set. The validation set
+used here was created using stratification: Species were randomly
+sampled within each group defined by match rank. For instance the family
+group was defined by species that, when removed from the database and
+placed on the validation set, are only represented in the training set
+at the family level.</p>
+<p>Not all queries are estimable by all methods. The identification of
+taxa related to a query in the weighted means method is limited to ranks
+below and including order and only performs an estimation for queries
+that have at least two such matches. Valid estimations from the
+frequentist regression method are limited to match ranks below and
+including family. Only the Bayesian method can output results for any
+taxon that is recognised in the NCBI taxonomy.</p>
+<p>Estimation error and confidence bounds were assessed for each method
+on the same validation set. However, summaries of performance displayed
+for each method only include estimates on observations that were
+estimable by the given method.</p>
+<div class="section level2">
+<h2 id="estimation-error">1. Estimation error<a class="anchor" aria-label="anchor" href="#estimation-error"></a>
+</h2>
+<p>Below, we display the estimation error (relative to the true genome
+size) summarised by method and superkingdom. For a given match rank
+group, the three methods have on average similar errors. The error
+increases with match rank. For the validation set used here, the error
+for queries that have matches at the genus level is mostly between 10%
+and 20% of the genome size and can go up to above 50% at higher match
+ranks.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_wm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"results_weighted_mean.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">X</span>, <span class="va">COUNT</span>,<span class="va">SAMPLE</span>,<span class="va">SCIENTIFIC_NAME</span>,<span class="va">TAXID</span>, <span class="va">genome_size_estimation_rank</span>, <span class="va">estimated_genome_size</span>,</span>
-<span>         <span class="va">genome_size_estimation_status</span>, <span class="va">confidence_interval_lower</span>,<span class="va">confidence_interval_upper</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>method<span class="op">=</span><span class="st">"weighted_mean"</span><span class="op">)</span></span>
-<span><span class="va">res_wm</span><span class="op">$</span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"V"</span>,<span class="st">"query..."</span>, <span class="va">res_wm</span><span class="op">$</span><span class="va">X</span><span class="op">)</span></span>
-<span><span class="va">res_lmm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"results_lmm.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>genome_size_estimation_rank <span class="op">=</span> <span class="va">res_wm</span><span class="op">$</span><span class="va">genome_size_estimation_rank</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">X</span>, <span class="va">COUNT</span>,<span class="va">SAMPLE</span>,<span class="va">SCIENTIFIC_NAME</span>,<span class="va">TAXID</span>, <span class="va">genome_size_estimation_rank</span>, <span class="va">estimated_genome_size</span>,</span>
-<span>         <span class="va">genome_size_estimation_status</span>, <span class="va">confidence_interval_lower</span>,<span class="va">confidence_interval_upper</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"hierarchical"</span><span class="op">)</span></span>
-<span><span class="va">res_bayes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"results_bayesian.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>genome_size_estimation_rank <span class="op">=</span> <span class="va">res_wm</span><span class="op">$</span><span class="va">genome_size_estimation_rank</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">X</span>, <span class="va">COUNT</span>,<span class="va">SAMPLE</span>,<span class="va">SCIENTIFIC_NAME</span>,<span class="va">TAXID</span>, <span class="va">genome_size_estimation_rank</span>, <span class="va">estimated_genome_size</span>,</span>
-<span>         <span class="va">genome_size_estimation_status</span>, <span class="va">confidence_interval_lower</span>,<span class="va">confidence_interval_upper</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"bayesian"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mycol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#009E73"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">#put together</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="va">res_wm</span>,<span class="va">res_lmm</span>,<span class="va">res_bayes</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#add CI width and relative CI width</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>CI_width <span class="op">=</span> <span class="va">confidence_interval_upper</span> <span class="op">-</span> <span class="va">confidence_interval_lower</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>CI_width_rel <span class="op">=</span> <span class="va">CI_width</span><span class="op">/</span><span class="va">estimated_genome_size</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">#add whether the sample has fungi or bacteria</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>sample_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"16S"</span>,<span class="va">SAMPLE</span><span class="op">)</span>, <span class="st">"bacteria"</span>,<span class="st">"fungi"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="comparing-estimation-success">1. Comparing estimation success<a class="anchor" aria-label="anchor" href="#comparing-estimation-success"></a>
-</h2>
-<div class="section level3">
-<h3 id="a--estimates">1.a. Estimates<a class="anchor" aria-label="anchor" href="#a--estimates"></a>
-</h3>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">val_all</span>, <span class="fu">aes</span><span class="op">(</span>y<span class="op">=</span><span class="va">relative_abs_error</span>, x<span class="op">=</span><span class="va">match_rank</span>, fill<span class="op">=</span><span class="va">model_used</span>, col<span class="op">=</span><span class="va">model_used</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>position <span class="op">=</span> <span class="fu">position_dodge</span><span class="op">(</span>preserve <span class="op">=</span> <span class="st">"single"</span><span class="op">)</span>, outliers<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"method"</span>,colour<span class="op">=</span><span class="st">"method"</span>, y<span class="op">=</span><span class="st">"Relative error"</span>,x<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">sk_name</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">mycol</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="va">mycol</span>,<span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="compare_methods_files/figure-html/unnamed-chunk-3-1.png" width="100%"></p>
+<p>When estimable by all three methods, genome size predictions are in
+general similar across methods:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">estimated_genome_size</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">method</span>,<span class="va">genome_size_estimation_status</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">summarise</span><span class="op">(</span>NA_count<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># Groups:   method [1]</span></span></span>
-<span><span class="co">##   method        genome_size_estimation_status                           NA_count</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> weighted_mean Confidence interval to estimated size ratio &gt; ci_thres…        3</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> weighted_mean Not enough genome size references for close taxa              17</span></span></code></pre>
-<p>The Bayesian method outputs results for any taxon that is recognised
-in NCBI taxonomy. The frequentist random effects model method only
-outputs results for queries that have a match at the species, genus, or
-family level. The weighted means method only performs an estimation for
-queries that have at least two matches at the species, genus, family, or
-order level.</p>
-</div>
-<div class="section level3">
-<h3 id="b--confidence-intervals">1b. Confidence intervals<a class="anchor" aria-label="anchor" href="#b--confidence-intervals"></a>
-</h3>
-<p>When applying the Bayesian method, some cases an estimate is provided
-but confidence intervals are missing.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">estimated_genome_size</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">confidence_interval_lower</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">confidence_interval_lower</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">method</span>,<span class="va">genome_size_estimation_rank</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">summarise</span><span class="op">(</span>count<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## `summarise()` has grouped output by 'method'. You can override using the</span></span>
-<span><span class="co">## `.groups` argument.</span></span></code></pre>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">## <span style="color: #949494;"># Groups:   method [1]</span></span></span>
-<span><span class="co">##   method   genome_size_estimation_rank count</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> bayesian family                          3</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> bayesian genus                           5</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> bayesian no rank                         1</span></span></code></pre>
-<p>These cases correspond to queries where the NCBI database has genome
-size information at the species level or below. The Bayesian model was
-run on the database where genome size values were averaged across all
-ranks at and below species level, only giving one value per species. The
-estimation process therefore returns that averaged value, with no
-uncertainty bounds.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="differences-in-estimates">2. Differences in estimates<a class="anchor" aria-label="anchor" href="#differences-in-estimates"></a>
-</h2>
-<p>The estimates (based on means) are summarised below for the 3 methods
-across the two sample types.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">res</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">method</span>, y<span class="op">=</span><span class="va">estimated_genome_size</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">sample_type</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Removed 20 rows containing non-finite outside the scale range</span></span>
-<span><span class="co">## (`stat_boxplot()`).</span></span></code></pre>
-<p><img src="compare_methods_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
-<p>Below is a 1-to-1 comparison of the Bayesian and the frequentist
-modelling method:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_wide</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">X</span>, <span class="va">sample_type</span>,<span class="va">method</span>,<span class="va">estimated_genome_size</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="st">"method"</span>, values_from <span class="op">=</span> <span class="st">"estimated_genome_size"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">val_all_wide</span> <span class="op">&lt;-</span> <span class="va">val_all</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">sk_name</span>, <span class="va">species</span>, <span class="va">model_used</span>, <span class="va">mean_Mbp</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">model_used</span>, values_from <span class="op">=</span> <span class="va">mean_Mbp</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">res_wide</span> <span class="op">%&gt;%</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">hierarchical</span>,y<span class="op">=</span><span class="va">bayesian</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_abline</span><span class="op">(</span>intercept<span class="op">=</span><span class="fl">0</span>, slope<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">sample_type</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="compare_methods_files/figure-html/unnamed-chunk-6-1.png" width="100%"></p>
+<span><span class="va">wm_vs_bayes</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">val_all_wide</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">weighted_mean</span>, y<span class="op">=</span><span class="va">Bayesian</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_abline</span><span class="op">(</span>slope<span class="op">=</span><span class="fl">1</span>, intercept<span class="op">=</span><span class="fl">0</span>, col<span class="op">=</span><span class="st">"gray50"</span>, linetype<span class="op">=</span><span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">sk_name</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"Weighted mean estimate (Mbp)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Bayesian estimate (Mbp)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">freq_vs_bayes</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="va">val_all_wide</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">lmm</span>, y<span class="op">=</span><span class="va">Bayesian</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>size<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_abline</span><span class="op">(</span>slope<span class="op">=</span><span class="fl">1</span>, intercept<span class="op">=</span><span class="fl">0</span>, col<span class="op">=</span><span class="st">"gray50"</span>, linetype<span class="op">=</span><span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">sk_name</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">xlab</span><span class="op">(</span><span class="st">"LMM estimate (Mbp)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Bayesian estimate (Mbp)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot_grid</span><span class="op">(</span><span class="va">wm_vs_bayes</span>,<span class="va">freq_vs_bayes</span>, ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="compare_methods_files/figure-html/unnamed-chunk-4-1.png" width="100%"></p>
 </div>
 <div class="section level2">
-<h2 id="uncertainty-estimates-across-all-queries">3. Uncertainty estimates across all queries<a class="anchor" aria-label="anchor" href="#uncertainty-estimates-across-all-queries"></a>
+<h2 id="confidence-intervals">2. Confidence intervals<a class="anchor" aria-label="anchor" href="#confidence-intervals"></a>
 </h2>
-<p>Below are the estimated confidence intervals for all queries with
-estimates</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">estimated_genome_size</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">estimated_genome_size</span>, y<span class="op">=</span><span class="va">CI_width</span>, colour <span class="op">=</span> <span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">sample_type</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<p><img src="compare_methods_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
-<p>The figure below shows confidence intervals as a proportion of the
-estimated size</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">estimated_genome_size</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">estimated_genome_size</span>, y<span class="op">=</span><span class="va">CI_width_rel</span>, colour <span class="op">=</span> <span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">sample_type</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<p><img src="compare_methods_files/figure-html/unnamed-chunk-8-1.png" width="100%"></p>
-<p>#4. Comparing uncertainty estimates across queries with successful
-estimations in all three methods</p>
-<p>Selecting queries that have estimates with all three methods provides
-a more thourough comparison of uncertainty estimates.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_tax_complete</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu">summarise</span><span class="op">(</span>count_na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">estimated_genome_size</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">count_na</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">res_complete</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">X</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">res_tax_complete</span><span class="op">$</span><span class="va">X</span><span class="op">)</span></span></code></pre></div>
-<p>Below is a similar figure as the previous one but with the selected
-queries</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">ggplot</span><span class="op">(</span><span class="va">res_complete</span>, <span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="va">estimated_genome_size</span>, y<span class="op">=</span><span class="va">CI_width_rel</span>, colour <span class="op">=</span> <span class="va">method</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">sample_type</span>, scale<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: Removed 9 rows containing missing values or values outside the scale range</span></span>
-<span><span class="co">## (`geom_point()`).</span></span></code></pre>
-<p><img src="compare_methods_files/figure-html/unnamed-chunk-10-1.png" width="100%"></p>
+<p>Below we look at performance across 95% confidence interval estimated
+in each method. We compare summaries of width of intervals relative to
+genome size, by superkingdom. The intervals are negligible for the
+weighted means method compared to the two model-based methods, where the
+95% CI width is around 50% of the genome size on average for species
+with matched at the genus level. For the Bayesian method, the confidence
+interval width increases dramatically with match rank.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mycol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#009E73"</span>, <span class="st">"#0072B2"</span>, <span class="st">"#D55E00"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">val_all</span>, <span class="fu">aes</span><span class="op">(</span>y<span class="op">=</span><span class="va">relative_half_CI95</span><span class="op">*</span><span class="fl">2</span>, x<span class="op">=</span><span class="va">match_rank</span>, fill<span class="op">=</span><span class="va">model_used</span>, col<span class="op">=</span><span class="va">model_used</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>position <span class="op">=</span> <span class="fu">position_dodge</span><span class="op">(</span>preserve <span class="op">=</span> <span class="st">"single"</span><span class="op">)</span>, outliers<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>fill<span class="op">=</span><span class="st">"method"</span>,colour<span class="op">=</span><span class="st">"method"</span>, y<span class="op">=</span><span class="st">"Relative error"</span>,x<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">sk_name</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="va">mycol</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu">alpha</span><span class="op">(</span><span class="va">mycol</span>,<span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="compare_methods_files/figure-html/unnamed-chunk-5-1.png" width="100%"></p>
+<p>Trustworthy CI estimates should translate into a similar observed
+coverage, that is, we expect roughly 95% of true values to fall within
+the 95% confidence intervals. However we see that only the Bayesian
+method roughly satisfies this property. The frequentist methods slightly
+underperforms and the weighted mean method is untrustworthy for
+uncertainty estimates.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qc_long</span> <span class="op">&lt;-</span> <span class="va">val_all</span> <span class="op">%&gt;%</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">model_used</span>,<span class="va">match_rank_2</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">in_CI95_range</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            CI95_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">in_CI95_range</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            CI95_coverage_prop <span class="op">=</span> <span class="va">CI95_coverage</span><span class="op">/</span><span class="va">n</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## `summarise()` has grouped output by 'model_used'. You can override using the</span></span>
+<span><span class="co">## `.groups` argument.</span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qc_text</span> <span class="op">&lt;-</span> <span class="va">qc_long</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>CI_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">CI95_coverage</span>,<span class="st">"/"</span>,<span class="va">n</span>,<span class="st">" ("</span>,<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">CI95_coverage_prop</span><span class="op">*</span><span class="fl">100</span>,<span class="fl">0</span><span class="op">)</span>,<span class="st">"%)"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">qc_wide</span> <span class="op">&lt;-</span> <span class="va">qc_text</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">model_used</span>,<span class="va">match_rank_2</span>, <span class="va">CI_coverage</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">match_rank_2</span>, values_from <span class="op">=</span> <span class="va">CI_coverage</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">qc_wide</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Method"</span>,<span class="st">"95%CI coverage for match above family"</span>,<span class="st">"95%CI coverage for match at or below family"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">qc_wide</span>, format<span class="op">=</span><span class="st">"markdown"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="14%">
+<col width="39%">
+<col width="45%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">Method</th>
+<th align="left">95%CI coverage for match above family</th>
+<th align="left">95%CI coverage for match at or below family</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Bayesian</td>
+<td align="left">96/99 (97%)</td>
+<td align="left">326/340 (96%)</td>
+</tr>
+<tr class="even">
+<td align="left">lmm</td>
+<td align="left">0/0 (NaN%)</td>
+<td align="left">283/340 (83%)</td>
+</tr>
+<tr class="odd">
+<td align="left">weighted_mean</td>
+<td align="left">1/60 (2%)</td>
+<td align="left">27/337 (8%)</td>
+</tr>
+</tbody>
+</table>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+<div class="section level2">
+<h2 id="conclusion">3. Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>The strengths and limitation of each method are outlined below. We
+emphasize that the weighted mean method is only suitable for taxa that
+are well-characterised at low taxonomic levels and when uncertainty
+bounds are of minor interest. The major advantage of the method is that
+it can be used on queries with several potential taxonomic matches. The
+Bayesian method is the most solid method especially for quantifying
+uncertainty around estimated means and obtaining estimates for taxa that
+are not well represented at low ranks in the NCBI database.</p>
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+<col width="16%">
+</colgroup>
+<thead><tr class="header">
+<th></th>
+<th>CI estimation</th>
+<th>Model information</th>
+<th>Behaviour with well-studied organisms</th>
+<th>Query is a list of several taxa</th>
+<th>Minimum number of references needed for estimation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Bayesian</td>
+<td>very reliable</td>
+<td>any rank</td>
+<td>+</td>
+<td>+</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>LMM</td>
+<td>mostly reliable</td>
+<td>up to family level</td>
+<td>+</td>
+<td>+</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Weighted mean</td>
+<td>unreliable</td>
+<td>up to order level</td>
+<td>++</td>
+<td>++</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -236,15 +272,15 @@ queries</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

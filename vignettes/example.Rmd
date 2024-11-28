@@ -30,7 +30,7 @@ vignette: >
 ```{r, echo = FALSE}
   library(genomesizeR)
   example_output_data = system.file("extdata", "results_bayesian.csv", package = "genomesizeR")
-  refdata_archive_path = "../genomesizeRdata.tar.gz"
+  refdata_archive_path = system.file("extdata", "genomesizeRdata.tar.gz", package = "genomesizeR")
   results = read.csv2(example_output_data, sep=',', dec = '.')
 ```
 

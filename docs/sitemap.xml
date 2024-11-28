@@ -1,63 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/articles/compare_methods.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/articles/example.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/articles/input_output.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/articles/methods.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/build_lmm_model.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/estimate_genome_size.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/get_bayes_model.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/get_genome_size_db.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/get_genome_size_db_for_lmm.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/get_refdata.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/get_taxonomy.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/plot_genome_size_boxplot.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/plot_genome_size_histogram.html</loc>
-  </url>
-  <url>
-    <loc>https://scionresearch.github.io/genomesizeR/reference/plot_genome_size_tree.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://scionresearch.github.io/genomesizeR/404.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/LICENSE.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/articles/compare_methods.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/articles/example.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/articles/index.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/articles/input_output.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/articles/methods.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/authors.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/index.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/build_lmm_model.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/estimate_genome_size.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/get_bayes_model.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/get_genome_size_db.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/get_genome_size_db_for_lmm.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/get_refdata.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/get_taxonomy.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/index.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/plot_genome_size_boxplot.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/plot_genome_size_histogram.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/reference/plot_genome_size_tree.html</loc></url>
 </urlset>
+

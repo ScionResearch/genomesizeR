@@ -1,7 +1,7 @@
 PACKAGE:
 - Try putting on Bioconductor? (Celine)
 - Add tests?
-- Fix git page behaviour? 
+- Fix git page behaviour?
 - Update bayesian models (Celine)
 - Fix dependencies (Celine)
 - Update method comparison with updated databases in vignettes? (Celine for weighted mean/Joane)
@@ -9,6 +9,8 @@ PACKAGE:
 - Document more the output in vignette
 - In input/output vignette, add an example using phyloseq data
 - Multithreading behaviour is weird (Celine)
+- Vignette example: create the tree another way without using data archive
+- Missing alt-text in vignettes/compare_methods.Rmd
 - One day maybe:
     - add rank match info for lmm and bayesian methods
     - scripts to build db and bayesian models from scratch (Celine)

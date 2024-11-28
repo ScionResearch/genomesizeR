@@ -7,7 +7,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-```{r, message=FALSE}
+```{r, echo=FALSE, message=FALSE}
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -21,10 +21,10 @@ Not all queries are estimable by all methods. The identification of taxa related
 
 Estimation error and confidence bounds were assessed for each method on the same validation set. However, summaries of performance displayed for each method only include estimates on observations that were estimable by the given method. 
 
-```{r}
+```{r, echo=FALSE}
 
 #loading the validation results across methods
-val_all <- readRDS(paste0("../../../genome_size_db/out/all_methods_validation_results_filtered_refseq_ungapped.rds")) %>%
+val_all <- readRDS("all_methods_validation_results_filtered_refseq_ungapped.rds") %>%
   mutate(sk_name = as.factor(case_when(superkingdom == 2 ~"Bacteria",
                              superkingdom == 2157 ~"Archeae",
                              superkingdom == 2759 ~"Eukaryotes")))
@@ -37,7 +37,7 @@ val_all <- readRDS(paste0("../../../genome_size_db/out/all_methods_validation_re
 Below, we display the estimation error (relative to the true genome size) summarised by method and superkingdom.
 For a given match rank group, the three methods have on average similar errors. The error increases with match rank. For the validation set used here, the error for queries that have matches at the genus level is mostly between 10% and 20% of the genome size and can go up to above 50% at higher match ranks.
 
-```{r, fig.width=8,fig.height=5,out.width="100%"}
+```{r, warning=FALSE, fig.width=8,fig.height=5,out.width="100%"}
 mycol <- c("#009E73", "#0072B2", "#D55E00")
 
 ggplot(val_all, aes(y=relative_abs_error, x=match_rank, fill=model_used, col=model_used)) +
@@ -52,7 +52,7 @@ ggplot(val_all, aes(y=relative_abs_error, x=match_rank, fill=model_used, col=mod
 
 When estimable by all three methods, genome size predictions are in general similar across methods:
 
-```{r, fig.width=8,fig.height=5,out.width="100%"}
+```{r, warning=FALSE, fig.width=8,fig.height=5,out.width="100%"}
 val_all_wide <- val_all %>%
   select(sk_name, species, model_used, mean_Mbp) %>%
   pivot_wider(names_from = model_used, values_from = mean_Mbp)
@@ -82,7 +82,7 @@ plot_grid(wm_vs_bayes,freq_vs_bayes, ncol=1)
 
 Below we look at performance across 95% confidence interval estimated in each method. We compare summaries of width of intervals relative to genome size, by superkingdom. The intervals are negligible for the weighted means method compared to the two model-based methods, where the 95% CI width is around 50% of the genome size on average for species with matched at the genus level. For the Bayesian method, the confidence interval width increases dramatically with match rank. 
 
-```{r,fig.width=8,fig.height=5,out.width="100%"}
+```{r, warning=FALSE, fig.width=8,fig.height=5,out.width="100%"}
 mycol <- c("#009E73", "#0072B2", "#D55E00")
 
 ggplot(val_all, aes(y=relative_half_CI95*2, x=match_rank, fill=model_used, col=model_used)) +
@@ -97,7 +97,7 @@ ggplot(val_all, aes(y=relative_half_CI95*2, x=match_rank, fill=model_used, col=m
 
 Trustworthy CI estimates should translate into a similar observed coverage, that is, we expect roughly 95% of true values to fall within the 95% confidence intervals. However we see that only the Bayesian method roughly satisfies this property. The frequentist methods slightly underperforms and the weighted mean method is untrustworthy for uncertainty estimates.
 
-```{r}
+```{r, warning=FALSE, }
 qc_long <- val_all %>% group_by(model_used,match_rank_2) %>%
   summarise(n=sum(!is.na(in_CI95_range)),
             CI95_coverage = sum(in_CI95_range, na.rm=TRUE),

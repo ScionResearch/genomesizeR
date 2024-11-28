@@ -1,13 +1,12 @@
-pandoc: 3.1.11
-pkgdown: 2.0.9
+pandoc: '3.2'
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   compare_methods: compare_methods.html
   example: example.html
   input_output: input_output.html
   methods: methods.html
-last_built: 2024-09-16T02:56Z
+last_built: 2024-11-28T02:03Z
 urls:
   reference: https://scionresearch.github.io/genomesizeR/reference
   article: https://scionresearch.github.io/genomesizeR/articles
-
