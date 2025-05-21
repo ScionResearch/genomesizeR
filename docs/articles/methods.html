@@ -73,7 +73,14 @@
 superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian
 linear hierarchical model using the <code>brm</code> function from the
 <code>brms</code> package was fitted to each superkingdom dataset. The
-general model structure is outlined below.</p>
+general model structure is outlined below and corresponds exactly to the
+most complex model, implemented for the Bacteria superkingdom. This
+general model was simplified by dropping the class group effect in the
+standard deviation model for the Eukaryote superkingdom, and dropping
+both the class and phylum group effect in the standard deviation model
+for the Archeae superkingdom. The latter is therefore not addressed
+using a distributional model, as the response variance has no
+predictor.</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>G</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>∼</mo><mi>𝒩</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>,</mo><msubsup><mi>σ</mi><mi>i</mi><mn>2</mn></msubsup><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
 \end{gather*}</annotation></semantics></math></p>
@@ -129,7 +136,9 @@ distribution.</p>
 <p>Queries corresponding to identified species with an available genome
 size estimate in the NCBI database get allocated the genome size value
 of the database (averaged at the species level) and 95% confidence
-intervals are calculated as XXX</p>
+intervals are calculated based on the standard error of the mean of all
+genome sizes available for that species in the processed NCBI
+database.</p>
 </div>
 <div class="section level2">
 <h2 id="frequentist-method">Frequentist method<a class="anchor" aria-label="anchor" href="#frequentist-method"></a>

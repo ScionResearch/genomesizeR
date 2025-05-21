@@ -7,7 +7,11 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-#### Example using default bayesian method on example file:
+#### Example using default bayesian method on example file
+
+This example data is a subset of the dataset from @Labouyrie2023-yc.
+
+First, the genome sizes are predicted from the taxa:
 
 ```
   results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)
@@ -25,7 +29,9 @@ vignette: >
                                                          140                                                         40 
 ```
 
-#### Plot genome size histogram per sample:
+#### Plot genome size histogram per sample
+
+Then, the results can be visualized using the plotting functions provided. This histogram shows the estimated genome sizes for each sample. 
 
 ```{r, echo = FALSE}
   library(genomesizeR)
@@ -38,25 +44,29 @@ vignette: >
   plotted_df = plot_genome_size_histogram(results)
 ```
 
-#### Plot genome size histogram for one sample:
+#### Plot genome size histogram for one sample
 
 ```{r, echo = TRUE}
   plotted_df = plot_genome_size_histogram(results, only_sample='16S_1')
 ```
 
-#### Plot genome size boxplot per sample:
+#### Plot genome size boxplot per sample
+
+This boxplot shows the estimated genome sizes for each sample:
 
 ```{r, echo = TRUE}
   plotted_df = plot_genome_size_boxplot(results)
 ```
 
-#### Plot genome size boxplot for one sample:
+#### Plot genome size boxplot for one sample
 
 ```{r, echo = TRUE}
   plotted_df = plot_genome_size_boxplot(results, only_sample='ITS_1')
 ```
 
-#### Plot simplified taxonomic tree with colour-coded estimated genome sizes:
+#### Plot simplified taxonomic tree with colour-coded estimated genome sizes
+
+This tree shows the taxonomic relationships as well as the estimated genome sizes. The difference between the genome size distribution of bacteria (16S marker) and fungi (ITS marker) is visible.
 
 ```{r, echo = TRUE, fig.width= 22, fig.height= 22}
   plotted_df = plot_genome_size_tree(results, refdata_archive_path)

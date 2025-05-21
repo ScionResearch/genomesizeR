@@ -3,25 +3,26 @@ title: 'genomesizeR: An R package for genome size prediction'
 tags:
 - R
 - molecular ecology
-output: pdf_document
-geometry: margin=3cm
-author:
-  - Celine Mercier:
-      email: celine.mercier@scionresearch.com
-      correspondance: "yes"
-      orcid: "0000-0002-4782-1530"
-      institute: [scion]
-  - Joane Elleouet:
-      orcid: "0000-0002-9597-3360"
-      institute: [scion]
-  - Loretta Garrett:
-      orcid: "0000-0001-7687-6795"
-      institute: [scion]
-  - Steve A Wakelin:
-      orcid: "0000-0002-1167-8699"
-      institute: [scion]
-institute:
-  - scion: Scion, New Zealand Forest Research Institute, 49 Sala Street, Private Bag 3020, Rotorua 3046, New Zealand
+authors:
+  - name: Celine Mercier
+    email: celine.mercier@scionresearch.com
+    correspondance: "yes"
+    orcid: "0000-0002-4782-1530"
+    affiliation: '1'
+  - name: Joane Elleouet
+    orcid: "0000-0002-9597-3360"
+    affiliation: '1'
+  - name: Loretta Garrett
+    orcid: "0000-0001-7687-6795"
+    affiliation: '1'
+  - name: Steve A Wakelin
+    orcid: "0000-0002-1167-8699"
+    affiliation: '1'
+affiliations:
+  - index: 1
+    name: Scion, New Zealand Forest Research Institute, 49 Sala Street, Private Bag 3020, Rotorua 3046, New Zealand
+    
+date: 21 May 2025
 bibliography: paper.bib
 ---
 
@@ -56,47 +57,14 @@ This raw database is then prepared to include more pre-computed information to b
 
 ## Bayesian method
 
-The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2017brms] was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds exactly the most complex model, implemented for the Bacteria superkingdom. This general model was simplified by dropping the class group effect in the standard deviation model for the Eukaryote superkingdom, and dropping both the class and phylum group effect in the standard deviation model for the Archeae superkingdom. The latter is therefore not addressed using a distributional model, as the response variance has no predictor.
+The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2017brms] was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds exactly to the most complex model, implemented for the Bacteria superkingdom. This general model was simplified by dropping the class group effect in the standard deviation model for the Eukaryote superkingdom, and dropping both the class and phylum group effect in the standard deviation model for the Archeae superkingdom. The latter is therefore not addressed using a distributional model, as the response variance has no predictor.
 
 \begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
 \end{gather*}
 
 where $G_i$ is the genome size of species $i$ in the units of 10 Mbp. The model uses predictors for
-both mean and standard deviation. The mean is modelled as follows:
-
-\begin{gather*}
-\mu_i = \alpha_0 + \alpha_{genus_{g[i]}} + \alpha_{family_{f[i]}} + \alpha_{order_{o[i]}} + \alpha_{class_{c[i]}} + \alpha_{phylum_{p[i]}}  \\
-\alpha_{genus_{g[i]}} \sim \mathcal{N}(0, \sigma_{genus}^2) \\
-\alpha_{family_{f[i]}} \sim \mathcal{N}(0, \sigma_{family}^2) \\
-\alpha_{order_{o[i]}} \sim \mathcal{N}(0, \sigma_{order}^2) \\
-\alpha_{class_{c[i]}} \sim \mathcal{N}(0, \sigma_{class}^2) \\
-\alpha_{phylum_{p[i]}} \sim \mathcal{N}(0, \sigma_{phylum}^2) \\
-\end{gather*}
-
-The following prior distributions are used:
-
-\begin{gather*}
-\alpha_0 \sim \mathcal{N}(0,5) \\
-(\sigma_{genus},\sigma_{family},\sigma_{order},\sigma_{class},\sigma_{phylum},s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
-\end{gather*}
-
-Differences in genome size variability was observed among taxa, therefore the model also adds predictors to the standard deviation of the response. The standard deviation is modelled as follows:
-
-\begin{gather*}
-log(\sigma_{i}) = \lambda_0 + \lambda_{class_{c[i]}} + \lambda_{phylum_{p[i]}} \\
-\lambda_{class_{c[i]}} \sim \mathcal{N}(0, s_{class}^2) \\
-\lambda_{phylum_{p[i]}} \sim \mathcal{N}(0, s_{phylum}^2) \\
-\end{gather*}
-
-with priors
-
-\begin{gather*}
-\lambda_0 \sim \mathcal{N}(0,1) \\
-(s_{class},s_{phylum}) \sim \mathcal{N}^+(0,1) \\
-\end{gather*}
-
-  $\mathcal{N}^+$ is the normal distribution truncated to positive values. $g[i]$,$f[i]$,$o[i]$,$c[i]$ and $p[i]$ are respectively the index for the genus, family, order, class, and phylum of entry $i$ in the species-level database. Note that taxonomic groups are naturally nested within each other and the indices are designed to be unique to the particular taxonomic group it represents.
+both mean and standard deviation. The model is described in more details in the package vignettes.
 
 The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler. 
 
@@ -106,7 +74,7 @@ Queries corresponding to identified species with an available genome size estima
 
 ## Frequentist method
 
-A frequentist linear mixed-effects model using the `lmer` function from the `lme4` package [@bates2015lme4] was fitted to the NCBI database of species with known genome sizes. The model is as follows:
+A frequentist linear mixed-effects model (LMM) using the `lmer` function from the `lme4` package [@bates2015lme4] was fitted to the NCBI database of species with known genome sizes. The model is as follows:
 
 \begin{gather*}
 log(G_i) =  \alpha_0 + \alpha_{genus_{g[i]}} +  \alpha_{family_{f[i]}} + e_i \\
@@ -121,15 +89,6 @@ Queries corresponding to identified species with an available genome size estima
 
 The weighted mean method computes the genome size of a query by averaging the known genome sizes of surrounding taxa in the taxonomic tree, with a weighted system where further neighbours have less weight in the computed mean. The identification of related taxa is limited to levels below and including order.
 
-<!-- In the calculation of the prediction for a given query, the weight for a related taxon in the database is calculated as 
-
-\begin{gather*}
-w_i = \frac{1}{d_i + 1}
-\end{gather*}
-
-where $d_i$ is the distance of the related taxon to the query in number of nodes in the taxonomy.
--->
-
 The pseudocode describing the algorithm for the estimate and confidence interval computation is available in the package vignettes.
 
 For queries relating to well-characterised species where many genetic studies have been performed, such as model organisms, this might lead to more precise predictions than the two other methods. This method can also perform better than the others if queries consist of lists of taxa (for example, an output of *blastn* where several matches can be obtained for each query). Otherwise, we suggest using one of the other methods, as the confidence intervals calculated are less reliable for the weighted mean method.
@@ -141,36 +100,6 @@ The main steps of all methods are multithreaded on POSIX systems using the packa
 The packages ncbitax [@ncbitax2020] and CHNOSZ [@Dick2019-nl] are used to read the taxonomy data, dplyr [@dplyr2023] and biomformat [@biomformat2024] are used for some of the formatting, and pbapply [@pbapply2023] is used to display the progress bar.
 
 The R package accepts as input formats the common 'taxonomy table' format used by popular packages such as phyloseq [@phyloseq2013] and mothur [@schloss_introducting_2009], and any file or data frame with a column containing either NCBI taxids or taxon names. The output format is a data frame with the same columns as the input, with some added columns providing information about the estimation and the quality of the estimation. The user can also choose a simple output format only containing the estimation information.
-
-Several plotting functions using the ggplot2 [@ggplot22016] and ggtree [@Yu2020-pa] packages are also provided to visualise the results.
-
-# Example
-
-This example data is a subset of the dataset from @Labouyrie2023-yc.
-
-First, the genome sizes are predicted from the taxa:
-
-`results = estimate_genome_size(example_input_file, refdata_archive_path, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)`
-
-```
-#############################################################################
-# Genome size estimation summary:
-#
-#  22.22222 % estimations achieving required precision
-#
-     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-  3007721   5408472  16980834  23969767  41811396 143278734 
-
-# Estimation status:
-Confidence interval to estimated size ratio > ci_threshold      OK 
-                                                       140      40 
-```
-
-Then, the results can be visualized using the plotting functions provided. \autoref{fig:example_hist_box} shows a histogram and a boxplot of the estimated genome sizes for each sample. \autoref{fig:example_tree} shows a tree showing the taxonomic relationships as well as the estimated genome sizes. The difference between the genome size distribution of bacteria (16S marker) and fungi (ITS marker) is visible in both figures, as well as different distributions between samples.
-
-![Histogram (A) and boxplot (B) of estimated genome sizes for each sample\label{fig:example_hist_box}](example_hist_boxplot.png){ width=100% }
-
-![Tree representing taxonomic relationships and estimated genome sizes between queries\label{fig:example_tree}](example_tree.png){ width=100% }
 
 
 # Method validation and comparison
@@ -194,7 +123,7 @@ To assess the adequacy of estimated confidence intervals in each method, the num
  
  : Observed coverage of 95% confidence intervals for each method and two different rank groups, obtained from the validation process. \label{table:CI_coverage}
 
-The strengths and limitation of each method are outlined in \autoref{table:method_comp}. We emphasize that the weighted mean method is only suitable for taxa that are well-characterised at low taxonomic levels and when uncertainty bounds are of minor interest. The major advantage of the method is that it can be used on queries with several potential taxonomic matches. The Bayesian method is the most solid method especially for quantifying uncertainty around estimated means and obtaining estimates for taxa that are not well represented at low ranks in the NCBI database.
+The strengths and limitations of each method are outlined in \autoref{table:method_comp}. We emphasise that the weighted mean method is only suitable for taxa that are well-characterised at low taxonomic levels, and when uncertainty bounds are of minor interest. The major advantage of the method is that it can be used on queries with several potential taxonomic matches. The Bayesian method is the most reliable method especially for quantifying uncertainty around estimated means and obtaining estimates for taxa that are not well represented at low ranks in the NCBI database.
 
 | | CI estimation	| Model information	| Behaviour with well-studied organisms	| Query is a list of several taxa	| Minimum number of references needed for estimation |
 | -- | -- | -- | -- | -- | -- |

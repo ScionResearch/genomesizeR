@@ -67,8 +67,10 @@
     
     
 <div class="section level4">
-<h4 id="example-using-default-bayesian-method-on-example-file">Example using default bayesian method on example file:<a class="anchor" aria-label="anchor" href="#example-using-default-bayesian-method-on-example-file"></a>
+<h4 id="example-using-default-bayesian-method-on-example-file">Example using default bayesian method on example file<a class="anchor" aria-label="anchor" href="#example-using-default-bayesian-method-on-example-file"></a>
 </h4>
+<p>This example data is a subset of the dataset from <span class="citation">@Labouyrie2023-yc</span>.</p>
+<p>First, the genome sizes are predicted from the taxa:</p>
 <pre><code>  results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)
   
   #############################################################################
@@ -84,28 +86,32 @@
                                                          140                                                         40 </code></pre>
 </div>
 <div class="section level4">
-<h4 id="plot-genome-size-histogram-per-sample">Plot genome size histogram per sample:<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-per-sample"></a>
+<h4 id="plot-genome-size-histogram-per-sample">Plot genome size histogram per sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-per-sample"></a>
 </h4>
+<p>Then, the results can be visualized using the plotting functions
+provided. This histogram shows the estimated genome sizes for each
+sample.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div class="section level4">
-<h4 id="plot-genome-size-histogram-for-one-sample">Plot genome size histogram for one sample:<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-for-one-sample"></a>
+<h4 id="plot-genome-size-histogram-for-one-sample">Plot genome size histogram for one sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-for-one-sample"></a>
 </h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'16S_1'</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 </div>
 <div class="section level4">
-<h4 id="plot-genome-size-boxplot-per-sample">Plot genome size boxplot per sample:<a class="anchor" aria-label="anchor" href="#plot-genome-size-boxplot-per-sample"></a>
+<h4 id="plot-genome-size-boxplot-per-sample">Plot genome size boxplot per sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-boxplot-per-sample"></a>
 </h4>
+<p>This boxplot shows the estimated genome sizes for each sample:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
 <p><img src="example_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 </div>
 <div class="section level4">
-<h4 id="plot-genome-size-boxplot-for-one-sample">Plot genome size boxplot for one sample:<a class="anchor" aria-label="anchor" href="#plot-genome-size-boxplot-for-one-sample"></a>
+<h4 id="plot-genome-size-boxplot-for-one-sample">Plot genome size boxplot for one sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-boxplot-for-one-sample"></a>
 </h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'ITS_1'</span><span class="op">)</span></span></code></pre></div>
@@ -113,14 +119,17 @@
 </div>
 <div class="section level4">
 <h4 id="plot-simplified-taxonomic-tree-with-colour-coded-estimated-genome-sizes">Plot simplified taxonomic tree with colour-coded estimated genome
-sizes:<a class="anchor" aria-label="anchor" href="#plot-simplified-taxonomic-tree-with-colour-coded-estimated-genome-sizes"></a>
+sizes<a class="anchor" aria-label="anchor" href="#plot-simplified-taxonomic-tree-with-colour-coded-estimated-genome-sizes"></a>
 </h4>
+<p>This tree shows the taxonomic relationships as well as the estimated
+genome sizes. The difference between the genome size distribution of
+bacteria (16S marker) and fungi (ITS marker) is visible.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_tree.html">plot_genome_size_tree</a></span><span class="op">(</span><span class="va">results</span>, <span class="va">refdata_archive_path</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Untarring reference data</span></span>
-<span><span class="co">## Using reference data in: /tmp/RtmpcPdAaP/refdata</span></span>
+<span><span class="co">## Using reference data in: /tmp/RtmpzO6rdM/refdata</span></span>
 <span><span class="co">## Untarring taxonomy</span></span>
-<span><span class="co">## Using taxonomy: /tmp/RtmpcPdAaP/taxdump</span></span></code></pre>
+<span><span class="co">## Using taxonomy: /tmp/RtmpzO6rdM/taxdump</span></span></code></pre>
 <p><img src="example_files/figure-html/unnamed-chunk-6-1.png" width="2112"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
