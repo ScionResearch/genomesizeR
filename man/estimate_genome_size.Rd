@@ -13,7 +13,7 @@ estimate_genome_size(
   match_sep = ";",
   output_format = "input",
   method = "bayesian",
-  ci_threshold = 0.2,
+  ci_threshold = 0.3,
   n_cores = "half"
 )
 }
@@ -40,8 +40,8 @@ Other formats available: "data.frame", a data frame with only the previous colum
 \item{method}{Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'}
 
 \item{ci_threshold}{Threshold for the confidence interval as a proportion of the predicted size
-(e.g. 0.2 means that estimations with a confidence interval that represents more than 20\% of
-the predicted size will be discarded)}
+(e.g. 0.3 means that estimations with a confidence interval that represents more than 30\% of
+the predicted size will be tagged)}
 
 \item{n_cores}{Number of CPU cores to use (default is 'half': half of all available cores)}
 }

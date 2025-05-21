@@ -85,7 +85,7 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
       out['genome_size_estimation_status'] = 'Confidence interval to estimated size ratio > ci_threshold'
     }
     else if (is.na(margin_of_error)) {
-      out['genome_size_estimation_status'] = 'OK but no confidence interval'
+      out['genome_size_estimation_status'] = 'Could not compute confidence interval'
     }
     else {
       out['genome_size_estimation_status'] = 'OK'

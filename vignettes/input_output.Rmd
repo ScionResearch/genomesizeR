@@ -19,14 +19,23 @@ This raw database is then prepared to include more pre-computed information to b
 
 ### Output
 
-The output format is a data frame with the same columns as the input if the input was a standard data frame (not biom and not ), with some added columns providing information about the estimation and the quality of the estimation. An option also allows an output format containing only the estimation information (`TAXID`, `estimated_genome_size`, `confidence_interval_lower`, `confidence_interval_upper`, `genome_size_estimation_status`, `model_used`).
+The output format is a data frame with the same columns as the input if the input was a standard data frame, with some added columns providing information about the estimation and the quality of the estimation. An option also allows an output format containing only the estimation information (`TAXID`, `estimated_genome_size`, `confidence_interval_lower`, `confidence_interval_upper`, `genome_size_estimation_status`, `model_used`).
 
 Columns added:
 
 - `estimated_genome_size`: Estimated genome size
 - `confidence_interval_lower`: Lower limit of the confidence interval
 - `confidence_interval_upper`: Upper limit of the confidence interval
-- `genome_size_estimation_status`: Whether the estimation succeeded ('OK') or if failed, the reason for failure (TODO: list with explanations)
+- `genome_size_estimation_status`: Whether the estimation succeeded ('OK') or if failed, the reason for failure:
+  - 'Query is NA': The query's taxon could not be read from the input
+  - 'NCBI taxid not found': The query's taxon was not found in the database
+  - 'Parent taxids not found': The taxa at ranks above the query's taxon could not be computed
+  - 'Parent taxid ranks not found': The ranks of the taxa above the query's taxon could not be computed
+  - 'Not enough genome size references for close taxa': With the weighted mean method, there were no references found close enough in the taxonomic tree to the query to estimate a genome size
+  - 'Confidence interval to estimated size ratio > ci_threshold': The ratio of the confidence interval to the estimated size is greater than the chosen threshold
+  - 'Could not compute confidence interval': The genome size was successfully estimated, but the confidence interval could not be estimated
+  - 'No reference and query too high in taxonomic tree to fit in model': The lmm model is not able to estimate a genome size for the query
+  - 'Bayesian model not found': There was an issue loading bayesian models
 - `model_used`: The model used for the estimation
 - `LCA`: If queries are made of a list of taxa, taxid of their Last Common Ancestor. Otherwise, `LCA` is equal to `TAXID`.
 - NCBI taxids of all taxonomic ranks, with one column per rank

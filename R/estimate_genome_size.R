@@ -163,8 +163,8 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
 #'                      Other formats available: "data.frame", a data frame with only the previous columns, without the taxid columns.
 #' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'
 #' @param ci_threshold Threshold for the confidence interval as a proportion of the predicted size
-#'                     (e.g. 0.2 means that estimations with a confidence interval that represents more than 20% of
-#'                     the predicted size will be discarded)
+#'                     (e.g. 0.3 means that estimations with a confidence interval that represents more than 30% of
+#'                     the predicted size will be tagged)
 #' @param n_cores Number of CPU cores to use (default is 'half': half of all available cores)
 #' @importFrom utils read.csv
 #' @importFrom pbapply pbapply
@@ -181,7 +181,7 @@ estimate_genome_size <- function(queries, refdata_path,
                                  format='csv', sep=',', match_column=NA, match_sep=';',
                                  output_format='input',
                                  method='bayesian',
-                                 ci_threshold=0.2,
+                                 ci_threshold=0.3,
                                  n_cores='half') {
 
   options(warn=1)

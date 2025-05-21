@@ -4,7 +4,7 @@
 
 This R package uses statistical modelling on data from NCBI databases and provides three statistical methods for genome size prediction of a given taxon, or group of taxa. 
 
-A straightforward weighted mean method (`weighted-mean`) identifies the closest taxa with available genome size information in the taxonomic tree and averages their genome sizes using weights based on taxonomic distance. A frequentist random effect model uses nested genus and family information to output genome size estimates. Finally, a third option provides predictions from a distributional Bayesian multilevel model which uses taxonomic information from genus all the way to superkingdom, therefore providing estimates and uncertainty bounds even for under-represented taxa.
+A straightforward weighted mean method identifies the closest taxa with available genome size information in the taxonomic tree and averages their genome sizes using weights based on taxonomic distance. A frequentist random effect model uses nested genus and family information to output genome size estimates. Finally, a third option provides predictions from a distributional Bayesian multilevel model which uses taxonomic information from genus all the way to superkingdom, therefore providing estimates and uncertainty bounds even for under-represented taxa.
 
 All three methods use:
 
