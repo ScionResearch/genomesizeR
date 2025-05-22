@@ -16,7 +16,9 @@ All three methods use:
 
 ### How to install
 
-Install from GitHub:
+Prerequisites: R with the already installed packages up-to-date, git
+
+Then within an R console, you can install from GitHub:
 
 ```
 install.packages("remotes")
