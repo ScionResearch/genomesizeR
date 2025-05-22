@@ -16,7 +16,7 @@ All three methods use:
 
 ### How to install
 
-Prerequisites: R with the already installed packages up-to-date, git
+Prerequisites: [`R`](https://www.r-project.org/) with the already installed packages up-to-date, and [`git`](https://git-scm.com/downloads)
 
 Then within an R console, you can install from GitHub:
 
