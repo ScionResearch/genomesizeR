@@ -62,7 +62,7 @@ This raw database is then prepared to include more pre-computed information to b
 
 ## Bayesian method
 
-The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2017brms] was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds exactly to the most complex model, implemented for the Bacteria superkingdom. This general model was simplified by dropping the class group effect in the standard deviation model for the Eukaryote superkingdom, and dropping both the class and phylum group effect in the standard deviation model for the Archeae superkingdom. The latter is therefore not addressed using a distributional model, as the response variance has no predictor. The model is as follows:
+The NCBI database of species with known genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2021brms] was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds exactly to the most complex model, implemented for the Bacteria superkingdom. This general model was simplified by dropping the class group effect in the standard deviation model for the Eukaryote superkingdom, and dropping both the class and phylum group effect in the standard deviation model for the Archeae superkingdom. The latter is therefore not addressed using a distributional model, as the response variance has no predictor. The model is as follows:
 
 \begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
