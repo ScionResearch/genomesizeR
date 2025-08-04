@@ -32,6 +32,11 @@ remotes::install_github("inbo/inborutils")
 inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ```
 
+### How to contribute 
+
+[Contribution guidelines for genomesizeR](CONTRIBUTING.md)
+
+
 ### Simple example
 
 Store the path to the archive containing the reference databases and the bayesian models:
