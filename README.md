@@ -18,11 +18,26 @@ All three methods use:
 
 Prerequisites: [`R`](https://www.r-project.org/) with the already installed packages up-to-date, and [`git`](https://git-scm.com/downloads)
 
-Then within an R console, you can install from GitHub:
+Run one of the commands below in an R console to install the package. We include four different installation methods, as some setups (for example, corporate networks) may block specific download mechanisms.
 
 ```
 install.packages("remotes")
-remotes::install_github("ScionResearch/genomesizeR")
+remotes::install_github("https://github.com/ScionResearch/genomesizeR")
+
+- OR -
+
+install.packages("remotes")
+remotes::install_git("https://github.com/ScionResearch/genomesizeR")
+
+- OR -
+
+install.packages("devtools")
+devtools::install_github("ScionResearch/genomesizeR")
+
+- OR -
+
+install.packages("pak")
+pak::pkg_install("git::https://github.com/ScionResearch/genomesizeR")
 ```
 
 Download the archive containing the reference databases and the bayesian models from `zenodo.org`, using the `inborutils` package. You can change the `path` option to where you want to download the archive (default is current directory '.'):
