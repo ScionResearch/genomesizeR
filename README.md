@@ -18,7 +18,7 @@ All three methods use:
 
 Prerequisites: [`R`](https://www.r-project.org/) with the already installed packages up-to-date, and [`git`](https://git-scm.com/downloads)
 
-Run one of the commands below in an R console to install the package. We include four different installation methods, as some setups (for example, corporate networks) may block specific download mechanisms.
+Run one of the commands below in an R console to install the package. We include four different installation methods, as some setups (for example, corporate networks) may block specific download mechanisms:
 
 ```
 install.packages("remotes")
