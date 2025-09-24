@@ -53,13 +53,17 @@ The reference database is built by querying all genome metadata information from
 
 ## Bayesian method
 
-The reference database of genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds to the most complex model, implemented for the Bacteria superkingdom:
+The reference database of genome sizes was split by superkingdom (Bacteria, Archeae, Eukaryotes). A distributional Bayesian linear hierarchical model using the `brm` function from the `brms` package [@burkner2021brms] was fitted to each superkingdom dataset. The general model structure is outlined below and corresponds exactly to the most complex model, implemented for the Bacteria superkingdom. This general model was simplified by dropping the class group effect in the standard deviation model for the Eukaryote superkingdom, and dropping both the class and phylum group effect in the standard deviation model for the Archeae superkingdom. The latter is therefore not addressed using a distributional model, as the response variance has no predictor. The model is as follows:
 
 \begin{gather*}
 log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
 \end{gather*}
 
-where $G_i$ is the genome size of species $i$ in the units of 10 Mbp. The model uses taxonomic levels as predictors.
+where $G_i$ is the genome size of species $i$ in the units of 10 Mbp. The model uses taxonomic levels as predictors, and is described in more detail in the package vignettes.
+
+The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler.
+
+Posterior predictions are obtained using the predict function from the `brms` package, and 95% credible intervals are obtained using 2.5% and 97.5% quantiles from the posterior distribution.
 
 ## Frequentist method
 
