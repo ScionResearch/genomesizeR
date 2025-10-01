@@ -68,7 +68,6 @@ transform_for_plot <- function(input_table, sample_data=NA, only_sample=NA, PA=F
 #' @export
 plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample=NA, bins=50, PA=F) {
 
-  estimated_genome_size = 'estimated_genome_size'
   if ('COUNT' %in% colnames(output_table)) {
     count = 'COUNT'
     output_table$COUNT = as.numeric(output_table$COUNT)
@@ -82,24 +81,23 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
   else {
     sample = 'sample'
   }
-  density = 'after_stat(density)'
 
   to_plot = transform_for_plot(output_table, sample_data=sample_data, only_sample=only_sample, PA=PA)
   if ((! PA) && (sample %in% colnames(output_table)) && (count %in% colnames(output_table))) {
-    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, weight=count, fill=sample)) +
-         geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
+    plot(ggplot(to_plot, aes(x=.data[["estimated_genome_size"]], weight=.data[[count]], fill=.data[[sample]])) +
+         geom_histogram(aes(y = after_stat(density)), color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
          labs(fill="") +
            ggtitle("Histogram of the distribution of estimated genome sizes"))
   }
   else if (sample %in% colnames(output_table)) {
-    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density, fill=sample)) +
-           geom_histogram( color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
-           labs(fill="") +
-           ggtitle("Histogram of the distribution of estimated genome sizes"))
+    plot(ggplot(to_plot, aes(x=.data[["estimated_genome_size"]], fill=.data[[sample]])) +
+         geom_histogram(aes(y = after_stat(density)), color="#e9ecef", alpha=.2, position = 'identity', bins=bins) +
+         labs(fill="") +
+         ggtitle("Histogram of the distribution of estimated genome sizes"))
   }
   else {
-    plot(ggplot(to_plot, aes_string(x=estimated_genome_size, y=density)) +
-           geom_histogram( color="#e9ecef", position = 'identity', bins=bins) +
+    plot(ggplot(to_plot, aes(x=.data[["estimated_genome_size"]])) +
+           geom_histogram(aes(y = after_stat(density)), color="#e9ecef", position = 'identity', bins=bins) +
            labs(fill="") +
            ggtitle("Histogram of the distribution of estimated genome sizes"))
   }
@@ -121,7 +119,6 @@ plot_genome_size_histogram <- function(output_table, sample_data=NA, only_sample
 #' @export
 plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=NA, PA=F) {
 
-  estimated_genome_size = 'estimated_genome_size'
   if ('COUNT' %in% colnames(output_table)) {
     count = 'COUNT'
     output_table$COUNT = as.numeric(output_table$COUNT)
@@ -138,17 +135,17 @@ plot_genome_size_boxplot <- function(output_table, sample_data=NA, only_sample=N
 
   to_plot = transform_for_plot(output_table, sample_data=sample_data, only_sample=only_sample, PA=PA)
   if ((! PA) && (sample %in% colnames(output_table)) && (count %in% colnames(output_table))) {
-    plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, weight=count, fill=sample)) +
+    plot(ggplot(to_plot, aes(x=.data[[sample]], y=.data[["estimated_genome_size"]], weight=.data[[count]], fill=.data[[sample]])) +
            geom_boxplot() +
            ggtitle("Boxplot of the distribution of estimated genome sizes"))
   }
   else if (sample %in% colnames(output_table)) {
-    plot(ggplot(to_plot, aes_string(x=sample, y=estimated_genome_size, fill=sample)) +
+    plot(ggplot(to_plot, aes(x=.data[[sample]], y=.data[["estimated_genome_size"]], fill=.data[[sample]])) +
            geom_boxplot() +
            ggtitle("Boxplot of the distribution of estimated genome sizes"))
   }
   else {
-    plot(ggplot(to_plot, aes_string(y=estimated_genome_size)) + geom_boxplot() +
+    plot(ggplot(to_plot, aes(y=.data[["estimated_genome_size"]])) + geom_boxplot() +
            ggtitle("Boxplot of the distribution of estimated genome sizes"))
   }
   return(to_plot)
