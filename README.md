@@ -47,63 +47,12 @@ remotes::install_github("inbo/inborutils")
 inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ```
 
+### Get started
+
+[Here is a simple tutorial using the default bayesian method on an example file](https://scionresearch.github.io/genomesizeR/articles/getstarted.html)
+
 ### How to contribute 
 
 [Contribution guidelines for genomesizeR](CONTRIBUTING.md)
 
 
-### Simple example
-
-Store the path to the archive containing the reference databases and the bayesian models:
-
-```
-refdata_archive_path = "path/to/genomesizeRdata.tar.gz"
-```
-
-Read the example input file from the package:
-
-```
-example_input_file = system.file("extdata", "example_input.csv", package = "genomesizeR")
-```
-
-Load the package:
-
-```
-library(genomesizeR)
-```
-
-Run the main function to get the estimated genome sizes (with the default method which is the bayesian method):
-
-```
-results = estimate_genome_size(example_input_file, refdata_archive_path, sep='\t', match_column='TAXID', output_format='input')
-```
-
-Plot the genome size histogram per sample:
-
-```
-plotted_df = plot_genome_size_histogram(results)
-```
-
-Plot the genome size histogram for one sample:
-
-```
-plotted_df = plot_genome_size_histogram(results, only_sample='16S_1')
-```
-
-Plot the genome size boxplot per sample:
-
-```
-plotted_df = plot_genome_size_boxplot(results)
-```
-
-Plot the genome size boxplot for one sample:
-
-```
-plotted_df = plot_genome_size_boxplot(results, only_sample='ITS_1')
-```
-
-Plot the simplified taxonomic tree with colour-coded estimated genome sizes:
-
-```
-plotted_df = plot_genome_size_tree(results, refdata_archive_path)
-```

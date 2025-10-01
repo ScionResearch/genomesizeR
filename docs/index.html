@@ -31,12 +31,12 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/genomesizeR.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/compare_methods.html">Comparing estimation methods</a></li>
-    <li><a class="dropdown-item" href="articles/example.html">Example</a></li>
     <li><a class="dropdown-item" href="articles/input_output.html">About the input and the output</a></li>
     <li><a class="dropdown-item" href="articles/methods.html">Method description</a></li>
   </ul>
@@ -72,34 +72,38 @@
 <div class="section level3">
 <h3 id="how-to-install">How to install<a class="anchor" aria-label="anchor" href="#how-to-install"></a>
 </h3>
-<p>Install from GitHub:</p>
+<p>Prerequisites: <a href="https://www.r-project.org/" class="external-link"><code>R</code></a> with the already installed packages up-to-date, and <a href="https://git-scm.com/downloads" class="external-link"><code>git</code></a></p>
+<p>Run one of the commands below in an R console to install the package. We include four different installation methods, as some setups (for example, corporate networks) may block specific download mechanisms:</p>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ScionResearch/genomesizeR"</span><span class="op">)</span></span></code></pre>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/ScionResearch/genomesizeR"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">-</span> <span class="va">OR</span> <span class="op">-</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">install_git</a></span><span class="op">(</span><span class="st">"https://github.com/ScionResearch/genomesizeR"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">-</span> <span class="va">OR</span> <span class="op">-</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ScionResearch/genomesizeR"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">-</span> <span class="va">OR</span> <span class="op">-</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pkg_install</span><span class="op">(</span><span class="st">"git::https://github.com/ScionResearch/genomesizeR"</span><span class="op">)</span></span></code></pre>
 <p>Download the archive containing the reference databases and the bayesian models from <code>zenodo.org</code>, using the <code>inborutils</code> package. You can change the <code>path</code> option to where you want to download the archive (default is current directory ‘.’):</p>
 <pre><code><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"inbo/inborutils"</span><span class="op">)</span></span>
 <span><span class="fu">inborutils</span><span class="fu">::</span><span class="fu">download_zenodo</span><span class="op">(</span><span class="st">"10.5281/zenodo.13733183"</span>, path<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level3">
-<h3 id="simple-example">Simple example<a class="anchor" aria-label="anchor" href="#simple-example"></a>
+<h3 id="get-started">Get started<a class="anchor" aria-label="anchor" href="#get-started"></a>
 </h3>
-<p>Store the path to the archive containing the reference databases and the bayesian models:</p>
-<pre><code><span><span class="va">refdata_archive_path</span> <span class="op">=</span> <span class="st">"path/to/genomesizeRdata.tar.gz"</span></span></code></pre>
-<p>Read the example input file from the package:</p>
-<pre><code><span><span class="va">example_input_file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_input.csv"</span>, package <span class="op">=</span> <span class="st">"genomesizeR"</span><span class="op">)</span></span></code></pre>
-<p>Load the package:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scionresearch.github.io/genomesizeR/">genomesizeR</a></span><span class="op">)</span></span></code></pre>
-<p>Run the main function to get the estimated genome sizes (with the default method which is the bayesian method):</p>
-<pre><code><span><span class="va">results</span> <span class="op">=</span> <span class="fu"><a href="reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="va">example_input_file</span>, <span class="va">refdata_archive_path</span>, sep<span class="op">=</span><span class="st">'\t'</span>, match_column<span class="op">=</span><span class="st">'TAXID'</span>, output_format<span class="op">=</span><span class="st">'input'</span><span class="op">)</span></span></code></pre>
-<p>Plot the genome size histogram per sample:</p>
-<pre><code><span><span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre>
-<p>Plot the genome size histogram for one sample:</p>
-<pre><code><span><span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'16S_1'</span><span class="op">)</span></span></code></pre>
-<p>Plot the genome size boxplot per sample:</p>
-<pre><code><span><span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre>
-<p>Plot the genome size boxplot for one sample:</p>
-<pre><code><span><span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'ITS_1'</span><span class="op">)</span></span></code></pre>
-<p>Plot the simplified taxonomic tree with colour-coded estimated genome sizes:</p>
-<pre><code><span><span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="reference/plot_genome_size_tree.html">plot_genome_size_tree</a></span><span class="op">(</span><span class="va">results</span>, <span class="va">refdata_archive_path</span><span class="op">)</span></span></code></pre>
+<p><a href="https://scionresearch.github.io/genomesizeR/articles/getstarted.html">Here is a simple tutorial using the default bayesian method on an example file</a></p>
+</div>
+<div class="section level3">
+<h3 id="how-to-contribute">How to contribute<a class="anchor" aria-label="anchor" href="#how-to-contribute"></a>
+</h3>
+<p><a href="CONTRIBUTING.html">Contribution guidelines for genomesizeR</a></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
@@ -110,6 +114,12 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
@@ -137,7 +147,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

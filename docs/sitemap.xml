@@ -1,8 +1,10 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://scionresearch.github.io/genomesizeR/404.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/CONTRIBUTING.html</loc></url>
 <url><loc>https://scionresearch.github.io/genomesizeR/LICENSE.html</loc></url>
 <url><loc>https://scionresearch.github.io/genomesizeR/articles/compare_methods.html</loc></url>
 <url><loc>https://scionresearch.github.io/genomesizeR/articles/example.html</loc></url>
+<url><loc>https://scionresearch.github.io/genomesizeR/articles/genomesizeR.html</loc></url>
 <url><loc>https://scionresearch.github.io/genomesizeR/articles/index.html</loc></url>
 <url><loc>https://scionresearch.github.io/genomesizeR/articles/input_output.html</loc></url>
 <url><loc>https://scionresearch.github.io/genomesizeR/articles/methods.html</loc></url>
