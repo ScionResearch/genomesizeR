@@ -93,7 +93,7 @@
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pkg_install</span><span class="op">(</span><span class="st">"git::https://github.com/ScionResearch/genomesizeR"</span><span class="op">)</span></span></code></pre>
-<p>Download the archive containing the reference databases and the bayesian models from <code>zenodo.org</code>, using the <code>inborutils</code> package. You can change the <code>path</code> option to where you want to download the archive (default is current directory ‘.’):</p>
+<p>You also need to download the archive containing the reference databases and the bayesian models from <code>zenodo.org</code>, using the <code>inborutils</code> package. You can change the <code>path</code> option to where you want to download the archive (default is current directory ‘.’):</p>
 <pre><code><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"inbo/inborutils"</span><span class="op">)</span></span>
 <span><span class="fu">inborutils</span><span class="fu">::</span><span class="fu">download_zenodo</span><span class="op">(</span><span class="st">"10.5281/zenodo.13733183"</span>, path<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span></code></pre>
 </div>

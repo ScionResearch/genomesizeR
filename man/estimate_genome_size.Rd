@@ -18,32 +18,33 @@ estimate_genome_size(
 )
 }
 \arguments{
-\item{queries}{Queries: path to csv or BIOM file, or variable name of table object}
+\item{queries}{Queries: path to csv or BIOM file, or R object used for input.}
 
-\item{refdata_path}{Path to the downloadable archive containing the reference databases and the bayesian models}
+\item{refdata_path}{Path to the downloadable archive containing the reference databases and the bayesian models.}
 
-\item{format}{Query format: csv/dataframe format ('table', default), taxonomy table format as used in e.g. phyloseq ('tax_table')
-or BIOM format ('biom')}
+\item{format}{Input format: "csv" for csv file (default), "tax_table" for taxonomy table file or object as used in e.g. phyloseq,
+"biom" for BIOM file, "dataframe" for a table-style object (e.g. data.frame or matrix object), "vector" for a vector object.}
 
-\item{sep}{If table format, column separator}
+\item{sep}{If table-style or csv format, column separator (default: ",").}
 
-\item{match_column}{If table format, the column containing match information (with one or several matches)}
+\item{match_column}{If table-style or csv format, the column containing match information (with one or several matches).}
 
-\item{match_sep}{If table format and several matches in match column, separator between matches}
+\item{match_sep}{If table-style or csv format and several matches in match column, separator between matches (default: ";").}
 
 \item{output_format}{Format in which the output should be.
 Default: "input" a data frame with the same columns as the input,
 with the added columns: "TAXID", "estimated_genome_size", "confidence_interval_lower",
 "confidence_interval_upper", "genome_size_estimation_status", "model_used", as well as taxids at all ranks.
-Other formats available: "data.frame", a data frame with only the previous columns, without the taxid columns.}
+Other formats available: "data.frame", a data frame with only the previously described columns, without the
+"taxids at all ranks" columns.}
 
-\item{method}{Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'}
+\item{method}{Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'.}
 
 \item{ci_threshold}{Threshold for the confidence interval as a proportion of the predicted size
 (e.g. 0.3 means that estimations with a confidence interval that represents more than 30\% of
-the predicted size will be tagged)}
+the predicted size will be tagged in the output table).}
 
-\item{n_cores}{Number of CPU cores to use (default is 'half': half of all available cores)}
+\item{n_cores}{Number of CPU cores to use (default is 'half': half of all available cores).}
 }
 \description{
 This function loads a query file or table and an archive containing

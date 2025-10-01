@@ -9,7 +9,134 @@ vignette: >
 
 ### Input
 
-`genomesizeR` accepts as input formats the common 'taxonomy table' format used by popular packages such as phyloseq and mothur, and any csv-like file or data frame with a column containing either NCBI taxids or taxon names. 
+The `estimate_genome_size()` function of `genomesizeR` accepts those input formats:
+
+**- Any csv-like file with a column containing either NCBI taxids or taxon names (`format='csv'` option, and specify `sep`, `match_column` and `match_sep` if needed), e.g.:**
+
+`input.csv`:
+```
+Id,Taxid,Taxon_name
+1,562,Escherichia coli
+2,9606,Homo sapiens
+```
+```
+output = estimate_genome_size('input.csv', 'genomesizeRdata.tar.gz', 
+                              format='csv', sep=',', match_column='Taxid')
+
+OR
+
+output = estimate_genome_size('input.csv', 'genomesizeRdata.tar.gz', 
+                              format='csv', sep=',', match_column='Taxon_name')
+```
+
+**- The common 'taxonomy table' format used by popular packages such as [phyloseq](https://joey711.github.io/phyloseq/import-data.html) (`format='tax_table'` option) e.g.:**
+
+`input.csv`:
+```
+TaxonID,Kingdom,Phylum,Class,Order,Family,Genus,Species
+taxon1,Bacteria,Proteobacteria,Gammaproteobacteria,Enterobacterales,Enterobacteriaceae,Escherichia,Escherichia coli
+taxon2,Eukaryota,Chordata,Mammalia,Primates,Hominidae,Homo,Homo sapiens
+```
+```
+output = estimate_genome_size('input.csv', 'genomesizeRdata.tar.gz', 
+                              format='tax_table', sep=',')
+```
+
+**A tax_table object can also be directly used as input, e.g.:**
+
+```
+library(phyloseq)
+taxmat = read.csv("input.csv", row.names = 1, stringsAsFactors = FALSE)
+taxmat = as.matrix(taxmat)
+tax_tab = tax_table(taxmat)
+
+output = estimate_genome_size(tax_tab, 'genomesizeRdata.tar.gz', 
+                              format='tax_table')
+``` 
+
+**- A file in [BIOM format](http://biom-format.org/) (`format='biom'` option) e.g.:**
+
+`input.biom`:
+```
+{
+  "id": null,
+  "format": "Biological Observation Matrix 1.0.0",
+  "format_url": "http://biom-format.org",
+  "type": "OTU table",
+  "generated_by": "example",
+  "date": "2025-10-02T00:00:00",
+  "matrix_type": "dense",
+  "matrix_element_type": "int",
+  "shape": [2, 1],
+  "rows": [
+    {
+      "id": "taxon1",
+      "metadata": {
+        "taxonomy": [
+          "k__Bacteria",
+          "p__Proteobacteria",
+          "c__Gammaproteobacteria",
+          "o__Enterobacterales",
+          "f__Enterobacteriaceae",
+          "g__Escherichia",
+          "s__Escherichia coli"
+        ]
+      }
+    },
+    {
+      "id": "taxon2",
+      "metadata": {
+        "taxonomy": [
+          "k__Eukaryota",
+          "p__Chordata",
+          "c__Mammalia",
+          "o__Primates",
+          "f__Hominidae",
+          "g__Homo",
+          "s__Homo sapiens"
+        ]
+      }
+    }
+  ],
+  "columns": [
+    { "id": "sample1", "metadata": null }
+  ],
+  "data": [1, 1]
+}
+```
+```
+output = estimate_genome_size('input.biom', 'genomesizeRdata.tar.gz', 
+                              format='biom')
+```
+
+**- Any table-like object (data.frame, matrix...) with a column containing either NCBI taxids or taxon names (`format='dataframe'` option) e.g.:**
+
+```
+input_table = data.frame(
+                Taxid = c(562, 9606),
+                Taxon_name = c("Escherichia coli", "Homo sapiens"),
+                stringsAsFactors = FALSE
+              )
+
+# input_table:
+#   Taxid       Taxon_name
+# 1   562 Escherichia coli
+# 2  9606     Homo sapiens
+
+output = estimate_genome_size(input_table, 'genomesizeRdata.tar.gz', 
+                              format='dataframe', match_column='Taxid')
+
+```
+
+**- A vector containing either NCBI taxids or taxon names (`format='vector'` option) e.g.:**
+
+```
+input_vector = c("Escherichia coli", "Homo sapiens")
+
+output = estimate_genome_size(input_vector, 'genomesizeRdata.tar.gz', 
+                              format='vector')
+
+```
 
 ### Reference database
 

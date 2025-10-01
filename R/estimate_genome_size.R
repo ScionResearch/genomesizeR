@@ -149,23 +149,24 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
 #' This function loads a query file or table and an archive containing
 #' reference databases and bayesian models, and predicts genome sizes.
 #'
-#' @param queries Queries: path to csv or BIOM file, or variable name of table object
-#' @param refdata_path Path to the downloadable archive containing the reference databases and the bayesian models
-#' @param format Query format: csv/dataframe format ('table', default), taxonomy table format as used in e.g. phyloseq ('tax_table')
-#' or BIOM format ('biom')
-#' @param sep If table format, column separator
-#' @param match_column If table format, the column containing match information (with one or several matches)
-#' @param match_sep If table format and several matches in match column, separator between matches
+#' @param queries Queries: path to csv or BIOM file, or R object used for input.
+#' @param refdata_path Path to the downloadable archive containing the reference databases and the bayesian models.
+#' @param format Input format: "csv" for csv file (default), "tax_table" for taxonomy table file or object as used in e.g. phyloseq,
+#' "biom" for BIOM file, "dataframe" for a table-style object (e.g. data.frame or matrix object), "vector" for a vector object.
+#' @param sep If table-style or csv format, column separator (default: ",").
+#' @param match_column If table-style or csv format, the column containing match information (with one or several matches).
+#' @param match_sep If table-style or csv format and several matches in match column, separator between matches (default: ";").
 #' @param output_format Format in which the output should be.
 #'                      Default: "input" a data frame with the same columns as the input,
 #'                      with the added columns: "TAXID", "estimated_genome_size", "confidence_interval_lower",
 #'                      "confidence_interval_upper", "genome_size_estimation_status", "model_used", as well as taxids at all ranks.
-#'                      Other formats available: "data.frame", a data frame with only the previous columns, without the taxid columns.
-#' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'
+#'                      Other formats available: "data.frame", a data frame with only the previously described columns, without the
+#'                      "taxids at all ranks" columns.
+#' @param method Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'.
 #' @param ci_threshold Threshold for the confidence interval as a proportion of the predicted size
 #'                     (e.g. 0.3 means that estimations with a confidence interval that represents more than 30% of
-#'                     the predicted size will be tagged)
-#' @param n_cores Number of CPU cores to use (default is 'half': half of all available cores)
+#'                     the predicted size will be tagged in the output table).
+#' @param n_cores Number of CPU cores to use (default is 'half': half of all available cores).
 #' @importFrom utils read.csv
 #' @importFrom pbapply pbapply
 #' @importFrom lme4 lmer
@@ -197,13 +198,27 @@ estimate_genome_size <- function(queries, refdata_path,
     }
     queries = as.data.frame(query_table, stringsAsFactors = F)
   }
-  else if (typeof(queries) == "character") {
+  else if (format == 'csv') {
     query_table = read.csv(queries, stringsAsFactors = FALSE, sep=sep)
     queries = as.data.frame(query_table, stringsAsFactors = F)
   }
-  else {
+  else if (format == 'tax_table') {
+    if (class(queries) == "character") {
+      query_table = read.csv(queries, stringsAsFactors = FALSE, sep=sep)
+      queries = as.data.frame(query_table, stringsAsFactors = F)
+    }
+    else {
+      query_table = queries
+      queries = as.data.frame(query_table, stringsAsFactors = F)
+    }
+  }
+  else if (format == 'dataframe' || format == 'vector') {
     query_table = queries
     queries = as.data.frame(query_table, stringsAsFactors = F)
+  }
+  else {
+    cat("Input format not supported", fill=T)
+    return()
   }
 
   cat("Reading genome size reference database", fill=T)

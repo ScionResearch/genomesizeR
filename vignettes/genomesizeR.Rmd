@@ -24,7 +24,6 @@ refdata_archive_path = "path/to/genomesizeRdata.tar.gz"
 
 Read the example input file from the package. This example data is a subset of the dataset from [Labouyrie et al. 2023](https://doi.org/10.1038/s41467-023-37937-4):
 
-
 ```
 example_input_file = system.file("extdata", "example_input.csv", package = "genomesizeR")
 ```
@@ -36,10 +35,11 @@ library(genomesizeR)
 ```
 
 Run the main function to get the estimated genome sizes (with the default method which is the bayesian method):
-First, the genome sizes are predicted from the taxa:
 
 ```
-  results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)
+  results = estimate_genome_size(example_input_file, refdata_archive_path, 
+            sep='\t', match_column='TAXID', output_format='input', 
+            ci_threshold = 0.3)
   
   #############################################################################
   # Genome size estimation summary:
@@ -50,8 +50,8 @@ First, the genome sizes are predicted from the taxa:
     3007721   5408472  16980834  23969767  41811396 143278734 
   
   # Estimation status:
-  Confidence interval to estimated size ratio > ci_threshold                                                         OK 
-                                                         140                                                         40 
+  Confidence interval to estimated size ratio > ci_threshold      OK 
+                                                         140      40 
 ```
 
 #### Plot genome size histogram per sample

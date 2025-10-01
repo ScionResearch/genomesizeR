@@ -40,7 +40,7 @@ install.packages("pak")
 pak::pkg_install("git::https://github.com/ScionResearch/genomesizeR")
 ```
 
-Download the archive containing the reference databases and the bayesian models from `zenodo.org`, using the `inborutils` package. You can change the `path` option to where you want to download the archive (default is current directory '.'):
+You also need to download the archive containing the reference databases and the bayesian models from `zenodo.org`, using the `inborutils` package. You can change the `path` option to where you want to download the archive (default is current directory '.'):
 
 ```
 remotes::install_github("inbo/inborutils")

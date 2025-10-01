@@ -88,9 +88,10 @@ al. 2023</a>:</p>
 <p>Load the package:</p>
 <pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scionresearch.github.io/genomesizeR/">genomesizeR</a></span><span class="op">)</span></span></code></pre>
 <p>Run the main function to get the estimated genome sizes (with the
-default method which is the bayesian method): First, the genome sizes
-are predicted from the taxa:</p>
-<pre><code>  results = estimate_genome_size(example_input_file, sep='\t', match_column='TAXID', output_format='input', ci_threshold = 0.3)
+default method which is the bayesian method):</p>
+<pre><code>  results = estimate_genome_size(example_input_file, refdata_archive_path, 
+            sep='\t', match_column='TAXID', output_format='input', 
+            ci_threshold = 0.3)
   
   #############################################################################
   # Genome size estimation summary:
@@ -101,8 +102,8 @@ are predicted from the taxa:</p>
     3007721   5408472  16980834  23969767  41811396 143278734 
   
   # Estimation status:
-  Confidence interval to estimated size ratio &gt; ci_threshold                                                         OK 
-                                                         140                                                         40 </code></pre>
+  Confidence interval to estimated size ratio &gt; ci_threshold      OK 
+                                                         140      40 </code></pre>
 </div>
 <div class="section level4">
 <h4 id="plot-genome-size-histogram-per-sample">Plot genome size histogram per sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-per-sample"></a>
@@ -146,9 +147,9 @@ bacteria (16S marker) and fungi (ITS marker) is visible.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_tree.html">plot_genome_size_tree</a></span><span class="op">(</span><span class="va">results</span>, <span class="va">refdata_archive_path</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Untarring reference data</span></span>
-<span><span class="co">## Using reference data in: /tmp/RtmpbvOShP/refdata</span></span>
+<span><span class="co">## Using reference data in: /tmp/RtmpI7shhc/refdata</span></span>
 <span><span class="co">## Untarring taxonomy</span></span>
-<span><span class="co">## Using taxonomy: /tmp/RtmpbvOShP/taxdump</span></span></code></pre>
+<span><span class="co">## Using taxonomy: /tmp/RtmpI7shhc/taxdump</span></span></code></pre>
 <p><img src="genomesizeR_files/figure-html/unnamed-chunk-6-1.png" width="2112"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

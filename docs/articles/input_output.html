@@ -71,10 +71,113 @@
 <div class="section level3">
 <h3 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
 </h3>
-<p><code>genomesizeR</code> accepts as input formats the common
-‘taxonomy table’ format used by popular packages such as phyloseq and
-mothur, and any csv-like file or data frame with a column containing
-either NCBI taxids or taxon names.</p>
+<p>The <code><a href="../reference/estimate_genome_size.html">estimate_genome_size()</a></code> function of
+<code>genomesizeR</code> accepts those input formats:</p>
+<p><strong>- Any csv-like file with a column containing either NCBI
+taxids or taxon names (<code>format='csv'</code> option, and specify
+<code>sep</code>, <code>match_column</code> and <code>match_sep</code>
+if needed), e.g.:</strong></p>
+<p><code>input.csv</code>:</p>
+<pre><code>Id,Taxid,Taxon_name
+1,562,Escherichia coli
+2,9606,Homo sapiens</code></pre>
+<pre><code><span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="st">'input.csv'</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'csv'</span>, sep<span class="op">=</span><span class="st">','</span>, match_column<span class="op">=</span><span class="st">'Taxid'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">OR</span></span>
+<span></span>
+<span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="st">'input.csv'</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'csv'</span>, sep<span class="op">=</span><span class="st">','</span>, match_column<span class="op">=</span><span class="st">'Taxon_name'</span><span class="op">)</span></span></code></pre>
+<p><strong>- The common ‘taxonomy table’ format used by popular packages
+such as <a href="https://joey711.github.io/phyloseq/import-data.html" class="external-link">phyloseq</a>
+(<code>format='tax_table'</code> option) e.g.:</strong></p>
+<p><code>input.csv</code>:</p>
+<pre><code>TaxonID,Kingdom,Phylum,Class,Order,Family,Genus,Species
+taxon1,Bacteria,Proteobacteria,Gammaproteobacteria,Enterobacterales,Enterobacteriaceae,Escherichia,Escherichia coli
+taxon2,Eukaryota,Chordata,Mammalia,Primates,Hominidae,Homo,Homo sapiens</code></pre>
+<pre><code><span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="st">'input.csv'</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'tax_table'</span>, sep<span class="op">=</span><span class="st">','</span><span class="op">)</span></span></code></pre>
+<p><strong>A tax_table object can also be directly used as input,
+e.g.:</strong></p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://dx.plos.org/10.1371/journal.pone.0061217" class="external-link">phyloseq</a></span><span class="op">)</span></span>
+<span><span class="va">taxmat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"input.csv"</span>, row.names <span class="op">=</span> <span class="fl">1</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">taxmat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">taxmat</span><span class="op">)</span></span>
+<span><span class="va">tax_tab</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/phyloseq/man/tax_table-methods.html" class="external-link">tax_table</a></span><span class="op">(</span><span class="va">taxmat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="va">tax_tab</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'tax_table'</span><span class="op">)</span></span></code></pre>
+<p><strong>- A file in <a href="http://biom-format.org/" class="external-link">BIOM format</a>
+(<code>format='biom'</code> option) e.g.:</strong></p>
+<p><code>input.biom</code>:</p>
+<pre><code>{
+  "id": null,
+  "format": "Biological Observation Matrix 1.0.0",
+  "format_url": "http://biom-format.org",
+  "type": "OTU table",
+  "generated_by": "example",
+  "date": "2025-10-02T00:00:00",
+  "matrix_type": "dense",
+  "matrix_element_type": "int",
+  "shape": [2, 1],
+  "rows": [
+    {
+      "id": "taxon1",
+      "metadata": {
+        "taxonomy": [
+          "k__Bacteria",
+          "p__Proteobacteria",
+          "c__Gammaproteobacteria",
+          "o__Enterobacterales",
+          "f__Enterobacteriaceae",
+          "g__Escherichia",
+          "s__Escherichia coli"
+        ]
+      }
+    },
+    {
+      "id": "taxon2",
+      "metadata": {
+        "taxonomy": [
+          "k__Eukaryota",
+          "p__Chordata",
+          "c__Mammalia",
+          "o__Primates",
+          "f__Hominidae",
+          "g__Homo",
+          "s__Homo sapiens"
+        ]
+      }
+    }
+  ],
+  "columns": [
+    { "id": "sample1", "metadata": null }
+  ],
+  "data": [1, 1]
+}</code></pre>
+<pre><code><span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="st">'input.biom'</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'biom'</span><span class="op">)</span></span></code></pre>
+<p><strong>- Any table-like object (data.frame, matrix…) with a column
+containing either NCBI taxids or taxon names
+(<code>format='dataframe'</code> option) e.g.:</strong></p>
+<pre><code><span><span class="va">input_table</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>                Taxid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">562</span>, <span class="fl">9606</span><span class="op">)</span>,</span>
+<span>                Taxon_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Escherichia coli"</span>, <span class="st">"Homo sapiens"</span><span class="op">)</span>,</span>
+<span>                stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>              <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># input_table:</span></span>
+<span><span class="co">#   Taxid       Taxon_name</span></span>
+<span><span class="co"># 1   562 Escherichia coli</span></span>
+<span><span class="co"># 2  9606     Homo sapiens</span></span>
+<span></span>
+<span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="va">input_table</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'dataframe'</span>, match_column<span class="op">=</span><span class="st">'Taxid'</span><span class="op">)</span></span></code></pre>
+<p><strong>- A vector containing either NCBI taxids or taxon names
+(<code>format='vector'</code> option) e.g.:</strong></p>
+<pre><code><span><span class="va">input_vector</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Escherichia coli"</span>, <span class="st">"Homo sapiens"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">output</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="va">input_vector</span>, <span class="st">'genomesizeRdata.tar.gz'</span>, </span>
+<span>                              format<span class="op">=</span><span class="st">'vector'</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="reference-database">Reference database<a class="anchor" aria-label="anchor" href="#reference-database"></a>

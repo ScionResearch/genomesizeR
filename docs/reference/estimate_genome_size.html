@@ -68,28 +68,28 @@ reference databases and bayesian models, and predicts genome sizes.</p>
 
 
 <dl><dt id="arg-queries">queries<a class="anchor" aria-label="anchor" href="#arg-queries"></a></dt>
-<dd><p>Queries: path to csv or BIOM file, or variable name of table object</p></dd>
+<dd><p>Queries: path to csv or BIOM file, or R object used for input.</p></dd>
 
 
 <dt id="arg-refdata-path">refdata_path<a class="anchor" aria-label="anchor" href="#arg-refdata-path"></a></dt>
-<dd><p>Path to the downloadable archive containing the reference databases and the bayesian models</p></dd>
+<dd><p>Path to the downloadable archive containing the reference databases and the bayesian models.</p></dd>
 
 
 <dt id="arg-format">format<a class="anchor" aria-label="anchor" href="#arg-format"></a></dt>
-<dd><p>Query format: csv/dataframe format ('table', default), taxonomy table format as used in e.g. phyloseq ('tax_table')
-or BIOM format ('biom')</p></dd>
+<dd><p>Input format: "csv" for csv file (default), "tax_table" for taxonomy table file or object as used in e.g. phyloseq,
+"biom" for BIOM file, "dataframe" for a table-style object (e.g. data.frame or matrix object), "vector" for a vector object.</p></dd>
 
 
 <dt id="arg-sep">sep<a class="anchor" aria-label="anchor" href="#arg-sep"></a></dt>
-<dd><p>If table format, column separator</p></dd>
+<dd><p>If table-style or csv format, column separator (default: ",").</p></dd>
 
 
 <dt id="arg-match-column">match_column<a class="anchor" aria-label="anchor" href="#arg-match-column"></a></dt>
-<dd><p>If table format, the column containing match information (with one or several matches)</p></dd>
+<dd><p>If table-style or csv format, the column containing match information (with one or several matches).</p></dd>
 
 
 <dt id="arg-match-sep">match_sep<a class="anchor" aria-label="anchor" href="#arg-match-sep"></a></dt>
-<dd><p>If table format and several matches in match column, separator between matches</p></dd>
+<dd><p>If table-style or csv format and several matches in match column, separator between matches (default: ";").</p></dd>
 
 
 <dt id="arg-output-format">output_format<a class="anchor" aria-label="anchor" href="#arg-output-format"></a></dt>
@@ -97,21 +97,22 @@ or BIOM format ('biom')</p></dd>
 Default: "input" a data frame with the same columns as the input,
 with the added columns: "TAXID", "estimated_genome_size", "confidence_interval_lower",
 "confidence_interval_upper", "genome_size_estimation_status", "model_used", as well as taxids at all ranks.
-Other formats available: "data.frame", a data frame with only the previous columns, without the taxid columns.</p></dd>
+Other formats available: "data.frame", a data frame with only the previously described columns, without the
+"taxids at all ranks" columns.</p></dd>
 
 
 <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
-<dd><p>Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'</p></dd>
+<dd><p>Method to use for genome size estimation, 'bayesian' (default), 'weighted_mean' or 'lmm'.</p></dd>
 
 
 <dt id="arg-ci-threshold">ci_threshold<a class="anchor" aria-label="anchor" href="#arg-ci-threshold"></a></dt>
 <dd><p>Threshold for the confidence interval as a proportion of the predicted size
 (e.g. 0.3 means that estimations with a confidence interval that represents more than 30% of
-the predicted size will be tagged)</p></dd>
+the predicted size will be tagged in the output table).</p></dd>
 
 
 <dt id="arg-n-cores">n_cores<a class="anchor" aria-label="anchor" href="#arg-n-cores"></a></dt>
-<dd><p>Number of CPU cores to use (default is 'half': half of all available cores)</p></dd>
+<dd><p>Number of CPU cores to use (default is 'half': half of all available cores).</p></dd>
 
 </dl></div>
 
