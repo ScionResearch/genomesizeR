@@ -49,7 +49,7 @@ inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 
 ### Get started
 
-[Here is a simple tutorial using the default bayesian method on an example file](https://scionresearch.github.io/genomesizeR/articles/getstarted.html)
+[Here is a simple tutorial using the default bayesian method on an example file](https://scionresearch.github.io/genomesizeR/articles/genomesizeR.html)
 
 ### How to contribute 
 
