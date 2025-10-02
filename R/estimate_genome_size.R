@@ -213,8 +213,8 @@ estimate_genome_size <- function(queries, refdata_path,
     }
   }
   else if (format == 'dataframe' || format == 'vector') {
-    query_table = queries
-    queries = as.data.frame(query_table, stringsAsFactors = F)
+    taxa = queries
+    queries = as.data.frame(taxa, stringsAsFactors = F)
   }
   else {
     cat("Input format not supported", fill=T)
