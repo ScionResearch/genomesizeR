@@ -14,7 +14,7 @@ authors:
     affiliation: '1'
   - name: Sean Husheer
     orcid: "0000-0002-0422-2386"
-    affiliation: "1"
+    affiliation: '1'
   - name: Loretta Garrett
     orcid: "0000-0001-7687-6795"
     affiliation: '1'
@@ -22,7 +22,7 @@ authors:
     orcid: "0000-0002-1167-8699"
     affiliation: '1'
 affiliations:
-  - name: Scion Group, Bioeconomy Science Institute, Titokorangi Drive, Private Bag 3020, Rotorua 3046, New Zealand
+  - name: Bioeconomy Science Institute, Rotorua, New Zealand
     index: 1
 date: 04 August 2025
 bibliography: paper.bib
