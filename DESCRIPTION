@@ -1,6 +1,6 @@
 Package: genomesizeR
 Title: Genome size estimation
-Version: 1.0.0.0001
+Version: 1.0.0.0002
 Authors@R: 
     c(person("Celine", "Mercier", , "celine.mercier@scionresearch.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4782-1530")),
