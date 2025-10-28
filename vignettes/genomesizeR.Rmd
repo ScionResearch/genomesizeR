@@ -2,7 +2,7 @@
 title: "Get started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{getstarted}
+  %\VignetteIndexEntry{Get started}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -19,7 +19,7 @@ inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 Store the path to the archive containing the reference databases and the bayesian models:
 
 ```
-refdata_archive_path = "path/to/genomesizeRdata.tar.gz"
+refdata_archive_path = "path/to/genomesizeRdata_v1.0.3.tar.gz"
 ```
 
 Read the example input file from the package. This example data is a subset of the dataset from [Labouyrie et al. 2023](https://doi.org/10.1038/s41467-023-37937-4):
@@ -37,21 +37,21 @@ library(genomesizeR)
 Run the main function to get the estimated genome sizes (with the default method which is the bayesian method):
 
 ```
-  results = estimate_genome_size(example_input_file, refdata_archive_path, 
-            sep='\t', match_column='TAXID', output_format='input', 
-            ci_threshold = 0.3)
+results = estimate_genome_size(example_input_file, refdata_archive_path, 
+                               sep='\t', match_column='TAXID', output_format='input', 
+                               ci_threshold = 0.5)
   
   #############################################################################
   # Genome size estimation summary:
   #
-  #  22.22222 % estimations achieving required precision
+  #  50.55556 % estimations achieving required precision
   #
        Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-    3007721   5408472  16980834  23969767  41811396 143278734 
+    2973116   5404298  17307947  23865759  41709153 140613929 
   
   # Estimation status:
-  Confidence interval to estimated size ratio > ci_threshold      OK 
-                                                         140      40 
+  Confidence interval to estimated size ratio > ci_threshold   OK 
+                                                          89   91
 ```
 
 #### Plot genome size histogram per sample
@@ -61,7 +61,7 @@ Then, the results can be visualized using the plotting functions provided. This 
 ```{r, echo = FALSE, warning=F, message=F}
   library(genomesizeR)
   example_output_data = system.file("extdata", "results_bayesian.csv", package = "genomesizeR")
-  refdata_archive_path = system.file("extdata", "genomesizeRdata.tar.gz", package = "genomesizeR")
+  refdata_archive_path = system.file("extdata", "genomesizeRdata_v1.0.3.tar.gz", package = "genomesizeR")
   results = read.csv2(example_output_data, sep=',', dec = '.')
 ```
 
