@@ -47,6 +47,10 @@ remotes::install_github("inbo/inborutils")
 inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ```
 
+### Testing
+
+[See test instructions for genomesizeR](TESTING.md)
+
 ### Get started
 
 [Here is a simple tutorial using the default bayesian method on an example file](https://scionresearch.github.io/genomesizeR/articles/genomesizeR.html)
@@ -54,5 +58,3 @@ inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ### How to contribute 
 
 [Contribution guidelines for genomesizeR](CONTRIBUTING.md)
-
-

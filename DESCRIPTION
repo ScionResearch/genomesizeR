@@ -14,6 +14,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports: pbapply, ggplot2, dplyr, lme4, merTools, brms, parallel, doParallel, ncbitax, ggtree, biomformat
 Remotes: bioc::ggtree, bioc::biomformat, github::raim/ncbitax
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
 VignetteBuilder: knitr
 URL: https://scionresearch.github.io/genomesizeR/, https://github.com/ScionResearch/genomesizeR/issues, https://github.com/ScionResearch/genomesizeR

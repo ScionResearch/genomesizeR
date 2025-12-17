@@ -1,0 +1,12 @@
+COUNT,SAMPLE,SCIENTIFIC_NAME,TAXID,estimated_genome_size,confidence_interval_lower,confidence_interval_upper,genome_size_estimation_status,model_used,LCA,species,genus,family,order,class,phylum,clade,superkingdom,no rank,suborder,subclass,subphylum,subkingdom,kingdom
+75,16S_2,Mycobacterium,   1763,5653672.49118327, 3967727, 7882084,OK,lmm|family/genus,1763,NA,1763,1762,85007,1760,201174,1783272,2,1,NA,NA,NA,NA,NA
+25,16S_1,Rhizomicrobium sp. URHD0049,1703066,4503218.26874712, 2067397, 9360867,Confidence interval to estimated size ratio > ci_threshold,lmm|family/genus,1703066,1703066,1241326,1921568,1921567,28211,1224,NA,2,1,NA,NA,NA,NA,NA
+13,ITS_3,Didymellaceae, 683158,35557722.0119225,25031296,55598364,Confidence interval to estimated size ratio > ci_threshold,lmm|family/genus,683158,NA,NA,683158,92860,147541,4890,33154,2759,1,715340,451868,147538,451864,4751
+ 8,ITS_3,Trichoderma sp.,1715253,37322635.7123003,17604449,73297160,Confidence interval to estimated size ratio > ci_threshold,lmm|family/genus,1715253,1715253,5543,5129,5125,147550,4890,33154,2759,1,NA,222543,147538,451864,4751
+ 4,ITS_1,Articulospora tetracladia, 253309,28684680.4728591,25950306,42374760,OK,lmm|family/genus,253309,253309,253308,2794838,5178,147548,4890,33154,2759,1,NA,NA,147538,451864,4751
+33,ITS_1,Dactylella cylindrospora,1814901,39804869.2050313,23036431,86371694,Confidence interval to estimated size ratio > ci_threshold,lmm|family/genus,1814901,1814901,47025,47021,189479,189478,4890,33154,2759,1,NA,NA,147538,451864,4751
+ 8,16S_3,unclassified Telmatobacter,2634852,5829818.32320584, 4155135, 8111479,OK,lmm|family/genus,2634852,NA,1078829,204434,204433,204432,57723,NA,2,1,NA,NA,NA,NA,NA
+12,ITS_1,Chaetomium,   5149,33929507.3319802,22926143,48705040,OK,lmm|family/genus,5149,NA,5149,35718,5139,147550,4890,33154,2759,1,NA,222544,147538,451864,4751
+27,16S_1,Thermomonosporaceae bacterium YE4-D4-16-CH2, 795107,7893691.16861262, 4430183,13395558,Confidence interval to estimated size ratio > ci_threshold,lmm|family/genus,795107,795107,NA,2012,85012,1760,201174,1783272,2,1,NA,NA,NA,NA,NA
+ 5,16S_2,Rhodoplanes,  29407,4300568.97382752, 3153027, 5875080,OK,lmm|family/genus,29407,NA,29407,45401,356,28211,1224,NA,2,1,NA,NA,NA,NA,NA
+ 5,16S_2,Telmatobacter bradus, 474953,5829818.32320584, 4155135, 8111479,OK,lmm|family/genus,474953,474953,1078829,204434,204433,204432,57723,NA,2,1,NA,NA,NA,NA,NA
