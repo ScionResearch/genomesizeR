@@ -58,3 +58,7 @@ inborutils::download_zenodo("10.5281/zenodo.13733183", path=".")
 ### How to contribute 
 
 [Contribution guidelines for genomesizeR](CONTRIBUTING.md)
+
+### Disclaimer
+
+We make no warranties regarding the accuracy or integrity of the Data. We accept no liability for any direct, indirect, special, consequential or other losses or damages of whatsoever kind arising out of access to, or the use of the Data. We are in no way to be held responsible for the use that you put the Data to. You rely on the Data entirely at your own risk.
