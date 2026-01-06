@@ -61,7 +61,7 @@ log(G_i) \sim \mathcal{N}(\mu_i, \sigma_{i}^2)
 
 where $G_i$ is the genome size of species $i$ in units of 10 Mbp. The model uses taxonomic levels as predictors, and is described in more detail in the package vignettes.
 
-The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the U-turn sampler.
+The estimation process uses Stan's Hamiltonian Monte Carlo algorithm with the No-U-Turn Sampler [NUTS, @hoffman2014nuts; @stanref2025].
 
 Posterior predictions are obtained using the predict function from the `brms` package, and 95% credible intervals are obtained using 2.5% and 97.5% quantiles from the posterior distribution.
 
