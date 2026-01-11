@@ -1,0 +1,52 @@
+cff-version: "1.2.0"
+authors:
+- email: celine.mercier@scionresearch.com
+  family-names: Mercier
+  given-names: Celine
+  orcid: "https://orcid.org/0000-0002-4782-1530"
+- family-names: Elleouet
+  given-names: Joane
+  orcid: "https://orcid.org/0000-0002-9597-3360"
+- family-names: Husheer
+  given-names: Sean
+  orcid: "https://orcid.org/0000-0002-0422-2386"
+- family-names: Garrett
+  given-names: Loretta
+  orcid: "https://orcid.org/0000-0001-7687-6795"
+- family-names: Wakelin
+  given-names: Steve A
+  orcid: "https://orcid.org/0000-0002-1167-8699"
+doi: 10.5281/zenodo.17971801
+message: If you use this software, please cite our article in the
+  Journal of Open Source Software.
+preferred-citation:
+  authors:
+  - email: celine.mercier@scionresearch.com
+    family-names: Mercier
+    given-names: Celine
+    orcid: "https://orcid.org/0000-0002-4782-1530"
+  - family-names: Elleouet
+    given-names: Joane
+    orcid: "https://orcid.org/0000-0002-9597-3360"
+  - family-names: Husheer
+    given-names: Sean
+    orcid: "https://orcid.org/0000-0002-0422-2386"
+  - family-names: Garrett
+    given-names: Loretta
+    orcid: "https://orcid.org/0000-0001-7687-6795"
+  - family-names: Wakelin
+    given-names: Steve A
+    orcid: "https://orcid.org/0000-0002-1167-8699"
+  date-published: 2026-01-09
+  doi: 10.21105/joss.08759
+  issn: 2475-9066
+  issue: 117
+  journal: Journal of Open Source Software
+  publisher:
+    name: Open Journals
+  start: 8759
+  title: "genomesizeR: An R package for genome size prediction"
+  type: article
+  url: "https://joss.theoj.org/papers/10.21105/joss.08759"
+  volume: 11
+title: "genomesizeR: An R package for genome size prediction"
