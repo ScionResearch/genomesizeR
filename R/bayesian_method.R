@@ -1,5 +1,6 @@
 
-bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold) {
+bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, alltax, format, output_format, match_column, match_sep, ci_threshold,
+                     n_draws=NULL, predict=TRUE) {
 
   out = query
   out['estimated_genome_size'] = NA
@@ -113,7 +114,18 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
       return(out)
     }
 
-    pred = brms::posterior_predict(model, newdat = out, allow_new_levels=TRUE)
+    # When the posterior is predicted jointly for all queries afterwards
+    # (see predict_posterior_jointly), only the model to use is needed here
+    if (!predict) {
+      out = unlist(as.vector(out[1,]))
+      return(out)
+    }
+
+    draw_ids = NULL
+    if (!is.null(n_draws)) {
+      draw_ids = seq_len(n_draws)
+    }
+    pred = brms::posterior_predict(model, newdata = out, allow_new_levels=TRUE, draw_ids=draw_ids)
 
     pred = as.data.frame(pred) %>%
       mutate_all(function(x){exp(x)*10^7})
@@ -138,4 +150,52 @@ bayesian <- function(query, models, na_models, size_db, taxonomy, names, nodes, 
   out = unlist(as.vector(out[1,]))
 
   return(out)
+}
+
+
+#' Predict the posterior predictive distribution of all queries jointly
+#'
+#' One call to posterior_predict per bayesian model, on the distinct taxonomies of the queries
+#' estimated with that model. Predicting jointly (rather than query by query) ensures that queries
+#' sharing a taxon unseen by the model (e.g. the same new family) share the same sampled effects
+#' in each draw, which is needed to propagate uncertainty correctly when aggregating queries.
+#'
+#' @param output_table Result table with columns "model_used" and the taxid columns of the model
+#' @param models List of bayesian models
+#' @param n_draws Number of posterior draws
+#' @return Numeric matrix with one row per query and one column per draw (genome size in base pairs),
+#'         NA for queries not estimated with a bayesian model
+#' @noRd
+predict_posterior_jointly <- function(output_table, models, n_draws) {
+  model_by_name = c('bayesian Bacteria'='bayes_model_bact',
+                    'bayesian Eukaryota'='bayes_model_euka',
+                    'bayesian Archeae'='bayes_model_arch')
+  ranks = c('phylum', 'class', 'order', 'family', 'genus')
+
+  posterior = matrix(NA_real_, nrow=nrow(output_table), ncol=n_draws,
+                     dimnames=list(NULL, paste0('posterior_', seq_len(n_draws))))
+
+  for (model_used in names(model_by_name)) {
+    rows = which(!is.na(output_table$model_used) & output_table$model_used == model_used)
+    if (length(rows) == 0) {
+      next
+    }
+    newdata = output_table[rows, intersect(ranks, names(output_table)), drop=FALSE]
+    for (rank in setdiff(ranks, names(newdata))) {
+      newdata[rank] = NA
+    }
+    newdata = newdata[ranks]
+    taxonomy_key = do.call(paste, c(newdata, sep='|'))
+    distinct = !duplicated(taxonomy_key)
+    cat(paste0("Predicting posterior distributions for ", sum(distinct), " distinct taxonomies (", model_used, ")"), fill=T)
+
+    pred = brms::posterior_predict(models[[model_by_name[model_used]]], newdata=newdata[distinct, , drop=FALSE],
+                                   allow_new_levels=TRUE, draw_ids=seq_len(n_draws))
+    if (ncol(pred) != sum(distinct)) {
+      stop("Joint posterior prediction returned ", ncol(pred), " columns for ", sum(distinct), " taxonomies")
+    }
+    posterior[rows, ] = t(pred)[match(taxonomy_key, taxonomy_key[distinct]), , drop=FALSE]
+  }
+
+  return(exp(posterior) * 10^7)
 }

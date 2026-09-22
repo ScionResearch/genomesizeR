@@ -210,3 +210,30 @@ plot_genome_size_tree <- function(output_table, refdata_path) {
 
   return(to_plot)
 }
+
+
+#' Plot genome size per sample
+#'
+#' This function loads a result table from estimate_genome_size_per_sample and plots the estimated genome size
+#' of each sample with its confidence interval.
+#'
+#' @param per_sample_table Result table from estimate_genome_size_per_sample()
+#' @param order_by_size Order samples by estimated genome size (default: TRUE) rather than by sample name
+#' @import ggplot2
+#' @export
+plot_genome_size_per_sample <- function(per_sample_table, order_by_size=TRUE) {
+
+  to_plot = per_sample_table[!is.na(per_sample_table$estimated_genome_size), ]
+  if (order_by_size) {
+    to_plot = to_plot[order(to_plot$estimated_genome_size), ]
+  }
+  to_plot$sample = factor(to_plot$sample, levels=to_plot$sample)
+
+  plot(ggplot(to_plot, aes(x=.data[["sample"]], y=.data[["estimated_genome_size"]])) +
+         geom_point() +
+         geom_errorbar(aes(ymin=.data[["confidence_interval_lower"]], ymax=.data[["confidence_interval_upper"]])) +
+         theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) +
+         ggtitle("Estimated genome size per sample"))
+
+  return(to_plot)
+}

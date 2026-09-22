@@ -1,0 +1,20 @@
+url: https://scionresearch.github.io/genomesizeR/
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, articles, reference, bugs]
+    right: [search, github]
+  components:
+    bugs:
+      text: Report an issue
+      href: https://github.com/ScionResearch/genomesizeR/issues
+
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - methods
+  - compare_methods
+  - input_output

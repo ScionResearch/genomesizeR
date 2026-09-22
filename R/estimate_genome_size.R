@@ -32,6 +32,7 @@
 #'
 #' @param size_db Genome size reference database
 #' @param effects Vector of nested effects to use in the formula e.g. c("family", "genus")
+#' @noRd
 build_lmm_model <- function(size_db, effects) {
   f <- as.formula(
     paste("log(genome.size) ~ (1|",
@@ -58,6 +59,7 @@ build_lmm_model <- function(size_db, effects) {
 #' Read bayesian model from rds file
 #'
 #' @param superkingdom Target superkingdom, taxid or name
+#' @noRd
 get_bayes_model <- function(superkingdom) {
   if (superkingdom == "Bacteria" | superkingdom == 2) {
     bmodel = readRDS(bayesian_model_bact)
@@ -78,6 +80,7 @@ get_bayes_model <- function(superkingdom) {
 #'
 #' @param refdata_path Path to tar.gz archive
 #' @importFrom utils untar
+#' @noRd
 get_refdata <- function(refdata_path) {
   if (dir.exists(refdata_dir)) {
     unlink(refdata_dir, recursive = TRUE)
@@ -93,6 +96,7 @@ get_refdata <- function(refdata_path) {
 #'
 #' @param taxonomy_path Path to taxonomy database file or NA
 #' @importFrom utils untar
+#' @noRd
 get_taxonomy <- function(taxonomy_path=NA) {
   if (is.na(taxonomy_path)) {
     if (dir.exists(taxonomy_dir)) {
@@ -111,6 +115,7 @@ get_taxonomy <- function(taxonomy_path=NA) {
 #'
 #' @param genome_size_db_path Path to genome size database file or NA
 #' @importFrom utils untar
+#' @noRd
 get_genome_size_db <- function(genome_size_db_path=NA) {
   if (is.na(genome_size_db_path)) {
     if (dir.exists(genome_size_db)) {
@@ -129,6 +134,7 @@ get_genome_size_db <- function(genome_size_db_path=NA) {
 #'
 #' @param genome_size_db_path Path to genome size database file or NA
 #' @importFrom utils untar
+#' @noRd
 get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
   if (is.na(genome_size_db_path)) {
     if (dir.exists(genome_size_db_for_lmm)) {
@@ -149,6 +155,9 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
 #' This function loads a query file or table and an archive containing
 #' reference databases and bayesian models, and predicts genome sizes.
 #'
+#' Identical queries (same taxonomy for the "tax_table" and "biom" formats, same value in
+#' match_column when one is given, same row otherwise) are only computed once and get identical results.
+#'
 #' @param queries Queries: path to csv or BIOM file, or R object used for input.
 #' @param refdata_path Path to the downloadable archive containing the reference databases and the bayesian models.
 #' @param format Input format: "csv" for csv file (default), "tax_table" for taxonomy table file or object as used in e.g. phyloseq,
@@ -167,6 +176,19 @@ get_genome_size_db_for_lmm <- function(genome_size_db_path=NA) {
 #'                     (e.g. 0.3 means that estimations with a confidence interval that represents more than 30% of
 #'                     the predicted size will be tagged in the output table).
 #' @param n_cores Number of CPU cores to use (default is 'half': half of all available cores).
+#' @param return_posterior Bayesian method only. If TRUE, the full posterior predictive distribution of each query
+#'                         is returned in additional columns "posterior_1", ..., "posterior_N" (one column per posterior draw,
+#'                         in base pairs), in addition to the summarised estimate and confidence interval. The distributions
+#'                         are then predicted jointly for all queries, so that queries sharing a taxon unseen by the model
+#'                         share the same sampled effects in each draw, as needed to propagate uncertainty correctly when
+#'                         aggregating queries. Queries estimated from a reference mean ("reference_mean" in "model_used")
+#'                         get a constant posterior equal to their estimate.
+#'                         Required to compute sample-level estimates with \code{\link{estimate_genome_size_per_sample}}.
+#' @param n_draws Bayesian method only. Number of posterior draws to use (default: NULL, all draws of the model).
+#'                When return_posterior is TRUE and the models have different numbers of draws, the smallest number is used
+#'                so that all queries have the same number of posterior columns.
+#' @return A data frame with one row per query. If the input has row names (e.g. ASV identifiers of a taxonomy table),
+#'         they are kept in a column "ASVs".
 #' @importFrom utils read.csv
 #' @importFrom pbapply pbapply
 #' @importFrom lme4 lmer
@@ -183,9 +205,18 @@ estimate_genome_size <- function(queries, refdata_path,
                                  output_format='input',
                                  method='bayesian',
                                  ci_threshold=0.3,
-                                 n_cores='half') {
+                                 n_cores='half',
+                                 return_posterior=FALSE,
+                                 n_draws=NULL) {
 
   options(warn=1)
+
+  if (return_posterior && method != 'bayesian') {
+    stop("return_posterior is only available with the bayesian method")
+  }
+  if (!is.null(n_draws) && method != 'bayesian') {
+    stop("n_draws is only available with the bayesian method")
+  }
 
   cat("Reading queries", fill=T)
   if (format == 'biom') {
@@ -221,6 +252,12 @@ estimate_genome_size <- function(queries, refdata_path,
     return()
   }
 
+  # Keep input row names (e.g. ASV identifiers) if there are any
+  query_ids = NULL
+  if (!is.null(rownames(queries)) && !identical(rownames(queries), as.character(seq_len(nrow(queries))))) {
+    query_ids = rownames(queries)
+  }
+
   cat("Reading genome size reference database", fill=T)
 
   na_models = NA
@@ -235,6 +272,13 @@ estimate_genome_size <- function(queries, refdata_path,
     bayes_model_bact = get_bayes_model('Bacteria')
     bayes_model_euka = get_bayes_model('Eukaryota')
     bayes_model_arch = get_bayes_model('Archaea')
+    available_draws = min(brms::ndraws(bayes_model_bact), brms::ndraws(bayes_model_euka), brms::ndraws(bayes_model_arch))
+    if (is.null(n_draws) && return_posterior) {
+      n_draws = available_draws
+    }
+    if (!is.null(n_draws) && n_draws > available_draws) {
+      stop("n_draws can not be larger than the number of draws in the bayesian models (", available_draws, ")")
+    }
   }
 
   if (method == 'lmm') {
@@ -262,20 +306,35 @@ estimate_genome_size <- function(queries, refdata_path,
   nodes = getnodes(taxonomy)
   alltax = parseNCBITaxonomy(taxonomy)
 
-  cat("Computing genome sizes", fill=T)
+  # Only compute each distinct query once: the result depends on the whole row for taxonomy
+  # table and BIOM formats, and only on the match column when one is given.
+  if (format == 'tax_table' || format == 'biom' || is.na(match_column)) {
+    key_columns = queries
+  }
+  else {
+    key_columns = queries[match_column]
+  }
+  query_key = do.call(paste, c(lapply(key_columns, function(x) { x = as.character(x); x[is.na(x)] = '\001'; x }), sep='\002'))
+  unique_query_idx = which(!duplicated(query_key))
+  expand_idx = match(query_key, query_key[unique_query_idx])
+
+  cat("Computing genome sizes for", length(unique_query_idx), "distinct queries out of", nrow(queries), fill=T)
 
   if (n_cores == 'half') {
     n_cores = parallel::detectCores() / 2
   }
   cat("Using ", n_cores, " cores", fill=T)
 
-  output_table = try(pbapply(queries, 1, method,
-                         models=list('genusfamily_model'=genusfamily_model,
-                                     'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
-                                     'bayes_model_arch'=bayes_model_arch),
-                         na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
-                         names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
-                         match_sep=match_sep, ci_threshold=ci_threshold, cl=n_cores))
+  method_args = list(models=list('genusfamily_model'=genusfamily_model,
+                                 'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
+                                 'bayes_model_arch'=bayes_model_arch),
+                     na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
+                     names=names, nodes=nodes, alltax=alltax, format=format, output_format=output_format, match_column=match_column,
+                     match_sep=match_sep, ci_threshold=ci_threshold)
+  if (method == 'bayesian') {
+    method_args = c(method_args, list(n_draws=n_draws, predict=!return_posterior))
+  }
+  output_table = try(do.call(pbapply, c(list(queries[unique_query_idx, , drop=FALSE], 1, method), method_args, list(cl=n_cores))))
 
   cat('Done', fill=T)
 
@@ -286,6 +345,27 @@ estimate_genome_size <- function(queries, refdata_path,
   else {
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
   }
+
+  # Expand the results of the distinct queries back to one row per query,
+  # each with its own input columns (formatted as apply() does)
+  output_table = output_table[expand_idx, , drop=FALSE]
+  query_matrix = as.matrix(queries)
+  output_table[colnames(query_matrix)] = query_matrix[, colnames(query_matrix), drop=FALSE]
+  row.names(output_table) = NULL
+
+  # Predict the posterior distributions of all queries jointly, and summarise them
+  posterior = NULL
+  if (return_posterior) {
+    posterior = predict_posterior_jointly(output_table,
+                                          list('bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
+                                               'bayes_model_arch'=bayes_model_arch),
+                                          n_draws)
+    predicted = which(!is.na(posterior[, 1]))
+    output_table$estimated_genome_size[predicted] = rowMeans(posterior[predicted, , drop=FALSE])
+    output_table$confidence_interval_lower[predicted] = apply(posterior[predicted, , drop=FALSE], 1, quantile, probs=0.025)
+    output_table$confidence_interval_upper[predicted] = apply(posterior[predicted, , drop=FALSE], 1, quantile, probs=0.975)
+  }
+
   if (method == 'lmm') {
     confidence_interval = exp(compute_confidence_interval_lmm(output_table, genusfamily_model, n_cores))
     output_table$confidence_interval_lower = as.numeric(confidence_interval$lwr)
@@ -315,6 +395,24 @@ estimate_genome_size <- function(queries, refdata_path,
   # Rename rows
   row.names(output_table) = paste0('query_', 1:nrow(output_table))
 
+  # Add input row names as a column
+  if (!is.null(query_ids)) {
+    output_table = cbind(ASVs=query_ids, output_table, stringsAsFactors=F)
+  }
+
+  # Add the posterior draws back, as numeric columns.
+  # Queries estimated from a reference mean get a constant posterior equal to their estimate.
+  if (return_posterior) {
+    posterior = as.data.frame(posterior)
+    reference_mean_rows = which(!is.na(output_table$model_used) & output_table$model_used == 'reference_mean')
+    if (length(reference_mean_rows) > 0) {
+      posterior[reference_mean_rows, ] = matrix(output_table$estimated_genome_size[reference_mean_rows],
+                                                nrow=length(reference_mean_rows), ncol=ncol(posterior))
+    }
+    row.names(posterior) = row.names(output_table)
+    output_table = cbind(output_table, posterior)
+  }
+
   summary(output_table$estimated_genome_size)
 
   successful_estimations = nrow(output_table[output_table$genome_size_estimation_status=='OK', ])*100 / nrow(output_table)
@@ -330,9 +428,16 @@ estimate_genome_size <- function(queries, refdata_path,
 
   # Minimal dataframe if dataframe output requested
   if (output_format == "data.frame") {
-    output_table = output_table[c('LCA', 'estimated_genome_size',
-                                  'confidence_interval_lower', 'confidence_interval_upper',
-                                  'genome_size_estimation_status', 'model_used')]
+    minimal_columns = c('LCA', 'estimated_genome_size',
+                        'confidence_interval_lower', 'confidence_interval_upper',
+                        'genome_size_estimation_status', 'model_used')
+    if (!is.null(query_ids)) {
+      minimal_columns = c('ASVs', minimal_columns)
+    }
+    if (return_posterior) {
+      minimal_columns = c(minimal_columns, grep('^posterior_[0-9]+$', names(output_table), value=TRUE))
+    }
+    output_table = output_table[minimal_columns]
     names(output_table)[names(output_table) == 'LCA'] = 'TAXID'
   }
 

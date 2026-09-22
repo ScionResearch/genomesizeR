@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Get started • genomesizeR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get started">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">genomesizeR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.0002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,51 +106,109 @@ default method which is the bayesian method):</p>
                                                           89   91</code></pre>
 </div>
 <div class="section level4">
-<h4 id="plot-genome-size-histogram-per-sample">Plot genome size histogram per sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-per-sample"></a>
+<h4 id="estimate-genome-sizes-per-sample">Estimate genome sizes per sample<a class="anchor" aria-label="anchor" href="#estimate-genome-sizes-per-sample"></a>
 </h4>
-<p>Then, the results can be visualized using the plotting functions
-provided. This histogram shows the estimated genome sizes for each
-sample.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
-<p><img src="genomesizeR_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p>To get one genome size estimation per sample instead of one per
+query, first run the main function with
+<code>return_posterior = TRUE</code> to keep the full posterior
+distribution of each query:</p>
+<pre><code><span><span class="va">results</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="va">example_input_file</span>, <span class="va">refdata_archive_path</span>, </span>
+<span>                               sep<span class="op">=</span><span class="st">'\t'</span>, match_column<span class="op">=</span><span class="st">'TAXID'</span>, output_format<span class="op">=</span><span class="st">'input'</span>, </span>
+<span>                               ci_threshold <span class="op">=</span> <span class="fl">0.5</span>, return_posterior <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+<p>Then give the results and an abundance table (one row per query, one
+column per sample) to <code><a href="../reference/estimate_genome_size_per_sample.html">estimate_genome_size_per_sample()</a></code>.
+Here the abundance table is built from the COUNT and SAMPLE columns of
+the example input:</p>
+<pre><code>samples = unique(results$SAMPLE)
+otu_table = sapply(samples, function(s) ifelse(results$SAMPLE == s, as.numeric(results$COUNT), 0))
+
+per_sample = estimate_genome_size_per_sample(results, otu_table)
+
+  #############################################################################
+  # Genome size estimation per sample summary:
+  #
+  #  6  samples,  0  without estimation
+  #
+      Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+   5249522  5675376 21620693 23491388 39809994 46224058 
+
+  # Proportion of sample abundance with an estimation:
+     Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+        1       1       1       1       1       1 </code></pre>
+<p>Each sample gets a mean genome size, weighted by the abundance of its
+queries, and a confidence interval that accounts for the uncertainty of
+every query:</p>
+<pre><code>per_sample
+
+    sample estimated_genome_size confidence_interval_lower confidence_interval_upper n_queries_used n_queries_total abundance_covered
+  1  16S_2               5634618                   5155614                   6214341             30              30                 1
+  2  16S_1               5249522                   4428505                   6258701             30              30                 1
+  3  ITS_3              40598747                  35995988                  46607566             30              30                 1
+  4  ITS_2              37443735                  32168521                  44663036             30              30                 1
+  5  ITS_1              46224058                  39567336                  55204951             30              30                 1
+  6  16S_3               5797651                   5078372                   6776126             30              30                 1</code></pre>
+<p>With a phyloseq object:</p>
+<pre><code><span><span class="va">results</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu">tax_table</span><span class="op">(</span><span class="va">pseq</span><span class="op">)</span><span class="op">)</span>, <span class="va">refdata_archive_path</span>,</span>
+<span>                               format <span class="op">=</span> <span class="st">'tax_table'</span>, return_posterior <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">per_sample</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size_per_sample.html">estimate_genome_size_per_sample</a></span><span class="op">(</span><span class="va">results</span>, <span class="fu">as</span><span class="op">(</span><span class="fu">otu_table</span><span class="op">(</span><span class="va">pseq</span><span class="op">)</span>, <span class="st">"matrix"</span><span class="op">)</span>,</span>
+<span>                                             taxa_are_rows <span class="op">=</span> <span class="fu">taxa_are_rows</span><span class="op">(</span><span class="va">pseq</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<p>See <code><a href="../reference/estimate_genome_size_per_sample.html">?estimate_genome_size_per_sample</a></code> for the weighting
+options.</p>
 </div>
 <div class="section level4">
-<h4 id="plot-genome-size-histogram-for-one-sample">Plot genome size histogram for one sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-histogram-for-one-sample"></a>
+<h4 id="plot-the-estimated-genome-size-of-each-sample">Plot the estimated genome size of each sample<a class="anchor" aria-label="anchor" href="#plot-the-estimated-genome-size-of-each-sample"></a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'16S_1'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="genomesizeR_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-</div>
-<div class="section level4">
-<h4 id="plot-genome-size-boxplot-per-sample">Plot genome size boxplot per sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-boxplot-per-sample"></a>
-</h4>
-<p>This boxplot shows the estimated genome sizes for each sample:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
-<p><img src="genomesizeR_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-</div>
-<div class="section level4">
-<h4 id="plot-genome-size-boxplot-for-one-sample">Plot genome size boxplot for one sample<a class="anchor" aria-label="anchor" href="#plot-genome-size-boxplot-for-one-sample"></a>
-</h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'ITS_1'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="genomesizeR_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-</div>
-<div class="section level4">
-<h4 id="plot-simplified-taxonomic-tree-with-colour-coded-estimated-genome-sizes">Plot simplified taxonomic tree with colour-coded estimated genome
-sizes<a class="anchor" aria-label="anchor" href="#plot-simplified-taxonomic-tree-with-colour-coded-estimated-genome-sizes"></a>
-</h4>
-<p>This tree shows the taxonomic relationships as well as the estimated
-genome sizes. The difference between the genome size distribution of
-bacteria (16S marker) and fungi (ITS marker) is visible.</p>
+<p>The results can be visualized using the plotting functions provided.
+This plot shows the genome size estimated for each sample, with its
+confidence interval:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_per_sample.html">plot_genome_size_per_sample</a></span><span class="op">(</span><span class="va">per_sample</span><span class="op">)</span></span></code></pre></div>
+<p><img src="genomesizeR_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="plot-the-distribution-of-query-genome-sizes-in-each-sample">Plot the distribution of query genome sizes in each sample<a class="anchor" aria-label="anchor" href="#plot-the-distribution-of-query-genome-sizes-in-each-sample"></a>
+</h4>
+<p>The plots below use the results of the main function (one estimation
+per query). This histogram shows the distribution of the estimated
+genome sizes of the queries in each sample:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
+<p><img src="genomesizeR_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="same-histogram-for-one-sample">Same histogram for one sample<a class="anchor" aria-label="anchor" href="#same-histogram-for-one-sample"></a>
+</h4>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_histogram.html">plot_genome_size_histogram</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'16S_1'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="genomesizeR_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="boxplot-of-query-genome-sizes-in-each-sample">Boxplot of query genome sizes in each sample<a class="anchor" aria-label="anchor" href="#boxplot-of-query-genome-sizes-in-each-sample"></a>
+</h4>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code></pre></div>
+<p><img src="genomesizeR_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="same-boxplot-for-one-sample">Same boxplot for one sample<a class="anchor" aria-label="anchor" href="#same-boxplot-for-one-sample"></a>
+</h4>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_boxplot.html">plot_genome_size_boxplot</a></span><span class="op">(</span><span class="va">results</span>, only_sample<span class="op">=</span><span class="st">'ITS_1'</span><span class="op">)</span></span></code></pre></div>
+<p><img src="genomesizeR_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="plot-a-simplified-taxonomic-tree-with-colour-coded-genome-sizes">Plot a simplified taxonomic tree with colour-coded genome sizes<a class="anchor" aria-label="anchor" href="#plot-a-simplified-taxonomic-tree-with-colour-coded-genome-sizes"></a>
+</h4>
+<p>This tree shows the taxonomic relationships between the queries and
+their estimated genome sizes. The difference between bacteria (16S
+marker) and fungi (ITS marker) is visible.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_tree.html">plot_genome_size_tree</a></span><span class="op">(</span><span class="va">results</span>, <span class="va">refdata_archive_path</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Untarring reference data</span></span>
-<span><span class="co">## Using reference data in: /tmp/RtmpZY6Wjc/refdata</span></span>
+<span><span class="co">## Using reference data in: /tmp/RtmpWM9GPF/refdata</span></span>
 <span><span class="co">## Untarring taxonomy</span></span>
-<span><span class="co">## Using taxonomy: /tmp/RtmpZY6Wjc/taxdump</span></span></code></pre>
-<p><img src="genomesizeR_files/figure-html/unnamed-chunk-6-1.png" width="2112"></p>
+<span><span class="co">## Using taxonomy: /tmp/RtmpWM9GPF/taxdump</span></span></code></pre>
+<p><img src="genomesizeR_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="2112"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -163,7 +221,7 @@ bacteria (16S marker) and fungi (ITS marker) is visible.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

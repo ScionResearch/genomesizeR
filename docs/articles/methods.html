@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Method description • genomesizeR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Method description">
 </head>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">genomesizeR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0.0002</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -141,6 +141,30 @@ of the database (averaged at the species level) and 95% confidence
 intervals are calculated based on the standard error of the mean of all
 genome sizes available for that species in the processed NCBI
 database.</p>
+<div class="section level4">
+<h4 id="sample-level-estimation">Sample-level estimation<a class="anchor" aria-label="anchor" href="#sample-level-estimation"></a>
+</h4>
+<p>The full posterior predictive distribution of each query can also be
+kept (<code>return_posterior</code> option) and aggregated per sample
+with <code>estimate_genome_size_per_sample</code>. Posterior predictions
+are drawn jointly for all queries, so that the correlation between the
+predictions of related queries is preserved when they are aggregated.
+For each sample and each posterior draw, the genome sizes of the queries
+present in the sample are averaged, weighted by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>+</mo><msub><mi>n</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">log(1 + n_{i})</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>i</mi></msub><annotation encoding="application/x-tex">n_{i}</annotation></semantics></math>
+is the abundance of query
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+in the sample (weights based on relative abundance or presence are also
+available). The mean of the resulting sample-level posterior
+distribution is the estimated genome size of the sample, and its 2.5%
+and 97.5% quantiles give the 95% credible interval, which therefore
+accounts for the estimation uncertainty of every query. Queries with a
+species-level genome size from the database keep this value in every
+draw; queries without an estimate are ignored, and the proportion of the
+sample abundance they represent is reported.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="frequentist-method">Frequentist method<a class="anchor" aria-label="anchor" href="#frequentist-method"></a>
@@ -236,7 +260,7 @@ confidence_interval_upper = estimated_size + margin_of_error</code></pre>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

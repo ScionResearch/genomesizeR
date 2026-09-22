@@ -1,19 +1,20 @@
 Package: genomesizeR
 Title: Genome size estimation
-Version: 1.0.0.0002
+Version: 1.1.0
 Authors@R: 
-    c(person("Celine", "Mercier", , "celine.mercier@scionresearch.com", role = c("aut", "cre"),
+    c(person("Celine", "Mercier", , "celine.mercier@bioeconomy.nz", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4782-1530")),
-    person("Joane", "Ellouet", , "joane.ellouet@scionresearch.com", role = c("aut"),
+    person("Joane", "Ellouet", , "joane.ellouet@bioeconomy.nz", role = c("aut"),
            comment = c(ORCID = "0000-0002-9597-3360"))
            )
 Description: Genome size estimation from taxonomic data.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports: pbapply, ggplot2, dplyr, lme4, merTools, brms, parallel, doParallel, ncbitax, ggtree, biomformat
 Remotes: bioc::ggtree, bioc::biomformat, github::raim/ncbitax
-Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0), quantreg, cowplot
 VignetteBuilder: knitr
-URL: https://scionresearch.github.io/genomesizeR/, https://github.com/ScionResearch/genomesizeR/issues, https://github.com/ScionResearch/genomesizeR
+URL: https://scionresearch.github.io/genomesizeR/, https://github.com/ScionResearch/genomesizeR
+BugReports: https://github.com/ScionResearch/genomesizeR/issues
+Config/roxygen2/version: 8.1.0

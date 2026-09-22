@@ -14,7 +14,9 @@ estimate_genome_size(
   output_format = "input",
   method = "bayesian",
   ci_threshold = 0.3,
-  n_cores = "half"
+  n_cores = "half",
+  return_posterior = FALSE,
+  n_draws = NULL
 )
 }
 \arguments{
@@ -45,8 +47,29 @@ Other formats available: "data.frame", a data frame with only the previously des
 the predicted size will be tagged in the output table).}
 
 \item{n_cores}{Number of CPU cores to use (default is 'half': half of all available cores).}
+
+\item{return_posterior}{Bayesian method only. If TRUE, the full posterior predictive distribution of each query
+is returned in additional columns "posterior_1", ..., "posterior_N" (one column per posterior draw,
+in base pairs), in addition to the summarised estimate and confidence interval. The distributions
+are then predicted jointly for all queries, so that queries sharing a taxon unseen by the model
+share the same sampled effects in each draw, as needed to propagate uncertainty correctly when
+aggregating queries. Queries estimated from a reference mean ("reference_mean" in "model_used")
+get a constant posterior equal to their estimate.
+Required to compute sample-level estimates with \code{\link{estimate_genome_size_per_sample}}.}
+
+\item{n_draws}{Bayesian method only. Number of posterior draws to use (default: NULL, all draws of the model).
+When return_posterior is TRUE and the models have different numbers of draws, the smallest number is used
+so that all queries have the same number of posterior columns.}
+}
+\value{
+A data frame with one row per query. If the input has row names (e.g. ASV identifiers of a taxonomy table),
+they are kept in a column "ASVs".
 }
 \description{
 This function loads a query file or table and an archive containing
 reference databases and bayesian models, and predicts genome sizes.
+}
+\details{
+Identical queries (same taxonomy for the "tax_table" and "biom" formats, same value in
+match_column when one is given, same row otherwise) are only computed once and get identical results.
 }

@@ -22,13 +22,21 @@ Run all tests
 devtools::test()
 ```
 
-Run the three E2E tests for each method
+Run the E2E tests for each method
 
 ```r
-devtools::test_file("tests/testthat/test_estimate_genome_size_bayesian_small_e2e.R")
-devtools::test_file("tests/testthat/test_estimate_genome_size_lmm_small_e2e.R")
-devtools::test_file("tests/testthat/test_estimate_genome_size_weighted_mean_small_e2e.R")
+devtools::test_active_file("tests/testthat/test_estimate_genome_size_bayesian_small_e2e.R")
+devtools::test_active_file("tests/testthat/test_estimate_genome_size_lmm_small_e2e.R")
+devtools::test_active_file("tests/testthat/test_estimate_genome_size_weighted_mean_small_e2e.R")
+devtools::test_active_file("tests/testthat/test_estimate_genome_size_per_sample_small_e2e.R")
+devtools::test_active_file("tests/testthat/test_estimate_genome_size_distinct_queries_e2e.R")
+```
+
+Run the unit tests of the per-sample aggregation (no reference data needed)
+
+```r
+devtools::test_active_file("tests/testthat/test_aggregate_posterior_by_sample.R")
 ```
 
 Notes
-- All tests require the reference archive `genomesizeRdata_v*.tar.gz` in `inst/extdata/`.
+- All E2E tests require the reference archive `genomesizeRdata_v*.tar.gz` in `inst/extdata/`.
