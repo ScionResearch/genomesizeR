@@ -162,8 +162,8 @@ marker) and fungi (ITS marker) is visible.
 ```
 
     ## Untarring reference data
-    ## Using reference data in: /tmp/RtmpibAOxE/refdata
+    ## Using reference data in: /tmp/RtmpW6qHgH/refdata
     ## Untarring taxonomy
-    ## Using taxonomy: /tmp/RtmpibAOxE/taxdump
+    ## Using taxonomy: /tmp/RtmpW6qHgH/taxdump
 
 ![](genomesizeR_files/figure-html/unnamed-chunk-8-1.png)
