@@ -237,13 +237,26 @@ the chosen threshold</li>
 successfully estimated, but the confidence interval could not be
 estimated</li>
 <li>‘No reference and query too high in taxonomic tree to fit in model’:
-The lmm model is not able to estimate a genome size for the query</li>
-<li>‘Bayesian model not found’: There was an issue loading bayesian
-models</li>
+With the lmm method, the query is above the family level and can not be
+estimated by the model</li>
+<li>‘No reference for family in lmm model’: With the lmm method, the
+query’s family has no genome size reference, so the model can not
+estimate it</li>
+<li>‘Bayesian model not found’: With the bayesian method, the query does
+not belong to Bacteria, Archaea or Eukaryota (e.g. viruses), for which
+no model is available</li>
 </ul>
 </li>
 <li>
 <code>model_used</code>: The model used for the estimation</li>
+<li>
+<code>ASVs</code>: The row names of the input, if it had any
+(e.g. the ASV identifiers of a taxonomy table)</li>
+<li>
+<code>posterior_1</code>, <code>posterior_2</code>, …: With the
+bayesian method and <code>return_posterior = TRUE</code>, the posterior
+predictive distribution of the query, one column per posterior draw (see
+<code><a href="../reference/estimate_genome_size_per_sample.html">estimate_genome_size_per_sample()</a></code>)</li>
 <li>
 <code>LCA</code>: If queries are made of a list of taxa, taxid of
 their Last Common Ancestor. Otherwise, <code>LCA</code> is equal to

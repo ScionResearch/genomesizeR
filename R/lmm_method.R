@@ -107,13 +107,18 @@ lmm <- function(query, models, na_models, size_db, taxonomy, names, nodes, allta
       out['genome_size_estimation_status'] = 'OK'
     }
   }
-  else if (! is.na(out$family)) {
-    estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
-    out['model_used'] = 'lmm|family/genus'
-  }
-  else {
+  else if (is.na(out$family)) {
     out['genome_size_estimation_status'] = 'No reference and query too high in taxonomic tree to fit in model'
     return(out)
+  }
+  else if (! (out$family %in% models$lmm_families)) {
+    # An unknown family would be predicted from the model intercept only
+    out['genome_size_estimation_status'] = 'No reference for family in lmm model'
+    return(out)
+  }
+  else {
+    estimated_size = exp(predict(genusfamily_model, out, type="response", allow.new.levels=TRUE))
+    out['model_used'] = 'lmm|family/genus'
   }
 
   out['estimated_genome_size'] = estimated_size

@@ -42,7 +42,12 @@ test_that("estimate_genome_size produces expected results with LMM method (small
   )
 
   # Test 3: Check that all estimated genome sizes are positive
-  expect_true(all(results$estimated_genome_size > 0))
+  expect_true(all(results$estimated_genome_size > 0, na.rm = TRUE))
+
+  # Queries whose family is absent from the lmm reference are not estimated
+  not_estimated <- is.na(results$estimated_genome_size)
+  expect_equal(not_estimated, is.na(expected_results$estimated_genome_size))
+  expect_true(all(results$genome_size_estimation_status[not_estimated] == "No reference for family in lmm model"))
 
   # Test 4: Ensure lower CI < estimate < upper CI 
   valid_idx <- !is.na(results$confidence_interval_lower) & 

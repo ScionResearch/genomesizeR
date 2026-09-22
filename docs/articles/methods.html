@@ -194,7 +194,8 @@ is the residual error of observation
 <code>predictInterval</code> function from the <code>merTools</code>
 package. As higher nested levels (order, class) are not taken into
 account in the model, predictions are not produced for queries above the
-family level.</p>
+family level, nor for queries whose family is absent from the reference
+database (the model would otherwise only return its overall mean).</p>
 </div>
 <div class="section level2">
 <h2 id="weighted-mean-method">Weighted mean method<a class="anchor" aria-label="anchor" href="#weighted-mean-method"></a>

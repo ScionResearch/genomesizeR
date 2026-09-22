@@ -172,10 +172,21 @@ Columns added:
     successfully estimated, but the confidence interval could not be
     estimated
   - ‘No reference and query too high in taxonomic tree to fit in model’:
-    The lmm model is not able to estimate a genome size for the query
-  - ‘Bayesian model not found’: There was an issue loading bayesian
-    models
+    With the lmm method, the query is above the family level and can not
+    be estimated by the model
+  - ‘No reference for family in lmm model’: With the lmm method, the
+    query’s family has no genome size reference, so the model can not
+    estimate it
+  - ‘Bayesian model not found’: With the bayesian method, the query does
+    not belong to Bacteria, Archaea or Eukaryota (e.g. viruses), for
+    which no model is available
 - `model_used`: The model used for the estimation
+- `ASVs`: The row names of the input, if it had any (e.g. the ASV
+  identifiers of a taxonomy table)
+- `posterior_1`, `posterior_2`, …: With the bayesian method and
+  `return_posterior = TRUE`, the posterior predictive distribution of
+  the query, one column per posterior draw (see
+  [`estimate_genome_size_per_sample()`](https://scionresearch.github.io/genomesizeR/reference/estimate_genome_size_per_sample.md))
 - `LCA`: If queries are made of a list of taxa, taxid of their Last
   Common Ancestor. Otherwise, `LCA` is equal to `TAXID`.
 - NCBI taxids of all taxonomic ranks, with one column per rank

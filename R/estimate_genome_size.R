@@ -262,6 +262,7 @@ estimate_genome_size <- function(queries, refdata_path,
 
   na_models = NA
   genusfamily_model = NA
+  lmm_families = c()
   bayes_model_bact = NA
   bayes_model_euka = NA
   bayes_model_arch = NA
@@ -295,6 +296,9 @@ estimate_genome_size <- function(queries, refdata_path,
     if (typeof(genusfamily_model) == 'logical' && is.na(genusfamily_model)) {
       na_models[1] = 1
     }
+    else {
+      lmm_families = as.character(unique(genusfamily_size_db$family))
+    }
   }
   full_size_db = get_genome_size_db()
   full_size_db = read.csv(full_size_db, sep='\t', quote="", stringsAsFactors = FALSE)
@@ -325,7 +329,7 @@ estimate_genome_size <- function(queries, refdata_path,
   }
   cat("Using ", n_cores, " cores", fill=T)
 
-  method_args = list(models=list('genusfamily_model'=genusfamily_model,
+  method_args = list(models=list('genusfamily_model'=genusfamily_model, 'lmm_families'=lmm_families,
                                  'bayes_model_bact'=bayes_model_bact, 'bayes_model_euka'=bayes_model_euka,
                                  'bayes_model_arch'=bayes_model_arch),
                      na_models=na_models, size_db=full_size_db, taxonomy=taxonomy,
@@ -367,12 +371,19 @@ estimate_genome_size <- function(queries, refdata_path,
   }
 
   if (method == 'lmm') {
-    confidence_interval = exp(compute_confidence_interval_lmm(output_table, genusfamily_model, n_cores))
-    output_table$confidence_interval_lower = as.numeric(confidence_interval$lwr)
-    output_table$confidence_interval_upper = as.numeric(confidence_interval$upr)
+    # Confidence intervals from the model only for the queries estimated with it
+    # (reference mean queries already have theirs)
+    lmm_rows = which(!is.na(output_table$model_used) & output_table$model_used == 'lmm|family/genus')
+    if (length(lmm_rows) > 0) {
+      confidence_interval = exp(compute_confidence_interval_lmm(output_table[lmm_rows, ], genusfamily_model, n_cores))
+      output_table$confidence_interval_lower[lmm_rows] = as.numeric(confidence_interval$lwr)
+      output_table$confidence_interval_upper[lmm_rows] = as.numeric(confidence_interval$upr)
+    }
     new_queries = output_table
     output_table = pbapply(new_queries, 1, ci_post_treat, ci_threshold=ci_threshold)
     output_table = as.data.frame(bind_rows(output_table), stringsAsFactors = F)
+    output_table$confidence_interval_lower = as.numeric(output_table$confidence_interval_lower)
+    output_table$confidence_interval_upper = as.numeric(output_table$confidence_interval_upper)
   }
   else if (method == 'bayesian') {
     output_table = pbapply(output_table, 1, ci_post_treat, ci_threshold=ci_threshold)

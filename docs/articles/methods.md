@@ -119,7 +119,9 @@ The estimation process using the restricted maximum likelihood method
 (REML). A prediction interval is computed using the `predictInterval`
 function from the `merTools` package. As higher nested levels (order,
 class) are not taken into account in the model, predictions are not
-produced for queries above the family level.
+produced for queries above the family level, nor for queries whose
+family is absent from the reference database (the model would otherwise
+only return its overall mean).
 
 ## Weighted mean method
 
