@@ -28,27 +28,29 @@ If FALSE, otu_table is transposed.}
 "log_count" (default): log(1 + count); "relative_abundance": count (proportional to the
 relative abundance of the query in the sample); "presence": 1 for every query present in the sample.}
 
-\item{ci_level}{Confidence level of the interval computed from the sample-level posterior distribution (default: 0.95).}
+\item{ci_level}{Level of the interval computed from the sample-level posterior distribution (default: 0.95).}
 
 \item{return_posterior}{If TRUE, the sample-level posterior distributions are returned in additional columns
 "posterior_1", ..., "posterior_N" (one column per draw).}
 }
 \value{
-A data frame with one row per sample and the columns "sample", "estimated_genome_size" (mean of the
-sample-level posterior distribution, in base pairs), "confidence_interval_lower",
+A data frame with one row per sample and the columns "sample", "estimated_genome_size" (estimated
+mean genome size of the sample, in base pairs), "confidence_interval_lower",
 "confidence_interval_upper", "n_queries_used" (queries with an estimation and present in the sample),
 "n_queries_total" (queries present in the sample) and "abundance_covered" (proportion of the sample
 abundance coming from queries with an estimation).
 }
 \description{
 This function aggregates the genome size estimations of individual queries (e.g. ASVs)
-into one genome size estimation per sample, propagating the estimation uncertainty.
+into one mean genome size estimation per sample, propagating the estimation uncertainty.
 }
 \details{
 It requires the full posterior predictive distribution of each query, obtained by running
 \code{\link{estimate_genome_size}} with the bayesian method and \code{return_posterior=TRUE}.
 For each sample and each posterior draw, the mean genome size across queries is computed, weighted
-by query abundance. The resulting sample-level posterior distribution is summarised into a mean
-estimate and a confidence interval. Queries without an estimation (e.g. taxon not found) are ignored,
+by query abundance. The mean of the resulting sample-level posterior distribution is the estimated
+mean genome size of the sample, and its quantiles give the interval for that sample mean, which
+therefore accounts for the estimation uncertainty in the genome size of every query.
+Queries without an estimation (e.g. taxon not found) are ignored,
 and the proportion of the sample abundance that they represent is reported in the column "abundance_covered".
 }

@@ -46,9 +46,10 @@ default method which is the bayesian method):
 
 #### Estimate genome sizes per sample
 
-To get one genome size estimation per sample instead of one per query,
-first run the main function with `return_posterior = TRUE` to keep the
-full posterior distribution of each query:
+To get one mean genome size estimation per sample instead of one
+estimation per query, first run the main function with
+`return_posterior = TRUE` to keep the full posterior distribution of
+each query:
 
     results = estimate_genome_size(example_input_file, refdata_archive_path, 
                                    sep='\t', match_column='TAXID', output_format='input', 
@@ -78,8 +79,8 @@ the example input:
             1       1       1       1       1       1 
 
 Each sample gets a mean genome size, weighted by the abundance of its
-queries, and a confidence interval that accounts for the uncertainty of
-every query:
+queries, and an interval for that mean that accounts for the estimation
+uncertainty in the genome size of every query:
 
     per_sample
 
@@ -161,8 +162,8 @@ marker) and fungi (ITS marker) is visible.
 ```
 
     ## Untarring reference data
-    ## Using reference data in: /tmp/RtmpWM9GPF/refdata
+    ## Using reference data in: /tmp/RtmpibAOxE/refdata
     ## Untarring taxonomy
-    ## Using taxonomy: /tmp/RtmpWM9GPF/taxdump
+    ## Using taxonomy: /tmp/RtmpibAOxE/taxdump
 
 ![](genomesizeR_files/figure-html/unnamed-chunk-8-1.png)

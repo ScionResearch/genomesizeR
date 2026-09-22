@@ -1,7 +1,7 @@
 # Estimate genome sizes per sample
 
 This function aggregates the genome size estimations of individual
-queries (e.g. ASVs) into one genome size estimation per sample,
+queries (e.g. ASVs) into one mean genome size estimation per sample,
 propagating the estimation uncertainty.
 
 ## Usage
@@ -46,8 +46,8 @@ estimate_genome_size_per_sample(
 
 - ci_level:
 
-  Confidence level of the interval computed from the sample-level
-  posterior distribution (default: 0.95).
+  Level of the interval computed from the sample-level posterior
+  distribution (default: 0.95).
 
 - return_posterior:
 
@@ -58,12 +58,12 @@ estimate_genome_size_per_sample(
 ## Value
 
 A data frame with one row per sample and the columns "sample",
-"estimated_genome_size" (mean of the sample-level posterior
-distribution, in base pairs), "confidence_interval_lower",
-"confidence_interval_upper", "n_queries_used" (queries with an
-estimation and present in the sample), "n_queries_total" (queries
-present in the sample) and "abundance_covered" (proportion of the sample
-abundance coming from queries with an estimation).
+"estimated_genome_size" (estimated mean genome size of the sample, in
+base pairs), "confidence_interval_lower", "confidence_interval_upper",
+"n_queries_used" (queries with an estimation and present in the sample),
+"n_queries_total" (queries present in the sample) and
+"abundance_covered" (proportion of the sample abundance coming from
+queries with an estimation).
 
 ## Details
 
@@ -72,8 +72,10 @@ obtained by running
 [`estimate_genome_size`](https://scionresearch.github.io/genomesizeR/reference/estimate_genome_size.md)
 with the bayesian method and `return_posterior=TRUE`. For each sample
 and each posterior draw, the mean genome size across queries is
-computed, weighted by query abundance. The resulting sample-level
-posterior distribution is summarised into a mean estimate and a
-confidence interval. Queries without an estimation (e.g. taxon not
+computed, weighted by query abundance. The mean of the resulting
+sample-level posterior distribution is the estimated mean genome size of
+the sample, and its quantiles give the interval for that sample mean,
+which therefore accounts for the estimation uncertainty in the genome
+size of every query. Queries without an estimation (e.g. taxon not
 found) are ignored, and the proportion of the sample abundance that they
 represent is reported in the column "abundance_covered".

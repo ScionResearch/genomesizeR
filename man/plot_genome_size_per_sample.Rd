@@ -12,6 +12,6 @@ plot_genome_size_per_sample(per_sample_table, order_by_size = TRUE)
 \item{order_by_size}{Order samples by estimated genome size (default: TRUE) rather than by sample name}
 }
 \description{
-This function loads a result table from estimate_genome_size_per_sample and plots the estimated genome size
-of each sample with its confidence interval.
+This function loads a result table from estimate_genome_size_per_sample and plots the estimated mean genome
+size of each sample with its interval.
 }

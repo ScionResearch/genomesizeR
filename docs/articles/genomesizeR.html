@@ -108,8 +108,8 @@ default method which is the bayesian method):</p>
 <div class="section level4">
 <h4 id="estimate-genome-sizes-per-sample">Estimate genome sizes per sample<a class="anchor" aria-label="anchor" href="#estimate-genome-sizes-per-sample"></a>
 </h4>
-<p>To get one genome size estimation per sample instead of one per
-query, first run the main function with
+<p>To get one mean genome size estimation per sample instead of one
+estimation per query, first run the main function with
 <code>return_posterior = TRUE</code> to keep the full posterior
 distribution of each query:</p>
 <pre><code><span><span class="va">results</span> <span class="op">=</span> <span class="fu"><a href="../reference/estimate_genome_size.html">estimate_genome_size</a></span><span class="op">(</span><span class="va">example_input_file</span>, <span class="va">refdata_archive_path</span>, </span>
@@ -136,8 +136,8 @@ per_sample = estimate_genome_size_per_sample(results, otu_table)
      Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
         1       1       1       1       1       1 </code></pre>
 <p>Each sample gets a mean genome size, weighted by the abundance of its
-queries, and a confidence interval that accounts for the uncertainty of
-every query:</p>
+queries, and an interval for that mean that accounts for the estimation
+uncertainty in the genome size of every query:</p>
 <pre><code>per_sample
 
     sample estimated_genome_size confidence_interval_lower confidence_interval_upper n_queries_used n_queries_total abundance_covered
@@ -205,9 +205,9 @@ marker) and fungi (ITS marker) is visible.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span>  <span class="va">plotted_df</span> <span class="op">=</span> <span class="fu"><a href="../reference/plot_genome_size_tree.html">plot_genome_size_tree</a></span><span class="op">(</span><span class="va">results</span>, <span class="va">refdata_archive_path</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Untarring reference data</span></span>
-<span><span class="co">## Using reference data in: /tmp/RtmpWM9GPF/refdata</span></span>
+<span><span class="co">## Using reference data in: /tmp/RtmpibAOxE/refdata</span></span>
 <span><span class="co">## Untarring taxonomy</span></span>
-<span><span class="co">## Using taxonomy: /tmp/RtmpWM9GPF/taxdump</span></span></code></pre>
+<span><span class="co">## Using taxonomy: /tmp/RtmpibAOxE/taxdump</span></span></code></pre>
 <p><img src="genomesizeR_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="2112"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

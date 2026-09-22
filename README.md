@@ -14,7 +14,7 @@ All three methods use:
 
 `genomesizeR` retrieves the taxonomic classification of input queries, estimates the genome size of each query, and provides 95% confidence intervals for each estimate.
 
-With the Bayesian method, the full posterior predictive distribution of each query can also be returned, and aggregated into one genome size estimate per sample (e.g. from an ASV abundance table), weighted by query abundance, with a confidence interval that propagates the estimation uncertainty of every query.
+With the Bayesian method, the full posterior predictive distribution of each query can also be returned, and aggregated into one mean genome size estimate per sample (e.g. from an ASV abundance table), weighted by query abundance, with an interval for that sample mean that accounts for the estimation uncertainty in the genome size of every query.
 
 ### How to install
 

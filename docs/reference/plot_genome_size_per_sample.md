@@ -1,7 +1,7 @@
 # Plot genome size per sample
 
 This function loads a result table from estimate_genome_size_per_sample
-and plots the estimated genome size of each sample with its confidence
+and plots the estimated mean genome size of each sample with its
 interval.
 
 ## Usage

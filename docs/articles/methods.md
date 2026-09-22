@@ -92,13 +92,13 @@ sample and each posterior draw, the genome sizes of the queries present
 in the sample are averaged, weighted by $log\left( 1 + n_{i} \right)$
 where $n_{i}$ is the abundance of query $i$ in the sample (weights based
 on relative abundance or presence are also available). The mean of the
-resulting sample-level posterior distribution is the estimated genome
-size of the sample, and its 2.5% and 97.5% quantiles give the 95%
-credible interval, which therefore accounts for the estimation
-uncertainty of every query. Queries with a species-level genome size
-from the database keep this value in every draw; queries without an
-estimate are ignored, and the proportion of the sample abundance they
-represent is reported.
+resulting sample-level posterior distribution is the estimated mean
+genome size of the sample, and its 2.5% and 97.5% quantiles give the 95%
+credible interval for the sample mean, which therefore accounts for the
+estimation uncertainty in the genome size of every query. Queries with a
+species-level genome size from the database keep this value in every
+draw; queries without an estimate are ignored, and the proportion of the
+sample abundance they represent is reported.
 
 ## Frequentist method
 
