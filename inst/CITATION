@@ -1,8 +1,16 @@
 bibentry(
   bibtype  = "Article",
   title    = "genomesizeR: An R package for genome size prediction",
-  author   = "Celine Mercier, Joane Elleouet, Loretta Garrett, Steve A Wakelin",
-  journal  = "bioRxiv",
-  year     = "2024",
-  doi      = "10.1101/2024.09.08.611926"
+  author   = c(person("Celine", "Mercier"),
+               person("Joane", "Elleouet"),
+               person("Sean", "Husheer"),
+               person("Loretta", "Garrett"),
+               person("Steve A", "Wakelin")),
+  journal  = "Journal of Open Source Software",
+  year     = "2026",
+  volume   = "11",
+  number   = "117",
+  pages    = "8759",
+  doi      = "10.21105/joss.08759",
+  url      = "https://joss.theoj.org/papers/10.21105/joss.08759"
 )
