@@ -12,14 +12,20 @@
 Source:
 [`inst/CITATION`](https://github.com/ScionResearch/genomesizeR/blob/HEAD/inst/CITATION)
 
-Mercier C, Elleouet J, Garrett L, Wakelin SA (2024). “genomesizeR: An R
-package for genome size prediction.” *bioRxiv*.
-[doi:10.1101/2024.09.08.611926](https://doi.org/10.1101/2024.09.08.611926).
+Mercier C, Elleouet J, Husheer S, Garrett L, Wakelin S (2026).
+“genomesizeR: An R package for genome size prediction.” *Journal of Open
+Source Software*, **11**(117), 8759.
+[doi:10.21105/joss.08759](https://doi.org/10.21105/joss.08759).
+<https://joss.theoj.org/papers/10.21105/joss.08759>.
 
     @Article{,
       title = {genomesizeR: An R package for genome size prediction},
-      author = {Celine Mercier and Joane Elleouet and Loretta Garrett and Steve A Wakelin},
-      journal = {bioRxiv},
-      year = {2024},
-      doi = {10.1101/2024.09.08.611926},
+      author = {Celine Mercier and Joane Elleouet and Sean Husheer and Loretta Garrett and Steve A Wakelin},
+      journal = {Journal of Open Source Software},
+      year = {2026},
+      volume = {11},
+      number = {117},
+      pages = {8759},
+      doi = {10.21105/joss.08759},
+      url = {https://joss.theoj.org/papers/10.21105/joss.08759},
     }

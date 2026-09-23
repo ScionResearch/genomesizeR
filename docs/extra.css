@@ -1,0 +1,23 @@
+/* Wider content and a narrower "On this page" column.
+   pkgdown caps the content at 50rem, so the main column has to be
+   uncapped as well, otherwise the space freed by the sidebar is
+   simply left empty. */
+@media (min-width: 768px) {
+  .row > main {
+    max-width: 62rem;
+    width: 84%;
+  }
+  .row > aside {
+    width: 16%;
+    max-width: 15rem;
+  }
+}
+
+/* Smaller body text, matching the table of contents */
+.row > main {
+  font-size: 0.95rem;
+}
+
+#toc .nav {
+  font-size: 0.85rem;
+}
